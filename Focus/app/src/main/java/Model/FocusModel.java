@@ -7,9 +7,17 @@ import java.util.ArrayList;
  * Created by aaronrschrock on 10/6/17.
  */
 
+
+import java.util.ArrayList;
+
+/**
+ * FocusModel is the class that contains profiles, schedules, and the main fucntionality
+ */
+
 public class FocusModel {
     private ArrayList<Schedule> schedules;
     private ArrayList<Profile> profiles;
+
     private ArrayList<App> apps;
     private int numProfiles;
     private int numSchedules;
@@ -50,5 +58,5 @@ public class FocusModel {
     public void removeApp(String appName){
 
     };
-
 }
+
