@@ -14,6 +14,7 @@ import java.util.Set;
 
 public class App {
     private String name;
+    private int id;
     private boolean blocked;
     private Set<Integer> blockedProfileIDs;
 
@@ -25,7 +26,8 @@ public class App {
         this.blocked = blocked;
     }
 
-    public App(String name) {
+    public App(int id, String name) {
+        this.id = id;
         this.name = name;
         blocked = false;
     }

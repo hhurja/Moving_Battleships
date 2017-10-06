@@ -9,41 +9,69 @@ import java.util.ArrayList;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * FocusModel is the class that contains profiles, schedules, and the main fucntionality
  */
 
 public class FocusModel {
+    //Main ArrayLists holding all objects
     private ArrayList<Schedule> schedules;
     private ArrayList<Profile> profiles;
-
     private ArrayList<App> apps;
-    private int numProfiles;
-    private int numSchedules;
-    private int numApps;
+
+    //Maps each each object to the others that hold it
+    private HashMap<Integer, HashSet<Integer>> profiles_to_schedules; //scheduleID to list of profileIDs
+    private HashMap<Integer, HashSet<Integer>> apps_to_profiles;
+
+    private int numProfilesCreated;
+    private int numSchedulesCreated;
+    private int numAppsCreated;
 
     public FocusModel(){
-        numProfiles = 0;
-        numSchedules = 0;
-        numApps = 0;
+        numProfilesCreated = 0;
+        numSchedulesCreated = 0;
+        numAppsCreated = 0;
         schedules = new ArrayList<>();
         profiles = new ArrayList<>();
         apps = new ArrayList<>();
 
+        profiles_to_schedules = new HashMap<>();
+        apps_to_profiles = new HashMap<>();
+
     }
 
     public void createNewProfile(String profileName){
-        profiles.add(new Profile(numProfiles, profileName));
-        numProfiles++;
+        profiles.add(new Profile(numProfilesCreated, profileName));
+        apps_to_profiles.put(numProfilesCreated, new HashSet<Integer>());
+        numProfilesCreated++;
     }
 
     public void removeProfile(int profileID){
+        //remove profile from FocusModel
+        for(Profile p: profiles){
+            if(p.getProfileID().equals(profileID)) profiles.remove(p);
+        }
 
+        //remove profile from any schedule that contains it
+        for(Schedule s: schedules){
+            if(s.getProfileIDs().contains(profileID)){
+                s.removeProfile(profileID);
+            }
+        }
+
+        //edit the map
+        for (HashSet<Integer> val : profiles_to_schedules.values()){
+            if(val.contains(profileID)) val.remove(profileID);
+        }
     }
 
     public void createNewSchedule(String scheduleName){
-
+        profiles.add(new Profile(numSchedulesCreated, scheduleName));
+        profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
+        numSchedulesCreated++;
     }
 
     public void removeSchedule(int scheduleID){
@@ -51,12 +79,50 @@ public class FocusModel {
     }
 
     public void createNewApp(String appName){
-        apps.add(new App(numApps, appName));
-        numApps++;
+        apps.add(new App(numAppsCreated, appName));
+        numAppsCreated++;
     }
 
     public void removeApp(String appName){
 
-    };
+    }
+
+    public void addProfileToSchedule(int profileID, int scheduleID){
+
+        Profile currProf = null;
+        Schedule currSched = null;
+
+        //locate the schedule and profile we are working with
+        for (Profile p: profiles){
+            if (p.getProfileID().equals(profileID)){
+                currProf = p;
+            }
+        }
+        for (Schedule s: schedules){
+            if (s.getScheduleID() == scheduleID){
+                currSched = s;
+            }
+        }
+
+        //make sure that the profile and schedule both exist
+        if(currProf != null && currSched != null){
+            //if the schedule does not already have this profile
+            if(!currSched.getProfileIDs().contains(currProf.getProfileID())){
+                currSched.addProfile(currProf);
+            }
+
+            //if this scheduleID is not already in the map
+            if(!profiles_to_schedules.containsKey(scheduleID)){
+                //adds a scheduleID as key and an arraylist containing the profileId as the value
+                profiles_to_schedules.put(currSched.getScheduleID(), new HashSet<Integer>(currProf.getProfileID()));
+            }else{
+                //adds profileID to the list of IDs associated with a schedule if it is not already there
+                if(!profiles_to_schedules.get(currSched.getScheduleID()).contains(currProf.getProfileID())) {
+                    profiles_to_schedules.get(currSched.getScheduleID()).add(currProf.getProfileID());
+                }
+            }
+        }
+    }
+
 }
 
