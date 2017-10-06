@@ -5,6 +5,8 @@ package Model;
  */
 
 
+import java.util.Set;
+
 /**
  * App is a class that stores the name of an application
  * and if the app is blocked or not
@@ -13,6 +15,7 @@ package Model;
 public class App {
     private String name;
     private boolean blocked;
+    private Set<Integer> blockedProfileIDs;
 
     /**
      * Constructors
@@ -41,12 +44,19 @@ public class App {
         this.name = name;
     }
 
-    public void blockApp() {
+    public void blockApp(Integer profileID) {
         blocked = true;
+        blockedProfileIDs.add(profileID);
     }
 
-    public void unblockApp() {
-        blocked = false;
+    public void unblockApp(Integer profileID) {
+        if (blockedProfileIDs.contains(profileID)) {
+            blockedProfileIDs.remove(profileID);
+        }
+
+        if (blockedProfileIDs.isEmpty()) {
+            blocked = false;
+        }
     }
 
 }
