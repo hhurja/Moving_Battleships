@@ -87,15 +87,13 @@ public class Profile {
 
     public void blockProfile() {
         for (int i = 0; i < apps.size(); i++) {
-            apps.get(i).blockApp();
+            apps.get(i).blockApp(profileID);
         }
     }
 
     public void unblockProfile() {
         for (int i = 0; i < apps.size(); i++) {
-            //TODO Check if app is blocked by another profile, if so don't unblock
-
-            apps.get(i).unblockApp();
+            apps.get(i).unblockApp(profileID);
         }
     }
 
