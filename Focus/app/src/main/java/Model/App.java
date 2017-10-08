@@ -6,6 +6,7 @@ package Model;
 
 
 import java.util.Set;
+import java.util.HashSet;
 
 /**
  * App is a class that stores the name of an application
@@ -21,7 +22,8 @@ public class App {
     /**
      * Constructors
      */
-    public App(String name, boolean blocked) {
+    public App(int id, String name, boolean blocked) {
+        this.id = id;
         this.name = name;
         this.blocked = blocked;
     }
@@ -38,7 +40,7 @@ public class App {
      *
      */
 
-    public String getName() {
+    public String getAppName() {
         return name;
     }
 
@@ -51,6 +53,10 @@ public class App {
         blockedProfileIDs.add(profileID);
     }
 
+    public int getAppID(){
+        return id;
+    }
+
     public void unblockApp(Integer profileID) {
         if (blockedProfileIDs.contains(profileID)) {
             blockedProfileIDs.remove(profileID);
@@ -60,5 +66,6 @@ public class App {
             blocked = false;
         }
     }
+
 
 }

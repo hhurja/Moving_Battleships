@@ -47,6 +47,7 @@ public class FocusModel {
         profiles.add(new Profile(numProfilesCreated, profileName));
         apps_to_profiles.put(numProfilesCreated, new HashSet<Integer>());
         numProfilesCreated++;
+        return;
     }
 
     public void removeProfile(int profileID){
@@ -62,29 +63,63 @@ public class FocusModel {
             }
         }
 
-        //edit the map
+        //edit the profile to schedule map
         for (HashSet<Integer> val : profiles_to_schedules.values()){
             if(val.contains(profileID)) val.remove(profileID);
         }
+
+        //edit the app to profile map
+        apps_to_profiles.remove(profileID);
+
+        return;
     }
 
     public void createNewSchedule(String scheduleName){
         profiles.add(new Profile(numSchedulesCreated, scheduleName));
         profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
         numSchedulesCreated++;
+        return;
     }
 
     public void removeSchedule(int scheduleID){
+        //remove schedule from arraylist
+        for(Schedule s: schedules){
+            if(s.getScheduleID() == scheduleID) schedules.remove(s);
+        }
 
+        //remove schedule from profiles_to_schedules map
+        profiles_to_schedules.remove(scheduleID);
+
+        return;
     }
 
     public void createNewApp(String appName){
         apps.add(new App(numAppsCreated, appName));
         numAppsCreated++;
+
+        return;
     }
 
-    public void removeApp(String appName){
+    public void removeApp(int appID){
+        //remove app from FocusModel
+        for(App a: apps){
+            if (a.getAppID() == appID) apps.remove(a);
+            break;
+        }
 
+        //remove app from any profile that contains it
+        for(Profile p: profiles){
+            if(p.getAppIDs().contains(appID)){
+                p.removeApp(appID);
+            }
+        }
+
+        //remove app from the map
+        for (HashSet<Integer> val : apps_to_profiles.values()){
+            if(val.contains(appID)) val.remove(appID);
+            break;
+        }
+        return;
     }
 
     public void addProfileToSchedule(int profileID, int scheduleID){
@@ -122,7 +157,46 @@ public class FocusModel {
                 }
             }
         }
+
+        return;
     }
 
+    public void addAppToProfile(int appID, int profileID){
+        App currApp = null;
+        Profile currProf = null;
+
+        //locate the schedule and profile we are working with
+        for (Profile p: profiles){
+            if (p.getProfileID().equals(profileID)){
+                currProf = p;
+            }
+        }
+        for (App a: apps){
+            if (a.getAppID() == appID){
+                currApp = a;
+            }
+        }
+
+        //make sure that the profile and app both exist
+        if(currProf != null && currApp != null){
+            //if the profile does not already have this app
+            if(!currProf.getAppIDs().contains(currApp.getAppID())){
+                currProf.addApp(currApp);
+            }
+
+            //if this scheduleID is not already in the map
+            if(!profiles_to_schedules.containsKey(profileID)){
+                //adds a scheduleID as key and an arraylist containing the profileId as the value
+                profiles_to_schedules.put(currProf.getProfileID(), new HashSet<Integer>(currApp.getAppID()));
+            }else{
+                //adds profileID to the list of IDs associated with a schedule if it is not already there
+                if(!profiles_to_schedules.get(currProf.getProfileID()).contains(currApp.getAppID())) {
+                    profiles_to_schedules.get(currProf.getProfileID()).add(currApp.getAppID());
+                }
+            }
+        }
+    return;
+
+    }
 }
 

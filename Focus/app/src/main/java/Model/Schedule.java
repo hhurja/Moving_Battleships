@@ -9,22 +9,26 @@ import java.util.HashSet;
  */
 
 public class Schedule {
-
-    private int scheduleID;
-    private String scheduleName;
+    private int id;
+    private String name;
     HashMap<Integer, TimeRange> profileSchedule = new HashMap<Integer, TimeRange>();
     ArrayList<Profile> profiles = new ArrayList<Profile>();
 
+    public Schedule(int id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
     public int getScheduleID(){
-        return scheduleID;
+        return id;
     }
 
     public String getScheduleName(){
-        return scheduleName;
+        return name;
     }
 
     public void setScheduleName(String name){
-        scheduleName = name;
+        this.name = name;
     }
 
     public HashMap<Integer,TimeRange> getProfileSchedule(){

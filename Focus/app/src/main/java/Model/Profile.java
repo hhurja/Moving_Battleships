@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -27,6 +28,7 @@ public class Profile {
         this.profileID = profileID;
         this.profileName = profileName;
         activated = false;
+        apps = new ArrayList<>();
     }
 
     /**
@@ -57,18 +59,14 @@ public class Profile {
         apps.add(app);
     }
 
-    public void removeApp(App app) {
-        if(!apps.contains(app)) {
-            return;
-        }
-
-        //loop through the profile's apps and delete app
-        for (int i = 0; i < apps.size(); i++) {
-            if (apps.get(i).getName().equals(app.getName())) {
-                apps.remove(i);
+    public void removeApp(int appID) {
+        for(App a: apps){
+            if(a.getAppID() == appID){
+                apps.remove(a);
                 return;
             }
         }
+        return;
     }
 
     /**
@@ -97,12 +95,20 @@ public class Profile {
         }
     }
 
+    public HashSet<Integer> getAppIDs(){
+        HashSet<Integer> returnSet = new HashSet<Integer>();
+        for(App a: apps){
+            returnSet.add(a.getAppID());
+        }
+        return returnSet;
+    }
+
     /**
      * TODO
-    private ArrayList<App> getBlockedApps() {
-        return null;
-    }
-    **/
+     private ArrayList<App> getBlockedApps() {
+     return null;
+     }
+     **/
 
 
 
