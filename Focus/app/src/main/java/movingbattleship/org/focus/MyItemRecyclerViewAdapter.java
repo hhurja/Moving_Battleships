@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import movingbattleship.org.focus.schedulesListViewFragment.OnListFragmentInteractionListener;
+import Controller.schedulesListViewController.OnListFragmentInteractionListener;
 import movingbattleship.org.focus.dummy.DummyContent.DummyItem;
 
 import java.util.List;

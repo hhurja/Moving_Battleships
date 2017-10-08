@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="movingbattleship.org.focus.EditProfileView"
+    tools:context="movingbattleship.org.focus.Controller.editProfileViewController"
     tools:showIn="@layout/activity_edit_profile_view">
 
     <TextView

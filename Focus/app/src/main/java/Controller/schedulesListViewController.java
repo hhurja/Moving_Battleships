@@ -1,4 +1,4 @@
-package movingbattleship.org.focus;
+package Controller;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import movingbattleship.org.focus.MyItemRecyclerViewAdapter;
+import movingbattleship.org.focus.R;
 import movingbattleship.org.focus.dummy.DummyContent;
 import movingbattleship.org.focus.dummy.DummyContent.DummyItem;
 
@@ -19,7 +21,7 @@ import movingbattleship.org.focus.dummy.DummyContent.DummyItem;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class schedulesListViewFragment extends Fragment {
+public class schedulesListViewController extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -31,13 +33,13 @@ public class schedulesListViewFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public schedulesListViewFragment() {
+    public schedulesListViewController() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static schedulesListViewFragment newInstance(int columnCount) {
-        schedulesListViewFragment fragment = new schedulesListViewFragment();
+    public static schedulesListViewController newInstance(int columnCount) {
+        schedulesListViewController fragment = new schedulesListViewController();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);

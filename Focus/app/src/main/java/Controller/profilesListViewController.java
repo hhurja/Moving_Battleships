@@ -1,4 +1,4 @@
-package movingbattleship.org.focus;
+package Controller;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,7 +18,9 @@ import android.view.ViewGroup;
   
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import movingbattleship.org.focus.R;
+
+public class profilesListViewController extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
