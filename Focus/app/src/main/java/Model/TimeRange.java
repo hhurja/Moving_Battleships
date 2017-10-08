@@ -33,7 +33,7 @@ public class TimeRange {
     }
 
     public boolean isInRange(Time t) {
-
+        return true;
     }
 
     public Time getStartTime() {
@@ -45,7 +45,7 @@ public class TimeRange {
     }
 
     public Time getTimeRemaining() {
-
+        return Time.valueOf("5");
     }
 
     public void setStartTime(Time st) {
