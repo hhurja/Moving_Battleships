@@ -29,7 +29,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.schedulesListViewFragment, parent, false);
+                .inflate(R.layout.schedules_list_view_fragment, parent, false);
         return new ViewHolder(view);
     }
 

@@ -3,12 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/adammoffitt/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_1a524a8873ebcc7087d4e841b018fceabcd588d7/classes.dex" />
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/constraint-layout-solver-1.0.2_1084c4d823265080b7b7ffb4af0167157c91c1aa/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/adammoffitt/.android/build-cache/a878f7bac5f53a6c057c03079e86a203513b0db6/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_fa50f95e162f6e25ba325c995954f22c50eaaedf/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -16,8 +25,17 @@
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
-        sha1="4191f9c23b2bd2f3101c92c3a746ab6d7c432679">
+        sha1="700bbf5c469e0b8b83bb51c45cb7f8a834bd4d57">
         <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_1b559096b314a72bfa4bc652d9684348007f5814/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_1a524a8873ebcc7087d4e841b018fceabcd588d7/classes.dex" />
     </item>
 
 </items>

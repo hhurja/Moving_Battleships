@@ -2,6 +2,7 @@ package Controller;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
    
@@ -40,7 +41,7 @@ public class profilesListViewController extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.profiles_list_view);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,6 +53,8 @@ public class profilesListViewController extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
 
       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
       fab.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +156,15 @@ public class profilesListViewController extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.profilesListViewFragment, container, false);
+
+            if ( getArguments().getInt(ARG_SECTION_NUMBER) == 1 ) {
+                View rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);
+                return rootView;
+            } else if ( getArguments().getInt(ARG_SECTION_NUMBER) == 2 ){
+                View rootView = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
+                return rootView;
+            }
+            View rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
