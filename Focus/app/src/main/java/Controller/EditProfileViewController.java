@@ -28,4 +28,8 @@ public class editProfileViewController extends AppCompatActivity {
         });
     }
 
+    public void updateProfileShown(Profile profile) {
+
+    }
+
 }
