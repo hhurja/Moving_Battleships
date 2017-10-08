@@ -3,138 +3,39 @@
 
     <item
         is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/a7468bb9a606437d5b8a26d0f97fe7ec0af440e9/output/jars/classes.jar"
+        jar="/Users/adammoffitt/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
-        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d191c963e2ba40c211b1cc9d02ab1c6ee531e301/classes.dex" />
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/constraint-layout-solver-1.0.2_1084c4d823265080b7b7ffb4af0167157c91c1aa/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/dfe40a83ae982e3310a2ca19f5771634da9c6a1b/output/jars/classes.jar"
+        jar="/Users/adammoffitt/.android/build-cache/a878f7bac5f53a6c057c03079e86a203513b0db6/output/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
-        sha1="9935891f23923f39d002087085d9696568a9f657">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_28abf03ef2fba5970ccebd0c6214f4d398d3e071/classes.dex" />
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_fa50f95e162f6e25ba325c995954f22c50eaaedf/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/b2e1422f3021ba5d90006e3e0d619944065322af/output/jars/classes.jar"
+        jar="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f72eab4d3843cefba87b2f79850e86fd2bc479e7/classes.dex" />
+        sha1="700bbf5c469e0b8b83bb51c45cb7f8a834bd4d57">
+        <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_1b559096b314a72bfa4bc652d9684348007f5814/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/840d9e773fa9cadbc683b4f47b6f59b576d8f1cf/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f45a49f1a7e24382b52d0d18fee9c812832b4896/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/2a42f36fddb9f29a913dbe6b8b01a5d69f3c886d/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_2bc1b7185ae8053ea1d4807aa23c4f86ef505614/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/9651bd09ff95f7ddfc6fcec69c25567fe67c5e32/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_be3247a5085fa7602691f62daea484b7dd9ff6a5/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/fb747d4d3a633173cb4b29f2451895d2bd996e1a/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_48edcc8eab8f3137cde5f149d7e9edbe112fa7f1/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/f357ab4aeab408cd3e91d03fe18664c6799b14c5/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_ecf73c9da22db908aec2568527165f495fb79480/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/644bf01980c7aa0eed3ac867b7fe103903a0daa7/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="6a022bf00ccd0948a8180c505e8e458bbddd43a6">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f5ad7efe081aa7c1a64c3e80b50c111db3b857f8/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_89064938fcfd7efec07dc82acd73b5433fce616a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="89985a0d837d17204a560bdedb73954c4a8e5cfa">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_e813db46efc3e847bdeda99c20413a70b09d4863/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/bc31b7f7a6977e040cc15b2d3025088af582ba36/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="952944218ecedea1554a513dec0c14d570642843">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_45ebc291e77db9b49517db1a7cb4bfed7b6cc94d/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/fbc29a8e734d79a70e33fd0af5be8c0a8071530d/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="cddcd0fb93bc70e27325f2f715b2710332004ebb">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_44a21e0457de2ada4f3b202eff28fd3feb8c779e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/.android/build-cache/7dc6ced7e984577c8d63457a5c7221452d0b8d6b/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_609b72786cfbd8b5f192cb80493691e51adba069/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/HunterHurja/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/26.0.0-alpha1/support-annotations-26.0.0-alpha1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="023ee503b631f69511e335a061ea008f8da60f40">
-        <dex dex="/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-26.0.0-alpha1_a9f80fd63add6a01c2663c7dde01a0f2d9c925de/classes.dex" />
+        <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_1a524a8873ebcc7087d4e841b018fceabcd588d7/classes.dex" />
     </item>
 
 </items>
