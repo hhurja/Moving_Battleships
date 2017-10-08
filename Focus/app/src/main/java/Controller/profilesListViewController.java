@@ -82,9 +82,19 @@ public class profilesListViewController extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        // get profile information from backend
+        // this assumes that id is the same id associated
+        // with Profile class instance on backend
+        Profile profile = getProfileFromId(id);
+        // display on EditProfileView
+        if (profile != null) {
+            //$this->updateProfileShown(profile);
         }
 
         return super.onOptionsItemSelected(item);

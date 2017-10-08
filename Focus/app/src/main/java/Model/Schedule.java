@@ -49,6 +49,18 @@ public class Schedule {
         return profiles;
     }
 
+    // takes in id, returns profile associated with that id
+    // if no profile associated, return null
+    // returning null shouldn't happen, but yolo
+    public Profile getProfileFromId(int id) {
+        for (Profile profile : profiles) {
+            if (profile.getProfileID() == id) {
+                return profile;
+            }
+        }
+        return null;
+    }
+
     public HashSet<Integer> getProfileIDs(){
         HashSet<Integer> returnSet = new HashSet<Integer>();
         for(Profile p: profiles){
