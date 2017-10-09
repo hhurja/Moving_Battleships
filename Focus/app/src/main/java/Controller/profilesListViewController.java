@@ -5,7 +5,11 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-   
+
+
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ListAdapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -64,7 +68,23 @@ public class profilesListViewController extends AppCompatActivity {
                       .setAction("Action", null).show();
           }
       });
-      
+
+        String[] names = {"Dating Apps", "Hunter's List", "Social Media", "Dinosaurs"};
+        ListAdapter profilesAdapter = new profilesListAdapter (this, names);
+        ListView profilesListView = (ListView) findViewById(R.id.profilesListView);
+        profilesListView.setAdapter(profilesAdapter);
+
+        profilesListView.setOnItemClickListener(
+
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String name = String.valueOf(parent.getItemAtPosition(position));
+                        System.out.println(name);
+                    }
+                }
+
+        );
     }
 
 
@@ -91,11 +111,11 @@ public class profilesListViewController extends AppCompatActivity {
         // get profile information from backend
         // this assumes that id is the same id associated
         // with Profile class instance on backend
-        Profile profile = getProfileFromId(id);
+        //Profile profile = getProfileFromId(id);
         // display on EditProfileView
-        if (profile != null) {
+        //if (profile != null) {
             //$this->updateProfileShown(profile);
-        }
+        //}
 
         return super.onOptionsItemSelected(item);
     }
