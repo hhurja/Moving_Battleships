@@ -28,7 +28,7 @@ public class editProfileViewController extends AppCompatActivity {
         });
     }
 
-    public void updateProfileShown(Profile profile) {
+    public void updateProfileShown(Model.Profile profile) {
 
     }
 
