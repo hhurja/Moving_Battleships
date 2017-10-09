@@ -68,12 +68,12 @@ public class profilesListViewController extends AppCompatActivity {
                       .setAction("Action", null).show();
           }
       });
-
+        System.out.println("A");
         String[] names = {"Dating Apps", "Hunter's List", "Social Media", "Dinosaurs"};
         ListAdapter profilesAdapter = new profilesListAdapter (this, names);
         ListView profilesListView = (ListView) findViewById(R.id.profilesListView);
         profilesListView.setAdapter(profilesAdapter);
-
+        System.out.println("B");
         profilesListView.setOnItemClickListener(
 
                 new AdapterView.OnItemClickListener() {
