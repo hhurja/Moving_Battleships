@@ -45,29 +45,7 @@ public class profilesListViewController extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("Check");
-        setContentView(R.layout.profiles_list_view_fragment);
-
-        System.out.println("A");
-        String[] names = {"Dating Apps", "Hunter's List", "Social Media", "Dinosaurs"};
-        ListAdapter profilesAdapter = new profilesListAdapter (this, names);
-        ListView profilesListView = (ListView) findViewById(R.id.profilesListView);
-
-        if ( profilesListView != null ) {
-            profilesListView.setAdapter(profilesAdapter);
-            System.out.println("B");
-            profilesListView.setOnItemClickListener(
-
-                    new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            String name = String.valueOf(parent.getItemAtPosition(position));
-                            System.out.println(name);
-                        }
-                    }
-
-            );
-        }
+        setContentView(R.layout.profiles_list_view);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,6 +68,26 @@ public class profilesListViewController extends AppCompatActivity {
                       .setAction("Action", null).show();
           }
       });
+
+        String[] names = {"Dating Apps", "Hunter's List", "Social Media", "Dinosaurs"};
+        ListAdapter profilesAdapter = new profilesListAdapter (this, names);
+        ListView profilesListView = (ListView) findViewById(R.id.profilesListView);
+
+        if ( profilesListView != null ) {
+            profilesListView.setAdapter(profilesAdapter);
+            profilesListView.setOnItemClickListener(
+
+                    new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String name = String.valueOf(parent.getItemAtPosition(position));
+                            System.out.println(name); // just check to see if this tap is working / list view works
+                        }
+                    }
+
+            );
+        }
+
 
     }
 
