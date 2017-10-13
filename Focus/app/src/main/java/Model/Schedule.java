@@ -3,6 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -11,12 +12,15 @@ import java.util.HashSet;
 public class Schedule {
     private int id;
     private String name;
-    HashMap<Integer, TimeRange> profileSchedule = new HashMap<Integer, TimeRange>();
-    ArrayList<Profile> profiles = new ArrayList<Profile>();
+    HashMap<Integer, ArrayList<TimeRange>> profileSchedule;
+    ArrayList<Profile> profiles;
 
     public Schedule(int id, String name){
         this.id = id;
         this.name = name;
+
+        profileSchedule = new HashMap<>();
+        profiles = new ArrayList<Profile>();
     }
 
     public int getScheduleID(){
@@ -31,17 +35,31 @@ public class Schedule {
         this.name = name;
     }
 
-    public HashMap<Integer,TimeRange> getProfileSchedule(){
+    public HashMap<Integer, ArrayList<TimeRange>> getProfileSchedule(){
         return profileSchedule;
     }
 
     public void addProfile(Profile p){
+    	/*	Adds a profile to this schedule
+    	 	* adds given profile to the arraylist of profiles
+    	 	* initializes an empty timerange arraylist and adds it to profileschedule
+    	 */
+
         profiles.add(p);
+        if(profileSchedule.containsKey(p.getProfileID())){
+            System.out.println("Error in AddProfile in Schedule.Java -- Profile already exists in hashmap");
+        }else{
+//        	System.out.println("Added profile with id: "+ p.getProfileID()+ " to profileSchedule");
+            profileSchedule.put(p.getProfileID(), new ArrayList<TimeRange>() );
+        }
     }
 
     public void removeProfile(int profileID){
         for(Profile p: profiles){
-            if(p.getProfileID() == profileID) profiles.remove(p);
+            if(p.getProfileID() == profileID){
+                profiles.remove(p);
+                break;
+            }
         }
     }
 
@@ -55,5 +73,20 @@ public class Schedule {
             returnSet.add(p.getProfileID());
         }
         return returnSet;
+    }
+
+    public void addTimeRangeToProfile(Profile p, TimeRange tr){
+//    	System.out.println(p+ " "+ profileSchedule.get(p.getProfileID()));
+//    	System.out.println(profileSchedule);
+        profileSchedule.get(p.getProfileID()).add(tr);
+    }
+
+    public void printTimeRanges(){
+        for(Profile p: profiles){
+
+            System.out.println(p.getProfileName()+ ":");
+            for(TimeRange tr: profileSchedule.get(p.getProfileID()))
+                tr.printRanges();
+        }
     }
 }

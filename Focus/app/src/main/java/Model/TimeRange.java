@@ -1,4 +1,5 @@
 package Model;
+
 /**
  * Created by aaronrschrock on 10/6/17.
  */
@@ -61,6 +62,21 @@ public class TimeRange {
     }
 
     public void setDays(ArrayList<String> al) {
+
+    }
+
+    public void printRanges(){
+        System.out.println("Starts: "+ startTime + ", Ends: " + endTime);
+        if(sunday) System.out.print("Sunday, ");
+        if(monday) System.out.print("Monday, ");
+        if(tuesday) System.out.print("Tuesday, ");
+        if(wednesday) System.out.print("Wednesday, ");
+        if(thursday) System.out.print("Thursday, ");
+        if(friday) System.out.print("Friday, ");
+        if(saturday) System.out.print("Saturday, ");
+        System.out.print("Repeating: "+ repeat);
+        System.out.println("");
+
 
     }
 }
