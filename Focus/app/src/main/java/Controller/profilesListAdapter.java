@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import movingbattleship.org.focus.R;
+import movingbattleship.org.focus.*;
 
 /**
  * Created by adammoffitt on 10/9/17.
@@ -26,12 +27,14 @@ public class profilesListAdapter extends ArrayAdapter<String>{
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         LayoutInflater profilesInflator = LayoutInflater.from(getContext());
 
         View profilesView = profilesInflator.inflate(R.layout.profile_row, parent, false);
+        // parse name from profile name
         String name = getItem(position);
         TextView profileNameTextView = (TextView) profilesView.findViewById(R.id.profileName);
+        // TODO: RUTH populate first three images as + symbols by default, add up to 3 images
+        // of apps on that specific profile to be blocked
         ImageView appImage1 = (ImageView) profilesView.findViewById(R.id.image1);
         ImageView appImage2 = (ImageView) profilesView.findViewById(R.id.image2);
         ImageView appImage3 = (ImageView) profilesView.findViewById(R.id.image3);
