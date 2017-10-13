@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="movingbattleship.org.focus.Controller.schedulesListViewController"
+    tools:context="Controller.schedulesListViewController"
     tools:listitem="@layout/schedules_list_view_fragment" />

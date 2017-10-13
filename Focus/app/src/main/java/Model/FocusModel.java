@@ -44,6 +44,10 @@ public class FocusModel {
 
     }
 
+    public ArrayList <Profile> getAllProfiles() {
+        return profiles;
+    }
+
     public void createNewProfile(String profileName) {
     	/*	Create new profile
 	    	 * if it already exists, output error message to console
