@@ -1,5 +1,6 @@
 package Controller;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,14 +57,13 @@ public class schedulesListViewController extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.schedules_list_view, container, false);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context) {
+        //View view = inflater.inflate(R.layout.schedules_list_view, container, false);
+        View view = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
+        //String[] names = {"Schedule 1", "Schedule 2", "Schedule 3", "Schedule 4"};
         // Set the adapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
+            //Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
