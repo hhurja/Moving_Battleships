@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import movingbattleship.org.focus.R;
 import movingbattleship.org.focus.*;
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
 
     }
 
@@ -172,14 +172,24 @@ public class MainActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
             if ( getArguments().getInt(ARG_SECTION_NUMBER) == 1 ) {
-                 profilesListViewController plvc = new profilesListViewController();
+
+                //plvc.setActivity(this);
                 //getSupportFragmentManager().beginTransaction().add(R.id.container, plvc).commit();
                 //View rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);
                 //return rootView;
-                return plvc.onCreateView(inflater, container, savedInstanceState);
+                String[] names = {"Dating Apps", "Hunter's List", "Social Media", "Dinosaurs"};
+                //if (profilesListView != null && getActivity() != null) {
+                   // ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String> (getActivity(),
+                    //        android.R.layout.simple_list_item_1, android.R.id.text1, names);
+                //System.out.println(plvc.profilesListView + " : " + listViewAdapter);
+                    //plvc.profilesListView.setAdapter(listViewAdapter);
+                profilesListViewController plvc = new profilesListViewController();
+                //}
+                return plvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext());
             } else if ( getArguments().getInt(ARG_SECTION_NUMBER) == 2 ){
-                View rootView = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
-                return rootView;
+                //View rootView = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
+                schedulesListViewController slvc = new schedulesListViewController();
+                return slvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext());
             }
             View rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);
 

@@ -21,12 +21,18 @@ import movingbattleship.org.focus.*;
 public class profilesListAdapter extends ArrayAdapter<String>{
 
     public profilesListAdapter(@NonNull Context context, String[] profileNames) {
-        super(context, R.layout.profile_row ,profileNames);
+
+        super(context, R.layout.profile_row, profileNames);
+        System.out.println("in constructor");
     }
+    /*public profilesListAdapter(@NonNull Context context, String[] profileNames) {
+        super(context, R.layout.profile_row ,profileNames);
+    } */
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        System.out.println("getting view");
         LayoutInflater profilesInflator = LayoutInflater.from(getContext());
 
         View profilesView = profilesInflator.inflate(R.layout.profile_row, parent, false);
