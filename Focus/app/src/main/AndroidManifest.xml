@@ -26,6 +26,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="Controller.EditProfile"
+            android:label="Profile"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
 
         <activity
             android:name="Controller.DialogActivity"
