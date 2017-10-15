@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/Users/Ruth/Documents/310Project/Moving_Battleships/Focus/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="9cc4185c134291be8e25b8f64d7e41c66cfbd50e">
+        <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_1b559096b314a72bfa4bc652d9684348007f5814/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/Ruth/Documents/310Project/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_9078d0bfa8147b206c1771243a6c10d501c2380b/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/Ruth/Documents/310Project/Moving_Battleships/Focus/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="667f2a92227860e01108e1226e62efaaa606711c">
-        <dex dex="/Users/Ruth/Documents/310Project/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_bcddb52f921f30813d7d801efa92e1f7bac139ed/classes.dex" />
+        <dex dex="/Users/adammoffitt/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_1a524a8873ebcc7087d4e841b018fceabcd588d7/classes.dex" />
     </item>
 
 </items>

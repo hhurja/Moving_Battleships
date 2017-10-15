@@ -17,10 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import movingbattleship.org.focus.R;
-import movingbattleship.org.focus.*;
 
 public class MainActivity extends AppCompatActivity {
 
