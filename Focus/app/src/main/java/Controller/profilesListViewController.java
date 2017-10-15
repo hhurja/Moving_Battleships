@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.content.Intent;
 
 import java.util.HashMap;
 
@@ -24,10 +25,12 @@ import movingbattleship.org.focus.*;
 public class profilesListViewController extends Fragment {
     //this hashmap stores the application and their corresponding icons
     public HashMap<String, Bitmap> icons;
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context, HashMap<String, Bitmap> hm) {
+    private static Context mContext;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context, HashMap<String, Bitmap> hm, Context c) {
         icons = hm;
         //System.out.println("here");
          //System.out.println("List view iz..." );
+        mContext = c;
          View rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);
          //System.out.println(this.getContext());
          //System.out.println("here 2");
@@ -68,6 +71,8 @@ public class profilesListViewController extends Fragment {
                              String name = String.valueOf(parent.getItemAtPosition(position));
                              System.out.println(name); // just check to see if this tap is working / list view works
                              // TODO: open up actual profile
+                             Intent intent = new Intent(profilesListViewController.mContext, EditProfile.class);
+                             profilesListViewController.mContext.startActivity(intent);
                          }
                      }
 

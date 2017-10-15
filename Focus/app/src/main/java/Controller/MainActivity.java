@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private static Context mContext;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = this.getApplicationContext();
 
         AppIconGenerator aig = new AppIconGenerator(getPackageManager());
         hm = aig.getAppIcon();
@@ -123,6 +125,10 @@ public class MainActivity extends AppCompatActivity {
         //}
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Context getAppContext(){
+        return mContext;
     }
 
 
@@ -205,7 +211,8 @@ public class MainActivity extends AppCompatActivity {
                     //plvc.profilesListView.setAdapter(listViewAdapter);
                 profilesListViewController plvc = new profilesListViewController();
                 //}
-                return plvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext(), hm);
+
+                return plvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext(), hm, mContext);
             } else if ( getArguments().getInt(ARG_SECTION_NUMBER) == 2 ){
                 //View rootView = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
                 schedulesListViewController slvc = new schedulesListViewController();
