@@ -1,10 +1,21 @@
 package Controller;
 
+import android.app.Service;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.WindowManager.LayoutParams;
 
 
 import android.support.v4.app.Fragment;
@@ -15,12 +26,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import java.util.HashMap;
+
+import Model.AppIconGenerator;
+import Model.AppProcessChecker;
 import movingbattleship.org.focus.R;
 import movingbattleship.org.focus.*;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,16 +53,26 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    public static HashMap<String, Bitmap> hm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AppIconGenerator aig = new AppIconGenerator(getPackageManager());
+        hm = aig.getAppIcon();
+        MainActivity m = MainActivity.this;
+        Context c = getApplicationContext();
+        PackageManager pm = getPackageManager();
+        UsageStatsManager usm = (UsageStatsManager)getSystemService(Context.USAGE_STATS_SERVICE);
+        AppIconGenerator aicongen = new AppIconGenerator(getPackageManager());
+        hm = aicongen.getAppIcon();
+        AppProcessChecker apc = new AppProcessChecker(c, pm, usm, m);
 
         //profilesListViewController plvc = new profilesListViewController();
         //getSupportFragmentManager().beginTransaction().add(R.id.container, plvc).commit();
@@ -60,17 +90,8 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 
@@ -185,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                     //plvc.profilesListView.setAdapter(listViewAdapter);
                 profilesListViewController plvc = new profilesListViewController();
                 //}
-                return plvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext());
+                return plvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext(), hm);
             } else if ( getArguments().getInt(ARG_SECTION_NUMBER) == 2 ){
                 //View rootView = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
                 schedulesListViewController slvc = new schedulesListViewController();
