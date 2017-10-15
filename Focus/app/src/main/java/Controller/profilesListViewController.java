@@ -1,6 +1,7 @@
 package Controller;
 
 
+import android.graphics.Bitmap;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
@@ -15,13 +16,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
+
 import movingbattleship.org.focus.R;
 import movingbattleship.org.focus.*;
 
 public class profilesListViewController extends Fragment {
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context) {
-         //System.out.println("here");
+    //this hashmap stores the application and their corresponding icons
+    public HashMap<String, Bitmap> icons;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context, HashMap<String, Bitmap> hm) {
+        icons = hm;
+        //System.out.println("here");
          //System.out.println("List view iz..." );
          View rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);
          //System.out.println(this.getContext());
@@ -42,7 +47,7 @@ public class profilesListViewController extends Fragment {
          ListView profilesListView = (ListView) rootView.findViewById(R.id.profilesListView);
         System.out.println("List view iz..." + (ListView) rootView.findViewById(R.id.profilesListView));
          //System.out.println("here 3");
-        ListAdapter profilesAdapter = new profilesListAdapter (context, names);
+        ListAdapter profilesAdapter = new profilesListAdapter (context, names, icons);
         /*if (profilesListView != null && activity != null) {
              ArrayAdapter <String> listViewAdapter = new ArrayAdapter<String> (activity,
                      android.R.layout.simple_list_item_1, android.R.id.text1, names);

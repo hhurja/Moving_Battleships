@@ -1,6 +1,7 @@
 package Controller;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import movingbattleship.org.focus.R;
 import movingbattleship.org.focus.*;
 
@@ -19,10 +22,12 @@ import movingbattleship.org.focus.*;
  */
 
 public class profilesListAdapter extends ArrayAdapter<String>{
+    //this will store the hashmap of the application packagename with corresponding icon
+    public HashMap<String, Bitmap> icons;
 
-    public profilesListAdapter(@NonNull Context context, String[] profileNames) {
-
+    public profilesListAdapter(@NonNull Context context, String[] profileNames, HashMap<String, Bitmap> hm) {
         super(context, R.layout.profile_row, profileNames);
+        icons = hm;
         System.out.println("in constructor");
     }
     /*public profilesListAdapter(@NonNull Context context, String[] profileNames) {
@@ -50,6 +55,8 @@ public class profilesListAdapter extends ArrayAdapter<String>{
         appImage2.setImageResource(R.drawable.instagram);
         appImage3.setImageResource(R.drawable.snapchat);
 
+        //using the application icon from the hashmap for exampe
+        appImage1.setImageBitmap(icons.get("com.google.android.apps.maps"));
         return profilesView;
     }
 }
