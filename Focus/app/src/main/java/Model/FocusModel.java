@@ -33,6 +33,7 @@ public class FocusModel {
     private int numSchedulesCreated;
     private int numAppsCreated;
 
+    private AppProcessChecker apc;
     private Profile currProf;
 
     //Instance for Singleton Class
@@ -48,10 +49,26 @@ public class FocusModel {
         numSchedulesCreated = 0;
         numAppsCreated = 0;
         currProf = null;
+        apc = null;
         schedules = new ArrayList<>();
         profiles = new ArrayList<>();
         apps = new ArrayList<>();
 
+        profiles_to_schedules = new HashMap<>();
+        apps_to_profiles = new HashMap<>();
+    }
+
+    protected FocusModel(AppProcessChecker apc) {
+        //Exists only to defeate instantiation
+        numProfilesCreated = 0;
+        numSchedulesCreated = 0;
+        numAppsCreated = 0;
+        currProf = null;
+        schedules = new ArrayList<>();
+        profiles = new ArrayList<>();
+        apps = new ArrayList<>();
+
+        this.apc = apc;
         profiles_to_schedules = new HashMap<>();
         apps_to_profiles = new HashMap<>();
     }
