@@ -1,2 +1,5 @@
 .DS_Store
-.idea/*
+*/.idea/*
+*/.gradle/*
+*/build/*
+Focus/app/app.iml
