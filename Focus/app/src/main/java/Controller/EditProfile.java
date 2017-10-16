@@ -44,8 +44,6 @@ public class EditProfile extends AppCompatActivity {
 
         focusModel = FocusModel.getInstance();
         profile = focusModel.getCurrentProfile();
-        System.out.println("name of current profile is " + profile.getProfileName());
-        System.out.println("number of apps in profile is " + profile.getApps().size());
         setContentView(R.layout.activity_edit_profile_view);
 
         mListView = (ListView) findViewById(R.id.AppListView);
