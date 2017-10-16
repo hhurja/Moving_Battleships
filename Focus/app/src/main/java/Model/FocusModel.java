@@ -313,7 +313,7 @@ public class FocusModel extends Thread{
                 break;
             }
         }
-        if(currApp == null){
+        if(appID == -1){
             currApp = new App(numAppsCreated, appName, getAppNameFromPackage(appName));
             numSchedulesCreated++;
         }

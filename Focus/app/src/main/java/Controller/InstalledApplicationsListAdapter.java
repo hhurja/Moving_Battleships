@@ -37,7 +37,7 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
     public HashMap<String, Bitmap> icons;
     private HashMap <CheckBox, String> buttonToName = new HashMap <CheckBox, String>();
 
-    public InstalledApplicationsListAdapter(@NonNull Context context, String[] profileNames, List<ApplicationInfo> packages, Profile profile) {
+    public InstalledApplicationsListAdapter(@NonNull Context context, String[] profileNames, List<ApplicationInfo> packages) {
         super(context, R.layout.application_chooser_row, profileNames);
         this.focusModel = FocusModel.getInstance();
         this.profile = focusModel.getCurrentProfile();
@@ -81,7 +81,7 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
                 }
             }
 
-            });
+        });
 
         //SHABINA TODO: populate with actual image
         //appImage1.setImageResource(R.drawable.facebook);

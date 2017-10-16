@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ListAdapter;
+
+import Model.FocusModel;
 import Model.Profile;
 import android.content.pm.*;
 
@@ -29,6 +31,7 @@ import java.util.*;
 
 public class AppChooser extends AppCompatActivity {
     private static Profile profile;
+    private FocusModel focusModel;
     private ListView mListView;
     private Button fab_done;
     List<ApplicationInfo> packages = new ArrayList<>();
@@ -41,6 +44,8 @@ public class AppChooser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_chooser);
+
+        focusModel = FocusModel.getInstance();
 
         mListView = (ListView) findViewById(R.id.InstalledAppsListView);
 
@@ -65,19 +70,19 @@ public class AppChooser extends AppCompatActivity {
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         //        android.R.layout.simple_list_item_1, names);
 
-        ListAdapter adapter = new InstalledApplicationsListAdapter(mListView.getContext(), names, packages, profile);
+        ListAdapter adapter = new InstalledApplicationsListAdapter(mListView.getContext(), names, packages);
         mListView.setAdapter(adapter);
 
         Button button = (Button) findViewById(R.id.add_applications);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {;
-                //EditProfile ep = new EditProfile();
+                EditProfile ep = new EditProfile();
+                System.out.println("rendering new EditProfile");
                 //ep.setProfile(profile);
-                System.out.println("name of current profile is " + AppChooser.profile.getProfileName());
-                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
+                //System.out.println("name of current profile is " + AppChooser.profile.getProfileName());
+                Intent intent = new Intent(getApplicationContext(), ep.getClass());
                 startActivity(intent);
-
             }
         });
 
@@ -94,10 +99,6 @@ public class AppChooser extends AppCompatActivity {
         }); */
 
         // set up list view to see
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
     }
 
     /*@Override
