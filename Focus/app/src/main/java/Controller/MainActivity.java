@@ -197,30 +197,20 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
+            System.out.println("* WOLOLOLO - " + getArguments().getInt(ARG_SECTION_NUMBER));
+
             if ( getArguments().getInt(ARG_SECTION_NUMBER) == 1 ) {
-
-                //plvc.setActivity(this);
-                //getSupportFragmentManager().beginTransaction().add(R.id.container, plvc).commit();
-                //View rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);
-                //return rootView;
-                String[] names = {"Dating Apps", "Hunter's List", "Social Media", "Dinosaurs"};
-                //if (profilesListView != null && getActivity() != null) {
-                   // ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String> (getActivity(),
-                    //        android.R.layout.simple_list_item_1, android.R.id.text1, names);
-                //System.out.println(plvc.profilesListView + " : " + listViewAdapter);
-                    //plvc.profilesListView.setAdapter(listViewAdapter);
+                System.out.println("1 WOLOLOLO");
                 profilesListViewController plvc = new profilesListViewController();
-                //}
-
                 return plvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext(), hm, mContext);
-            } else if ( getArguments().getInt(ARG_SECTION_NUMBER) == 2 ){
-                //View rootView = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
+            } else {
+                System.out.println("2 WOLOLOLO");
                 schedulesListViewController slvc = new schedulesListViewController();
-                return slvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext());
+                return slvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext(), mContext);
             }
-            View rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);
+            // View rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);
 
-            return rootView;
+            // return rootView;
         }
     }
 }

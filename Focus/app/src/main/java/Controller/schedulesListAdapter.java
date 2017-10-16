@@ -33,7 +33,7 @@ public class schedulesListAdapter extends ArrayAdapter<String>{
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        System.out.println("getting view");
+        System.out.println("getting schedules view");
         LayoutInflater schedulesInflator = LayoutInflater.from(getContext());
 
         View schedulesView = schedulesInflator.inflate(R.layout.schedules_row, parent, false);
@@ -45,17 +45,14 @@ public class schedulesListAdapter extends ArrayAdapter<String>{
         scheduleNameTextView.setText(name);
         scheduleDayTextView.setText("Monday");
         scheduleTimeTextView.setText("2:00 pm - 4:00 pm");
-        // TODO: RUTH populate first three images as + symbols by default, add up to 3 images
-        // of apps on that specific profile to be blocked
-
-        // access your linear layout
+        /* access your linear layout
         LinearLayout schedulesLinearLayout = (LinearLayout)schedulesView.findViewById(R.id.schedulesLinearLayout);
         String[] names = {"Dating Apps", "Hunter's List", "Social Media", "Dinosaurs"};
 
         for( int i = 0; i < names.length; i++ ) {
             TextView textView = new TextView(schedulesView.getContext());
             schedulesLinearLayout.addView(textView);
-        }
+        }*/
 
         return schedulesView;
     }
