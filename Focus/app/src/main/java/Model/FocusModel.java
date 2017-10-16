@@ -315,14 +315,18 @@ public class FocusModel extends Thread{
         }
         if(appID == -1){
             currApp = new App(numAppsCreated, appName, getAppNameFromPackage(appName));
-            numSchedulesCreated++;
+            numAppsCreated++;
         }
 
         //make sure that the profile and app both exist
+        //System.out.println("appname:" + appName + " profName: " + profileName);
+        //System.out.println(currApp +" "+ currProf);
         if (currProf != null && currApp != null) {
             //if the profile does not already have this app
             if (!currProf.getAppIDs().contains(currApp.getAppID())) {
+                //System.out.println("BACKEND: adding new app to profile" + currProf.getApps().size());
                 currProf.addApp(currApp);
+                //System.out.println("BACKEND: added new app to profile" + currProf.getApps().size());
             }
 
             //if this scheduleID is not already in the map
@@ -336,6 +340,7 @@ public class FocusModel extends Thread{
                 }
             }
         }
+        //System.out.println("BACKEND: num apps in profile: "+currProf.getApps().size());
     }
 
     public void removeAppFromProfile(String appName, String profileName){
@@ -390,7 +395,7 @@ public class FocusModel extends Thread{
                 return;
             }
         }
-        System.out.println("Error in setCurrentProfile: could not find profile name");
+        //System.out.println("Error in setCurrentProfile: could not find profile name");
     }
 
     /**
