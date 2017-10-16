@@ -80,6 +80,12 @@ public class FocusModel {
         return instance;
     }
 
+    public static FocusModel getInstance(AppProcessChecker apc) {
+        if (instance == null) {
+            instance = new FocusModel(apc);
+        }
+        return instance;
+    }
 
     /**
      *
@@ -305,6 +311,23 @@ public class FocusModel {
                     apps_to_profiles.get(currProf.getProfileID()).add(currApp.getAppID());
                 }
             }
+        }
+    }
+
+    public void removeAppFromProfile(String appName, String profileName){
+        int appID = getIdFromName("App", appName);
+        int profileID = getIdFromName("Profile", profileName);
+
+        //if app is in profile, remove from that profile
+        for(App a: currProf.getApps()){
+            if(a.getAppID() == appID){
+                currProf.removeApp(appID);
+            }
+        }
+
+        //if the schedule is in map and the app is too, remove the app from arraylist associated with profile
+        if(apps_to_profiles.get(profileID).contains(appID)){
+            apps_to_profiles.get(profileID).remove(appID);
         }
     }
 

@@ -39,10 +39,12 @@ import android.widget.Toast;
 
 import android.app.AlertDialog;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Model.AppIconGenerator;
 import Model.AppProcessChecker;
+import Model.FocusModel;
 import movingbattleship.org.focus.R;
 import movingbattleship.org.focus.*;
 
@@ -94,7 +96,11 @@ public class MainActivity extends AppCompatActivity {
         AppIconGenerator aicongen = new AppIconGenerator(getPackageManager());
         hm = aicongen.getAppIcon();
         AppProcessChecker apc = new AppProcessChecker(c, pm, usm, m);
+        FocusModel fm = FocusModel.getInstance(apc);
 
+//        ArrayList<String> blocked = new ArrayList<String>();
+//        blocked.add("com.google.android.apps.maps");
+//        apc.blockApplication(blocked);
         //profilesListViewController plvc = new profilesListViewController();
         //getSupportFragmentManager().beginTransaction().add(R.id.container, plvc).commit();
 
