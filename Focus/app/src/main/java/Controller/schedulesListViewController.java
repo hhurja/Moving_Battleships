@@ -27,6 +27,7 @@ public class schedulesListViewController extends Fragment {
         ListView schedulesListView = (ListView) view.findViewById(R.id.schedulesListView);
         System.out.println("Schedules List view iz..." + (ListView) view.findViewById(R.id.schedulesListView));
         ListAdapter schedulesAdapter = new schedulesListAdapter (context, schedules);
+
         schedulesListView.setAdapter(schedulesAdapter);
         schedulesListView.setOnItemClickListener(
 
@@ -40,7 +41,6 @@ public class schedulesListViewController extends Fragment {
                         schedulesListViewController.mContext.startActivity(intent);
                     }
                 }
-
         );
         return view;
     }
