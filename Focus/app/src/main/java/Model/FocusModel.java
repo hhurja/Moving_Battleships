@@ -331,6 +331,17 @@ public class FocusModel {
         }
     }
 
+    public void createNewSchedules ( String scheduleName, ArrayList<String> days, int startHour, int startMinute,
+                         int endHour, int endMinute){
+
+        if (alreadyExists("Schedule", scheduleName)) {
+            System.out.println("Attempted to create a Schedule that already exists. "
+                    + "Do something about this -- " + scheduleName);
+        } else {
+            
+        }
+    }
+
     public void removeSchedule(int scheduleID) {
 	    /*	Remove schedule from FocusModel
 	     	* first checks for existence of the schedule
@@ -461,7 +472,7 @@ public class FocusModel {
      * App Functions
      */
 
-    public void createNewApp(String appName) {
+    public void createNewApp(String appName, String packageName) {
     /*	Create new schedule
     	 * if it already exists, output error message to console
     	 * otherwise, create the app with the input name and the next available id
@@ -472,7 +483,7 @@ public class FocusModel {
             System.out.println("Attempted to create a App that already exists. "
                     + "Do something about this -- " + appName);
         } else {
-            apps.add(new App(numAppsCreated, appName));
+            apps.add(new App(numAppsCreated, appName, packageName));
             numAppsCreated++;
         }
     }
@@ -508,6 +519,14 @@ public class FocusModel {
         } else {
             System.out.println("Error: Tried to remove App that does not exist. SchedID: " + appID);
         }
+    }
+
+    public HashSet<String> getBlockedApps(){
+        HashSet<String> blockedSet = new HashSet<>();
+        for(App a: apps){
+            if(a.isBlocked()) blockedSet.add(a.getPackageName());
+        }
+        return blockedSet;
     }
 
     /**
