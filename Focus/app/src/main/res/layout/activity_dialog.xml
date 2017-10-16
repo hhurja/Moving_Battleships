@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="Controller.DialogActivity">
+    tools:context="Controller.MainActivity">
 
     <Button
         android:id="@+id/cancel_btn_id"
@@ -33,10 +33,9 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button1"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="37dp"
-        android:text="This is Activity Dialog"
+        android:text="DONT GO HERE!"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
