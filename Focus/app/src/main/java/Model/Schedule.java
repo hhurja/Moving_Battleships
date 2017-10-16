@@ -4,101 +4,105 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.*;
+import static android.R.attr.id;
 
 /**
  * Created by aaronrschrock on 10/6/17.
  */
 
 public class Schedule {
-    private int id;
-    private String name;
-    HashMap<Integer, ArrayList<TimeRange>> profileSchedule;
-    ArrayList<Profile> profiles;
+    ArrayList<String> daysOfWeek = new ArrayList<String>();
+    Calendar startTime;
+    Calendar endTime;
+    String name = "";
+    ArrayList<Profile> profiles = new ArrayList<Profile>();
+    Boolean activated;
+    Boolean repeat;
 
-    public Schedule(int id, String name){
-        this.id = id;
-        this.name = name;
-
-        profileSchedule = new HashMap<>();
-        profiles = new ArrayList<Profile>();
+    public Schedule(){
     }
-
-    public int getScheduleID(){
-        return id;
+    public Schedule(String name, ArrayList<String> daysOfWeek, Calendar startTime, Calendar endTime){
+        this.name = name;
+        this.daysOfWeek = daysOfWeek;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        activated = true;
+        repeat = false;
+    }
+    public void setRepeat(Boolean b) {
+        repeat = b;
+    }
+    public void setActivated(Boolean b) {
+        activated = b;
+    }
+    public Boolean getRepeat() {
+        return repeat;
+    }
+    public Boolean getActivated() {
+        return activated;
+    }
+    public void setDaysOfWeek(ArrayList<String> daysOfWeek) {
+        this.daysOfWeek = daysOfWeek;
+    }
+    public ArrayList<String> getDaysOfWeek() {
+        return daysOfWeek;
     }
 
     public String getScheduleName(){
+
         return name;
     }
 
-    public void setScheduleName(String name){
-        this.name = name;
-    }
+    public void setScheduleName(String name) {
 
-    public HashMap<Integer, ArrayList<TimeRange>> getProfileSchedule(){
-        return profileSchedule;
+        this.name = name;
     }
 
     public void addProfile(Profile p){
     	/*	Adds a profile to this schedule
     	 	* adds given profile to the arraylist of profiles
-    	 	* initializes an empty timerange arraylist and adds it to profileschedule
     	 */
-
-        profiles.add(p);
-        if(profileSchedule.containsKey(p.getProfileID())){
-            System.out.println("Error in AddProfile in Schedule.Java -- Profile already exists in hashmap");
-        }else{
-//        	System.out.println("Added profile with id: "+ p.getProfileID()+ " to profileSchedule");
-            profileSchedule.put(p.getProfileID(), new ArrayList<TimeRange>() );
+        if (!profiles.contains(p)) {
+            profiles.add(p);
         }
     }
 
-    public void removeProfile(int profileID){
-        for(Profile p: profiles){
-            if(p.getProfileID() == profileID){
-                profiles.remove(p);
-                break;
-            }
+    public void removeProfile(Profile p){
+        for (int i = 0; i < profiles.size(); i++) {
+            profiles.remove(p);
         }
     }
 
-    public ArrayList<Profile> getProfiles(){
+    public ArrayList<Profile> getProfiles()
+    {
         return profiles;
     }
 
-    // takes in id, returns profile associated with that id
-    // if no profile associated, return null
-    // returning null shouldn't happen, but yolo
-    public Profile getProfileFromId(int id) {
-        for (Profile profile : profiles) {
-            if (profile.getProfileID() == id) {
-                return profile;
-            }
+
+    public void setTimeRange(Calendar start, Calendar end){
+        startTime = start;
+        endTime = end;
+    }
+
+    public Calendar getStartTime() {
+        return startTime;
+    }
+
+    public Calendar getEndTime() {
+        return endTime;
+    }
+
+    public String getTimeRange() {
+        StringBuilder sb = new StringBuilder("");
+        String start = startTime.HOUR + ":" + startTime.MINUTE;
+        String end = endTime.HOUR + ":" + endTime.MINUTE;
+        sb.append(start + "  to  " + end + " on ");
+        for (int i = 0; i < daysOfWeek.size(); i++) {
+            sb.append(daysOfWeek.get(i) + ".. ");
         }
-        return null;
+        String response = sb.toString();
+        return response;
     }
 
-    public HashSet<Integer> getProfileIDs(){
-        HashSet<Integer> returnSet = new HashSet<Integer>();
-        for(Profile p: profiles){
-            returnSet.add(p.getProfileID());
-        }
-        return returnSet;
-    }
-
-    public void addTimeRangeToProfile(Profile p, TimeRange tr){
-//    	System.out.println(p+ " "+ profileSchedule.get(p.getProfileID()));
-//    	System.out.println(profileSchedule);
-        profileSchedule.get(p.getProfileID()).add(tr);
-    }
-
-    public void printTimeRanges(){
-        for(Profile p: profiles){
-
-            System.out.println(p.getProfileName()+ ":");
-            for(TimeRange tr: profileSchedule.get(p.getProfileID()))
-                tr.printRanges();
-        }
-    }
 }
