@@ -32,10 +32,7 @@
             android:label="Profile"
             android:theme="@style/AppTheme">
         </activity>
-<<<<<<< HEAD
 
-=======
->>>>>>> 416360ce9a8c37ef752013b10b4d554cb724afc3
         <activity
             android:name="Controller.AppChooser"
             android:label="Profile"
