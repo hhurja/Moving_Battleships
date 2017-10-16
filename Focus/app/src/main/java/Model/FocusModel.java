@@ -31,7 +31,15 @@ public class FocusModel {
     private int numSchedulesCreated;
     private int numAppsCreated;
 
-    public FocusModel() {
+    //Instance for Singleton Class
+    private static FocusModel instance= null;
+
+    /**
+     * Singleton instance functions and constructor
+     */
+
+    protected FocusModel() {
+        //Exists only to defeate instantiation
         numProfilesCreated = 0;
         numSchedulesCreated = 0;
         numAppsCreated = 0;
@@ -41,11 +49,26 @@ public class FocusModel {
 
         profiles_to_schedules = new HashMap<>();
         apps_to_profiles = new HashMap<>();
-
     }
 
+    public static FocusModel getInstance() {
+        if (instance == null) {
+            instance = new FocusModel();
+        }
+        return instance;
+    }
+
+
+    /**
+     *
+     * Getter Functions
+     */
     public ArrayList <Profile> getAllProfiles() {
         return profiles;
+    }
+
+    public ArrayList <Schedule> getSchedules() {
+        return schedules;
     }
 
     public void createNewProfile(String profileName) {
