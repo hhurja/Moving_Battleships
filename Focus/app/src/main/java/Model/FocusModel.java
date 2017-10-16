@@ -3,13 +3,14 @@ package Model;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 
 /**
  * Created by aaronrschrock on 10/6/17.
  */
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -19,7 +20,7 @@ import static movingbattleship.org.focus.R.id.profileName;
  * FocusModel is the class that contains profiles, schedules, and the main functionality
  */
 
-public class FocusModel {
+public class FocusModel extends Thread{
     //Main ArrayLists holding all objects
     private ArrayList<Schedule> schedules;
     private ArrayList<Profile> profiles;
@@ -56,6 +57,8 @@ public class FocusModel {
 
         profiles_to_schedules = new HashMap<>();
         apps_to_profiles = new HashMap<>();
+
+        this.start();
     }
 
     protected FocusModel(AppProcessChecker apc) {
@@ -71,6 +74,23 @@ public class FocusModel {
         this.apc = apc;
         profiles_to_schedules = new HashMap<>();
         apps_to_profiles = new HashMap<>();
+
+        this.start();
+    }
+
+    @Override
+    public void run(){
+        while (true){
+            instance.updateWithSchedules();
+
+            //sleeps this thread for 2 seconds on the loop
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 
     public static FocusModel getInstance() {
@@ -292,6 +312,10 @@ public class FocusModel {
                 currApp = a;
                 break;
             }
+        }
+        if(currApp == null){
+            currApp = new App(numAppsCreated, appName, getAppNameFromPackage(appName));
+            numSchedulesCreated++;
         }
 
         //make sure that the profile and app both exist
@@ -534,13 +558,15 @@ public class FocusModel {
      * App Functions
      */
 
-    public void createNewApp(String appName, String packageName) {
+    public void createNewApp(String packageName) {
     /*	Create new schedule
     	 * if it already exists, output error message to console
     	 * otherwise, create the app with the input name and the next available id
     	 * add this app to the arraylist of schedules in focusmodel
     	 * increment numappscreated
 	 */
+
+        String appName = getAppNameFromPackage(packageName);
         if (alreadyExists("App", appName)) {
             System.out.println("Attempted to create a App that already exists. "
                     + "Do something about this -- " + appName);
@@ -669,5 +695,32 @@ public class FocusModel {
                     + "String name) in class FocusModel");
             return true;
         }
+    }
+
+    private void updateWithSchedules(){
+        for(Schedule s: instance.schedules){
+            for(TimeRange tr: s.getTimeRanges()){
+                for(Profile p: s.getProfiles()){
+                    if(isInTimeRange(tr, p)){
+                        p.blockProfile();
+                    }
+                }
+            }
+        }
+    }
+
+    private static boolean isInTimeRange(TimeRange tr, Profile p){
+
+        return true;
+    }
+    private static String getAppNameFromPackage(String packageName){
+        return "TEST_APP_NAME";
+//        //Get App Name
+//        PackageManager packageManager = getPackageManager();
+//        ApplicationInfo applicationInfo = null;
+//        try {
+//            applicationInfo = packageManager.getApplicationInfo(packageName, 0);
+//        } catch (final NameNotFoundException e) {}
+//        final String appName = (String)((applicationInfo != null) ? packageManager.getApplicationLabel(applicationInfo) : "???");
     }
 }

@@ -126,6 +126,10 @@ public class Schedule {
         return returnSet;
     }
 
+    public ArrayList<TimeRange> getTimeRanges(){
+        return timeRanges;
+    }
+
 //    public void addTimeRangeToProfile(Profile p, TimeRange tr){
 ////    	System.out.println(p+ " "+ profileSchedule.get(p.getProfileID()));
 ////    	System.out.println(profileSchedule);
