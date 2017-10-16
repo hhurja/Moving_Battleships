@@ -614,6 +614,18 @@ public class FocusModel {
 
         return 0;
     }
+
+    public void addNotification(String packageName, Notification notification) {
+        /**
+         * Adds a notification to the corresponding app
+         */
+        for (App a : apps) {
+            if (a.getPackageName().equals(packageName)) {
+                a.addNotification(notification);
+            }
+        }
+    }
+
     /**
      *
      * Helper Functions
