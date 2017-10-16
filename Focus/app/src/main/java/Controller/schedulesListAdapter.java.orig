@@ -26,9 +26,6 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
         super(context, R.layout.schedules_row, schedules);
         System.out.println("in constructor");
     }
-    /*public profilesListAdapter(@NonNull Context context, String[] profileNames) {
-        super(context, R.layout.profile_row ,profileNames);
-    } */
 
     @NonNull
     @Override
