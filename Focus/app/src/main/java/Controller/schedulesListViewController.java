@@ -187,6 +187,7 @@ public class schedulesListViewController extends Fragment {
         final TextView errorMessage = new TextView(v.getContext());
         errorMessage.setVisibility(View.GONE);
         errorMessage.setTextColor(Color.RED);
+        errorMessage.setText("Please check at least one day");
 
         final CheckBox m = new CheckBox(v.getContext());
         m.setText("Monday");
@@ -276,8 +277,9 @@ public class schedulesListViewController extends Fragment {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         final TextView errorMessage = new TextView(v.getContext());
-        //errorMessage.setVisibility(View.GONE);
-        //errorMessage.setTextColor(Color.RED);
+        errorMessage.setText("Please enter a valid time range (Less than 10 hrs and Greater than 10 mins)");
+        errorMessage.setVisibility(View.GONE);
+        errorMessage.setTextColor(Color.RED);
 
         final TimePicker tpStart = new TimePicker(new ContextThemeWrapper(v.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
         tpStart.setLayoutMode(1);
@@ -291,6 +293,7 @@ public class schedulesListViewController extends Fragment {
         tpEnd.setLayoutMode(2);
         tpEnd.setScaleY((float) .8);
 
+        layout.addView(errorMessage);
         layout.addView(tpStart);
         layout.addView(to);
         layout.addView(tpEnd);
