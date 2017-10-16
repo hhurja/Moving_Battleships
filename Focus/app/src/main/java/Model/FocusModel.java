@@ -243,7 +243,10 @@ public class FocusModel {
         }
     }
 
-    public void addAppToProfile(int appID, int profileID) {
+    public void addAppToProfile(String appName, String profileName) {
+
+        int appID = getIdFromName("App", appName);
+        int profileID = getIdFromName("Profile", profileName);
         App currApp = null;
         Profile currProf = null;
 
@@ -331,14 +334,16 @@ public class FocusModel {
         }
     }
 
-    public void createNewSchedules ( String scheduleName, ArrayList<String> days, int startHour, int startMinute,
+    public void createNewSchedules (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
                          int endHour, int endMinute){
 
         if (alreadyExists("Schedule", scheduleName)) {
             System.out.println("Attempted to create a Schedule that already exists. "
                     + "Do something about this -- " + scheduleName);
         } else {
-            
+            // schedules.add(new Schedule(numSchedulesCreated, scheduleName));
+            profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
+            numSchedulesCreated++;
         }
     }
 
@@ -529,6 +534,29 @@ public class FocusModel {
         return blockedSet;
     }
 
+    public int getIdFromName(String type, String name){
+        if (type.equals("Profile")){
+            for(Profile p: profiles){
+                if(p.getProfileName().equals(name)) return p.getProfileID();
+            }
+            System.out.println("Error in getIdFromName: Did not find profile name");
+            return -1;
+        } else if(type.equals("App")){
+            for(App a: apps){
+                if(a.getAppName().equals(name)) return a.getAppID();
+            }
+            System.out.println("Error in getIdFromName: Did not find app name");
+            return -1;
+        }else if(type.equals("Schedule")){
+            for(Schedule s: schedules){
+                if(s.getScheduleName().equals(name)) return s.getScheduleID();
+            }
+            System.out.println("Error in getIdFromName: Did not find schedule name");
+            return -1;
+        }
+
+        return 0;
+    }
     /**
      *
      * Helper Functions
