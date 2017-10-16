@@ -279,7 +279,34 @@ public class FocusModel {
                 }
             }
         }
+    }
 
+    public ArrayList<App> getAppsFromProfile(int profileID) {
+        /**
+         * Returns the list of apps in a profile
+         */
+
+        for (Profile p : profiles) {
+            if (p.getProfileID() == profileID) {
+                return p.getApps();
+            }
+        }
+
+        return null;
+    }
+
+    public ArrayList<App> getAppsFromProfile(String ProfileName) {
+        /**
+         * Returns the list of apps in a profile
+         */
+
+        for (Profile p : profiles) {
+            if (p.getProfileName().equals(ProfileName)) {
+                return p.getApps();
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -368,6 +395,64 @@ public class FocusModel {
         } else {
             System.out.println("Error in addProfileToSchedule -- either prof or sched reutrn null");
             System.out.println("CurrProf: " + currProf + " CurrSched: " + currSched);
+        }
+    }
+
+    public void activateSchedule(int scheduleID) {
+          /*	Blocks profile from FocusModel
+         	* first checks for existence of the profile
+         	* If it exists then set it to be blocked
+		*/
+        if (alreadyExists("Schedule", Integer.toString(scheduleID))) {
+            //Find and activate profile from arraylist in focusmodel
+            for (Schedule s : schedules) {
+                if (s.getScheduleID() == scheduleID) {
+                    s.setActivated(true);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void activateSchedule(String scheduleName) {
+          /*	Blocks profile from FocusModel
+         	* first checks for existence of the profile
+         	* If it exists then set it to be blocked
+		*/
+        for (Schedule s : schedules) {
+            if (s.getScheduleName().equals(scheduleName)) {
+                s.setActivated(true);
+                break;
+            }
+        }
+    }
+
+    public void deactivateSchedule(int scheduleID) {
+        /*	Unblocks profile from FocusModel
+         	* first checks for existence of the profile
+         	* If it exists then unblock it
+		*/
+        if (alreadyExists("Schedule", Integer.toString(scheduleID))) {
+            //Find and activate profile from arraylist in focusmodel
+            for (Schedule s : schedules) {
+                if (s.getScheduleID() == scheduleID) {
+                    s.setActivated(false);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void deactivateSchedule(String scheduleName) {
+          /*	Unblocks profile from FocusModel
+         	* first checks for existence of the profile
+         	* If it exists then unblock it
+		*/
+        for (Schedule s : schedules) {
+            if (s.getScheduleName().equals(scheduleName)) {
+                s.setActivated(false);
+                break;
+            }
         }
     }
 
