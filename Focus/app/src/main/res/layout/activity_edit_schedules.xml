@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="movingbattleship.org.focus.Controller.edit_schedules">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".3" >
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/day"
+                android:text="2:00 pm - 4:00 pm"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="200dp"
+                tools:layout_editor_absoluteY="101dp" />
+
+            <TextView
+                android:id="@+id/day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/name"
+                android:layout_below="@+id/name"
+                android:text="Monday"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="61dp"
+                tools:layout_editor_absoluteY="101dp" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="Monday Study Sesh"
+                android:textSize="30sp"
+                tools:layout_editor_absoluteX="61dp"
+                tools:layout_editor_absoluteY="35dp" />
+        </android.support.constraint.ConstraintLayout>
+
+        <ListView
+            android:id="@+id/profilesListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".6" />
+
+        <Button
+            android:id="@+id/addProfileButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".1"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/toggleOnOffButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".1"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:text="Turn Schedule Off" />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

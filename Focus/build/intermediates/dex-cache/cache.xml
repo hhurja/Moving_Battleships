@@ -7,8 +7,13 @@
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
+<<<<<<< HEAD
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
         <dex dex="/Users/Ruth/Documents/310Project/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_9078d0bfa8147b206c1771243a6c10d501c2380b/classes.dex" />
+=======
+        sha1="476db2400f4350064d77380b1ac1b6754ff0aae6">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_90a3c8bc5c1abbe7e68efc0d0e6e174fc54307ef/classes.dex" />
+>>>>>>> 416360ce9a8c37ef752013b10b4d554cb724afc3
     </item>
     <item
         is-multidex="true"
