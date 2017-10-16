@@ -1,5 +1,6 @@
 package Model;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.usage.UsageStats;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 
 import java.security.Permission;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.Timer;
@@ -34,6 +36,8 @@ import movingbattleship.org.focus.R;
 
 import static android.R.attr.button;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static android.os.Binder.getCallingUid;
+import static java.security.AccessController.getContext;
 
 /**
  * Created by shabina on 10/13/17.
@@ -44,26 +48,29 @@ public class AppProcessChecker {
     public PackageManager packageManager;
     public UsageStatsManager statsManager;
     public MainActivity mainActivity;
-    public String package_name = "";
+    public ArrayList<String> package_names = new ArrayList<String>();
 
     public AppProcessChecker(Context c, PackageManager pm, UsageStatsManager usm, MainActivity ma) {
         context = c;
         packageManager = pm;
         statsManager = usm;
         mainActivity = ma;
-
-        Intent intent_1 = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-        intent_1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Intent intent_2 = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-        intent_2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent_1);
-        context.startActivity(intent_2);
+        if(PackageManager.PERMISSION_GRANTED != packageManager.checkPermission(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, packageManager.getNameForUid(getCallingUid()))){
+            Intent overlayPermission = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+            overlayPermission.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(overlayPermission);
+        }
+        if(PackageManager.PERMISSION_GRANTED != packageManager.checkPermission(Settings.ACTION_USAGE_ACCESS_SETTINGS, packageManager.getNameForUid(getCallingUid()))){
+            Intent usagePermission = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            usagePermission.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(usagePermission);
+        }
         AppIconGenerator ap = new AppIconGenerator(packageManager);
     }
-    class test extends TimerTask {
-        private String p_name;
-        test(String str) {
-            p_name = str;
+    class block extends TimerTask {
+        private ArrayList<String> package_names;
+        block(ArrayList<String> package_names) {
+            this.package_names = package_names;
         }
         public void run() {
             List<UsageStats> apps = statsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,  System.currentTimeMillis() - 1000*1000, System.currentTimeMillis());
@@ -75,7 +82,7 @@ public class AppProcessChecker {
                 if (map != null && !map.isEmpty()) {
                     UsageStats currentApp;
                     currentApp = map.get(map.lastKey());
-                    if (currentApp.getPackageName().equals(p_name)) {
+                    if (package_names.contains(currentApp.getPackageName())) {
                         Intent i = new Intent(mainActivity, DialogActivity.class);
                         mainActivity.startActivity(i);
                     }
@@ -83,11 +90,10 @@ public class AppProcessChecker {
             }
         }
     }
-
-    public void blockApplication(String packageName) {
-        package_name = packageName;
+    public void blockApplication(ArrayList<String> package_names) {
+        this.package_names = package_names;
         Timer timer = new Timer();
-        timer.schedule(new test(package_name), 0, 2000);
+        timer.schedule(new block(this.package_names), 0, 3000);
     }
 
 }
