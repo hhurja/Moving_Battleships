@@ -45,14 +45,17 @@ public class schedulesListAdapter extends ArrayAdapter<String>{
         scheduleNameTextView.setText(name);
         scheduleDayTextView.setText("Monday");
         scheduleTimeTextView.setText("2:00 pm - 4:00 pm");
-        /* access your linear layout
-        LinearLayout schedulesLinearLayout = (LinearLayout)schedulesView.findViewById(R.id.schedulesLinearLayout);
+        // access your linear layout
+        LinearLayout schedulesLinearLayout = (LinearLayout)schedulesView.findViewById(R.id.profilesLinearLayout);
         String[] names = {"Dating Apps", "Hunter's List", "Social Media", "Dinosaurs"};
 
-        for( int i = 0; i < names.length; i++ ) {
-            TextView textView = new TextView(schedulesView.getContext());
-            schedulesLinearLayout.addView(textView);
-        }*/
+        if (schedulesLinearLayout != null) {
+            for (int i = 0; i < names.length; i++) {
+                TextView textView = new TextView(schedulesView.getContext());
+                textView.setText(names[i]);
+                schedulesLinearLayout.addView(textView);
+            }
+        }
 
         return schedulesView;
     }
