@@ -343,8 +343,8 @@ public class FocusModel extends Thread{
         //System.out.println("BACKEND: num apps in profile: "+currProf.getApps().size());
     }
 
-    public void removeAppFromProfile(String appName, String profileName){
-        int appID = getIdFromName("App", appName);
+    public void removeAppFromProfile(String packageName, String profileName){
+        int appID = getIdFromName("App", getAppNameFromPackage(packageName));
         int profileID = getIdFromName("Profile", profileName);
 
         //if app is in profile, remove from that profile
