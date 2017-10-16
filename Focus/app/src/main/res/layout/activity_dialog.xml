@@ -10,22 +10,11 @@
     tools:context="Controller.MainActivity">
 
     <Button
-        android:id="@+id/cancel_btn_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/ok_btn_id"
-        android:layout_alignBottom="@+id/ok_btn_id"
-        android:layout_marginLeft="25dp"
-        android:layout_toRightOf="@+id/ok_btn_id"
-        android:text="Cancel" />
-
-    <Button
         android:id="@+id/ok_btn_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="50dp"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="92dp"
         android:text="OK" />
 
@@ -35,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="37dp"
-        android:text="DONT GO HERE!"
+        android:text="You gotta Focus!"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
