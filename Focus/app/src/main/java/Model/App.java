@@ -5,6 +5,7 @@ package Model;
  */
 
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -19,6 +20,7 @@ public class App {
     private boolean blocked;
     private HashSet<Integer> blockedProfileIDs;
     private String packageName;
+    private ArrayList<Notification> notifications;
 
     /**
      * Constructors
@@ -30,6 +32,7 @@ public class App {
         this.packageName = packageName;
 
         blockedProfileIDs = new HashSet<>();
+        notifications = new ArrayList<>();
     }
 
     public App(int id, String name, String packageName) {
@@ -39,6 +42,7 @@ public class App {
         this.packageName = packageName;
 
         blockedProfileIDs = new HashSet<>();
+        notifications = new ArrayList<>();
     }
 
     /**
@@ -71,6 +75,12 @@ public class App {
 
         if (blockedProfileIDs.isEmpty()) {
             blocked = false;
+
+            //TODO send all notifications
+            for (Notification n : notifications) {
+                //TODO send notifications
+            }
+            notifications.clear();
         }
     }
 
@@ -80,6 +90,10 @@ public class App {
 
     public String getPackageName(){
         return packageName;
+    }
+
+    public void addNotification(Notification n) {
+        notifications.add(n);
     }
 
 
