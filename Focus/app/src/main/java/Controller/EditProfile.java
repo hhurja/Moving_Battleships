@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ListAdapter;
 import Model.Profile;
 import android.content.pm.*;
 import android.content.Intent;
@@ -49,8 +50,9 @@ public class EditProfile extends AppCompatActivity {
             names[count] = app.getAppName();
             count ++;
         } */
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, names);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        //        android.R.layout.simple_list_item_1, names);
+        ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), names);
         mListView.setAdapter(adapter);
 
         fab_schedule = (Button) findViewById(R.id.fab_submit);
