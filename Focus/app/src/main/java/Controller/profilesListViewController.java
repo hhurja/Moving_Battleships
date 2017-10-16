@@ -20,7 +20,8 @@ import android.content.Intent;
 import java.util.HashMap;
 
 import movingbattleship.org.focus.R;
-import movingbattleship.org.focus.*;
+
+import Model.Profile;
 
 public class profilesListViewController extends Fragment {
     //this hashmap stores the application and their corresponding icons
@@ -71,7 +72,10 @@ public class profilesListViewController extends Fragment {
                              String name = String.valueOf(parent.getItemAtPosition(position));
                              System.out.println(name); // just check to see if this tap is working / list view works
                              // TODO: open up actual profile
-                             Intent intent = new Intent(profilesListViewController.mContext, EditProfile.class);
+                             Profile p = new Profile(1, name);
+                             EditProfile ep = new EditProfile();
+                             Intent intent = new Intent(profilesListViewController.mContext, ep.getClass());
+                             ep.setProfile(p);
                              profilesListViewController.mContext.startActivity(intent);
                          }
                      }
