@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import movingbattleship.org.focus.R;
+import Model.*;
 
 /**
  * Created by Ruth on 10/15/17.

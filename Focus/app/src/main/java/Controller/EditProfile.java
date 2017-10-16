@@ -20,6 +20,7 @@ import android.content.Intent;
 
 import movingbattleship.org.focus.R;
 import java.util.*;
+import Model.*;
 
 /**
  * Created by Ruth on 10/14/17.
@@ -41,7 +42,13 @@ public class EditProfile extends AppCompatActivity {
 
         mListView = (ListView) findViewById(R.id.AppListView);
 
-        String[] names = {"App 1", "App 2", "App 3", "App 4"};
+        //List<App> applications = profile.getApps();
+        String [] names = {"App 1", "App 2", "App 3", "App 4"};
+        /*int count = 0;
+        for (App app : applications) {
+            names[count] = app.getAppName();
+            count ++;
+        } */
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, names);
         mListView.setAdapter(adapter);
@@ -61,8 +68,6 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println("fab plus clicked");
-
-
                 Intent intent = new Intent(getApplicationContext(), AppChooser.class);
                 startActivity(intent);
 

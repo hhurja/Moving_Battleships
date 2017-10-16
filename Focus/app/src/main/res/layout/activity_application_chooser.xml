@@ -15,12 +15,18 @@
         tools:layout_editor_absoluteY="8dp">
 
 
-
         <ListView
             android:id="@+id/InstalledAppsListView"
             android:layout_width="match_parent"
-            android:layout_weight="0.7"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            android:layout_weight="0.7" />
+
+        <Button
+            android:id="@+id/add_applications"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:text="Add Applications" />
 
     </LinearLayout>
 
