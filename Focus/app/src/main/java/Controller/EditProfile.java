@@ -32,6 +32,7 @@ public class EditProfile extends AppCompatActivity {
     private ListView mListView;
     private Button fab_schedule;
     private Button fab_plus;
+    private Button fab_done;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -60,8 +61,8 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println("fab submit clicked");
-                //Intent intent = new Intent(getApplicationContext(), NewMessageActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -73,6 +74,15 @@ public class EditProfile extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), AppChooser.class);
                 startActivity(intent);
 
+            }
+        });
+
+        fab_done = (Button) findViewById(R.id.fab_done);
+        fab_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("fab done clicked");
+                onBackPressed();
             }
         });
 
@@ -105,16 +115,16 @@ public class EditProfile extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     //public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        //private static final String ARG_SECTION_NUMBER = "section_number";
+    /**
+     * The fragment argument representing the section number for this
+     * fragment.
+     */
+    //private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
+    /**
+     * Returns a new instance of this fragment for the given section
+     * number.
+     */
         /* public static MainActivity.PlaceholderFragment newInstance(int sectionNumber) {
             MainActivity.PlaceholderFragment fragment = new MainActivity.PlaceholderFragment();
             Bundle args = new Bundle();
