@@ -33,6 +33,7 @@ public class FocusModel {
     private int numSchedulesCreated;
     private int numAppsCreated;
 
+    private AppProcessChecker apc;
     private Profile currProf;
 
     //Instance for Singleton Class
@@ -48,10 +49,26 @@ public class FocusModel {
         numSchedulesCreated = 0;
         numAppsCreated = 0;
         currProf = null;
+        apc = null;
         schedules = new ArrayList<>();
         profiles = new ArrayList<>();
         apps = new ArrayList<>();
 
+        profiles_to_schedules = new HashMap<>();
+        apps_to_profiles = new HashMap<>();
+    }
+
+    protected FocusModel(AppProcessChecker apc) {
+        //Exists only to defeate instantiation
+        numProfilesCreated = 0;
+        numSchedulesCreated = 0;
+        numAppsCreated = 0;
+        currProf = null;
+        schedules = new ArrayList<>();
+        profiles = new ArrayList<>();
+        apps = new ArrayList<>();
+
+        this.apc = apc;
         profiles_to_schedules = new HashMap<>();
         apps_to_profiles = new HashMap<>();
     }
@@ -63,6 +80,12 @@ public class FocusModel {
         return instance;
     }
 
+    public static FocusModel getInstance(AppProcessChecker apc) {
+        if (instance == null) {
+            instance = new FocusModel(apc);
+        }
+        return instance;
+    }
 
     /**
      *
@@ -288,6 +311,23 @@ public class FocusModel {
                     apps_to_profiles.get(currProf.getProfileID()).add(currApp.getAppID());
                 }
             }
+        }
+    }
+
+    public void removeAppFromProfile(String appName, String profileName){
+        int appID = getIdFromName("App", appName);
+        int profileID = getIdFromName("Profile", profileName);
+
+        //if app is in profile, remove from that profile
+        for(App a: currProf.getApps()){
+            if(a.getAppID() == appID){
+                currProf.removeApp(appID);
+            }
+        }
+
+        //if the schedule is in map and the app is too, remove the app from arraylist associated with profile
+        if(apps_to_profiles.get(profileID).contains(appID)){
+            apps_to_profiles.get(profileID).remove(appID);
         }
     }
 
