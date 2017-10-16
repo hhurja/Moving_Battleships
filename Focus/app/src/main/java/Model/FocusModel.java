@@ -33,6 +33,8 @@ public class FocusModel {
     private int numSchedulesCreated;
     private int numAppsCreated;
 
+    private Profile currProf;
+
     //Instance for Singleton Class
     private static FocusModel instance= null;
 
@@ -45,6 +47,7 @@ public class FocusModel {
         numProfilesCreated = 0;
         numSchedulesCreated = 0;
         numAppsCreated = 0;
+        currProf = null;
         schedules = new ArrayList<>();
         profiles = new ArrayList<>();
         apps = new ArrayList<>();
@@ -125,6 +128,10 @@ public class FocusModel {
             }
         }
         return null;
+    }
+
+    public Profile getCurrentProfile(){
+        return currProf;
     }
 
     /**
@@ -310,6 +317,16 @@ public class FocusModel {
         }
 
         return null;
+    }
+
+    public void setCurrentProfile(String profName){
+        for(Profile p: profiles){
+            if (p.getProfileName().equals(profName)){
+                currProf = p;
+                return;
+            }
+        }
+        System.out.println("Error in setCurrentProfile: could not find profile name");
     }
 
     /**
