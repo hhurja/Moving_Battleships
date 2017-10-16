@@ -64,7 +64,8 @@ public class FocusNotificationListenerService extends NotificationListenerServic
             //Make Notification
             Notification notification = new Notification(appName, notificationTitle, tickerText);
 
-            FocusModel.addNotification(sbn.getPackageName(), notification);
+
+            //FocusModel.addNotification(sbn.getPackageName(), notification);
         }
 
         /*
