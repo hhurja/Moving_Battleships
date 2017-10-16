@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static movingbattleship.org.focus.R.id.profileName;
+
 /**
  * FocusModel is the class that contains profiles, schedules, and the main functionality
  */
@@ -71,6 +73,64 @@ public class FocusModel {
         return schedules;
     }
 
+    public Profile getProfile(String profileName) {
+        /**
+         * Returns the Profile if it exists
+         * If it doesn't exist return null
+         */
+        for (Profile p : profiles) {
+            if (p.getProfileName().equals(profileName)) {
+                return p;
+            }
+        }
+
+        return null;
+    }
+
+    public Profile getProfile(int profileID) {
+        /**
+         * Returns the Profile if it exists
+         * If it doesn't exist return null
+         */
+        for (Profile p : profiles) {
+            if (p.getProfileID() == profileID) {
+                return p;
+            }
+        }
+
+        return null;
+    }
+
+    public Schedule getSchedule(int scheduleID) {
+        /**
+         * Returns the Schedule if it exists
+         * If it doesn't exist return null
+         */
+        for (Schedule s : schedules) {
+            if (s.getScheduleID() == scheduleID) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public Schedule getSchedule(String scheduleName) {
+        /**
+         * Returns the Schedule if it exists
+         * If it doesn't exist return null
+         */
+        for (Schedule s : schedules) {
+            if (s.getScheduleName().equals(scheduleName)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     * Profile Functions
+     */
     public void createNewProfile(String profileName) {
     	/*	Create new profile
 	    	 * if it already exists, output error message to console
@@ -125,6 +185,108 @@ public class FocusModel {
         }
     }
 
+    public void activateProfile(int profileID) {
+          /*	Blocks profile from FocusModel
+         	* first checks for existence of the profile
+         	* If it exists then set it to be blocked
+		*/
+        if (alreadyExists("Profile", Integer.toString(profileID))) {
+            //Find and activate profile from arraylist in focusmodel
+            for (Profile p : profiles) {
+                if (p.getProfileID().equals(profileID)) {
+                    p.activate();
+                    break;
+                }
+            }
+        }
+    }
+
+    public void activateProfile(String profileName) {
+          /*	Blocks profile from FocusModel
+         	* first checks for existence of the profile
+         	* If it exists then set it to be blocked
+		*/
+        for (Profile p : profiles) {
+            if (p.getProfileName().equals(profileName)) {
+                p.activate();
+                break;
+            }
+        }
+    }
+
+    public void deactivateProfile(int profileID) {
+        /*	Unblocks profile from FocusModel
+         	* first checks for existence of the profile
+         	* If it exists then unblock it
+		*/
+        if (alreadyExists("Profile", Integer.toString(profileID))) {
+            //Find and activate profile from arraylist in focusmodel
+            for (Profile p : profiles) {
+                if (p.getProfileID().equals(profileID)) {
+                    p.deactivate();
+                    break;
+                }
+            }
+        }
+    }
+
+    public void deactivateProfile(String profileName) {
+          /*	Unblocks profile from FocusModel
+         	* first checks for existence of the profile
+         	* If it exists then unblock it
+		*/
+        for (Profile p : profiles) {
+            if (p.getProfileName().equals(profileName)) {
+                p.deactivate();
+                break;
+            }
+        }
+    }
+
+    public void addAppToProfile(int appID, int profileID) {
+        App currApp = null;
+        Profile currProf = null;
+
+        //locate the schedule and profile we are working with
+        for (Profile p : profiles) {
+            if (p.getProfileID().equals(profileID)) {
+                currProf = p;
+                break;
+            }
+        }
+        for (App a : apps) {
+            if (a.getAppID() == appID) {
+                currApp = a;
+                break;
+            }
+        }
+
+        //make sure that the profile and app both exist
+        if (currProf != null && currApp != null) {
+            //if the profile does not already have this app
+            if (!currProf.getAppIDs().contains(currApp.getAppID())) {
+                currProf.addApp(currApp);
+            }
+
+            //if this scheduleID is not already in the map
+            if (!apps_to_profiles.containsKey(profileID)) {
+                //adds a scheduleID as key and an arraylist containing the profileId as the value
+                apps_to_profiles.put(currProf.getProfileID(), new HashSet<Integer>(currApp.getAppID()));
+            } else {
+                //adds profileID to the list of IDs associated with a schedule if it is not already there
+                if (!apps_to_profiles.get(currProf.getProfileID()).contains(currApp.getAppID())) {
+                    apps_to_profiles.get(currProf.getProfileID()).add(currApp.getAppID());
+                }
+            }
+        }
+
+    }
+
+    /**
+     *
+     * Schedule Functions
+     */
+
     public void createNewSchedule(String scheduleName) {
     /*	Create new schedule
     	 * if it already exists, output error message to console
@@ -164,6 +326,55 @@ public class FocusModel {
             System.out.println("Error: Tried to remove Schedule that does not exist. SchedID: " + scheduleID);
         }
     }
+
+    public void addProfileToSchedule(int profileID, int scheduleID) {
+
+        Profile currProf = null;
+        Schedule currSched = null;
+
+        //locate the schedule and profile we are working with
+        for (Profile p : profiles) {
+            if (p.getProfileID() == profileID) {
+                currProf = p;
+                break;
+            }
+        }
+        for (Schedule s : schedules) {
+            if (s.getScheduleID() == scheduleID) {
+                currSched = s;
+                break;
+            }
+        }
+
+        //make sure that the profile and schedule both exist
+        if (currProf != null && currSched != null) {
+            //if the schedule does not already have this profile
+            if (!currSched.getProfileIDs().contains(currProf.getProfileID())) {
+                currSched.addProfile(currProf);
+            } else {
+                System.out.println("found currprof in the set");
+            }
+
+            //if this scheduleID is not already in the map
+            if (!profiles_to_schedules.containsKey(scheduleID)) {
+                //adds a scheduleID as key and an arraylist containing the profileId as the value
+                profiles_to_schedules.put(currSched.getScheduleID(), new HashSet<Integer>(currProf.getProfileID()));
+            } else {
+                //adds profileID to the list of IDs associated with a schedule if it is not already there
+                if (!profiles_to_schedules.get(currSched.getScheduleID()).contains(currProf.getProfileID())) {
+                    profiles_to_schedules.get(currSched.getScheduleID()).add(currProf.getProfileID());
+                }
+            }
+        } else {
+            System.out.println("Error in addProfileToSchedule -- either prof or sched reutrn null");
+            System.out.println("CurrProf: " + currProf + " CurrSched: " + currSched);
+        }
+    }
+
+    /**
+     *
+     * App Functions
+     */
 
     public void createNewApp(String appName) {
     /*	Create new schedule
@@ -214,88 +425,10 @@ public class FocusModel {
         }
     }
 
-    public void addProfileToSchedule(int profileID, int scheduleID) {
-
-        Profile currProf = null;
-        Schedule currSched = null;
-
-        //locate the schedule and profile we are working with
-        for (Profile p : profiles) {
-            if (p.getProfileID() == profileID) {
-                currProf = p;
-                break;
-            }
-        }
-        for (Schedule s : schedules) {
-            if (s.getScheduleID() == scheduleID) {
-                currSched = s;
-                break;
-            }
-        }
-
-        //make sure that the profile and schedule both exist
-        if (currProf != null && currSched != null) {
-            //if the schedule does not already have this profile
-            if (!currSched.getProfileIDs().contains(currProf.getProfileID())) {
-                currSched.addProfile(currProf);
-            } else {
-                System.out.println("found currprof in the set");
-            }
-
-            //if this scheduleID is not already in the map
-            if (!profiles_to_schedules.containsKey(scheduleID)) {
-                //adds a scheduleID as key and an arraylist containing the profileId as the value
-                profiles_to_schedules.put(currSched.getScheduleID(), new HashSet<Integer>(currProf.getProfileID()));
-            } else {
-                //adds profileID to the list of IDs associated with a schedule if it is not already there
-                if (!profiles_to_schedules.get(currSched.getScheduleID()).contains(currProf.getProfileID())) {
-                    profiles_to_schedules.get(currSched.getScheduleID()).add(currProf.getProfileID());
-                }
-            }
-        } else {
-            System.out.println("Error in addProfileToSchedule -- either prof or sched reutrn null");
-            System.out.println("CurrProf: " + currProf + " CurrSched: " + currSched);
-        }
-    }
-
-    public void addAppToProfile(int appID, int profileID) {
-        App currApp = null;
-        Profile currProf = null;
-
-        //locate the schedule and profile we are working with
-        for (Profile p : profiles) {
-            if (p.getProfileID().equals(profileID)) {
-                currProf = p;
-                break;
-            }
-        }
-        for (App a : apps) {
-            if (a.getAppID() == appID) {
-                currApp = a;
-                break;
-            }
-        }
-
-        //make sure that the profile and app both exist
-        if (currProf != null && currApp != null) {
-            //if the profile does not already have this app
-            if (!currProf.getAppIDs().contains(currApp.getAppID())) {
-                currProf.addApp(currApp);
-            }
-
-            //if this scheduleID is not already in the map
-            if (!apps_to_profiles.containsKey(profileID)) {
-                //adds a scheduleID as key and an arraylist containing the profileId as the value
-                apps_to_profiles.put(currProf.getProfileID(), new HashSet<Integer>(currApp.getAppID()));
-            } else {
-                //adds profileID to the list of IDs associated with a schedule if it is not already there
-                if (!apps_to_profiles.get(currProf.getProfileID()).contains(currApp.getAppID())) {
-                    apps_to_profiles.get(currProf.getProfileID()).add(currApp.getAppID());
-                }
-            }
-        }
-
-    }
+    /**
+     *
+     * Helper Functions
+     */
 
     private boolean alreadyExists(String type, String name) {
     	/*	Returns true if a profile, schedule, or app exists
