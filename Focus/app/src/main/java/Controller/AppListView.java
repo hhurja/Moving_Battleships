@@ -5,6 +5,7 @@ import android.widget.ListView;
 
 import movingbattleship.org.focus.R;
 
+
 /**
  * Created by Ruth on 10/15/17.
  */
@@ -12,6 +13,6 @@ import movingbattleship.org.focus.R;
 public class AppListView extends ListView {
     public AppListView(Context context) {
         super(context);
-        setEmptyView(findViewById(R.layout.edit_profile_view_fragment));
+        //setEmptyView(findViewById(R.layout.c));
     }
 }

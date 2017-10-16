@@ -2,7 +2,7 @@ package Controller;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.widget.Button;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,8 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import Model.Profile;
+import android.content.pm.*;
+import android.content.Intent;
 
 import movingbattleship.org.focus.R;
+import java.util.*;
 
 /**
  * Created by Ruth on 10/14/17.
@@ -25,13 +28,14 @@ import movingbattleship.org.focus.R;
 public class EditProfile extends AppCompatActivity {
     private Profile profile;
     private ListView mListView;
-
+    private Button fab_schedule;
+    private Button fab_plus;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile_view);
 
@@ -41,6 +45,37 @@ public class EditProfile extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, names);
         mListView.setAdapter(adapter);
+
+        fab_schedule = (Button) findViewById(R.id.fab_submit);
+        fab_schedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("fab submit clicked");
+                //Intent intent = new Intent(getApplicationContext(), NewMessageActivity.class);
+                //startActivity(intent);
+            }
+        });
+
+        fab_plus = (Button) findViewById(R.id.fab_plus);
+        fab_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("fab plus clicked");
+
+                final PackageManager pm = getPackageManager();
+//get a list of installed apps.
+                List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+                for (ApplicationInfo packageInfo : packages) {
+                    System.out.println("Installed package :" + packageInfo.packageName);
+                    System.out.println("Source dir : " + packageInfo.sourceDir);
+                    System.out.println("Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
+                }
+                Intent intent = new Intent(getApplicationContext(), AppChooser.class);
+                startActivity(intent);
+
+            }
+        });
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
