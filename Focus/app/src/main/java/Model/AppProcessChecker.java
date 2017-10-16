@@ -90,6 +90,7 @@ public class AppProcessChecker {
             }
         }
     }
+
     public void blockApplication(ArrayList<String> package_names) {
         this.package_names = package_names;
         Timer timer = new Timer();
