@@ -62,15 +62,7 @@ public class EditProfile extends AppCompatActivity {
             public void onClick(View view) {
                 System.out.println("fab plus clicked");
 
-                final PackageManager pm = getPackageManager();
-//get a list of installed apps.
-                List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
-                for (ApplicationInfo packageInfo : packages) {
-                    System.out.println("Installed package :" + packageInfo.packageName);
-                    System.out.println("Source dir : " + packageInfo.sourceDir);
-                    System.out.println("Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
-                }
                 Intent intent = new Intent(getApplicationContext(), AppChooser.class);
                 startActivity(intent);
 

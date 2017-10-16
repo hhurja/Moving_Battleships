@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,7 +28,8 @@ import java.util.*;
 public class AppChooser extends AppCompatActivity {
     private Profile profile;
     private ListView mListView;
-    private FloatingActionButton fab_add;
+    private Button fab_done;
+    List<ApplicationInfo> packages = new ArrayList<>();
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -40,20 +42,27 @@ public class AppChooser extends AppCompatActivity {
 
         mListView = (ListView) findViewById(R.id.InstalledAppsListView);
 
-        String[] names = {"App 1", "App 2", "App 3", "App 4"};
+
+
+        final PackageManager pm = getPackageManager();
+//get a list of installed apps.
+        packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        /*for (ApplicationInfo packageInfo : packages) {
+            System.out.println("Installed package :" + packageInfo.packageName);
+            System.out.println("Source dir : " + packageInfo.sourceDir);
+            System.out.println("Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
+        } */
+
+        String[] names = new String[packages.size()];
+        int count = 0;
+        for (ApplicationInfo packageInfo : packages) {
+            names[count] = packageInfo.packageName;
+            count ++;
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, names);
         mListView.setAdapter(adapter);
-
-        fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
-        fab_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("fab add clicked");
-                //Intent intent = new Intent(MainActivity.this, NewMessageActivity.class);
-                //startActivity(intent);
-            }
-        });
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
