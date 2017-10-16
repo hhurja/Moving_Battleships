@@ -54,11 +54,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="37" column="39" selection-start-line="37" selection-start-column="36" selection-end-line="37" selection-end-column="39" />
+            <state relative-caret-position="183">
+              <caret line="35" column="48" selection-start-line="35" selection-start-column="48" selection-end-line="35" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -128,7 +128,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EditSchedule.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EditSchedule.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/Controller/EditSchedule.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="152">
@@ -2061,7 +2061,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/Controller/profilesListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/Controller/profilesListViewController.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/schedules_list_view_fragment.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/Controller/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/Controller/schedulesListAdapter.java" />
@@ -2071,6 +2070,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/Controller/schedulesListViewController.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_edit_schedules.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/Controller/EditSchedule.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -3284,17 +3284,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="37" column="39" selection-start-line="37" selection-start-column="36" selection-end-line="37" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/Controller/EditSchedule.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
@@ -3311,6 +3300,17 @@
             <element signature="e#3815#3816#0" expanded="true" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="35" column="48" selection-start-line="35" selection-start-column="48" selection-end-line="35" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
       </provider>
     </entry>
   </component>

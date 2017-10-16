@@ -30,7 +30,13 @@
         <activity
             android:name="Controller.EditProfile"
             android:label="Profile"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name="Controller.AppChooser"
+            android:label="Profile"
+            android:theme="@style/AppTheme">
+        </activity>
         <activity
             android:name="Controller.DialogActivity"
             android:theme="@android:style/Theme.Holo.Light.Dialog" />
@@ -42,3 +48,4 @@
     </application>
 
 </manifest>
+
