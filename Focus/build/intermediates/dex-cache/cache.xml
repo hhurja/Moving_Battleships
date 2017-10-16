@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="787422796faa1f673e492c581188289639849026">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_90a3c8bc5c1abbe7e68efc0d0e6e174fc54307ef/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_4b0f8641c12471f6d0a95668a126651602239c37/classes.dex" />
+    </item>
+
+</items>

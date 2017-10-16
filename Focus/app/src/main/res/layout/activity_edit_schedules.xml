@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="movingbattleship.org.focus.Controller.edit_schedules">
+    tools:context="Controller.EditSchedule">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
-        <android.support.constraint.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".3" >
@@ -22,35 +22,39 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/day"
                 android:text="2:00 pm - 4:00 pm"
                 android:textSize="18sp"
                 tools:layout_editor_absoluteX="200dp"
-                tools:layout_editor_absoluteY="101dp" />
+                tools:layout_editor_absoluteY="101dp"
+                android:layout_alignBaseline="@+id/day"
+                android:layout_alignBottom="@+id/day"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="26dp" />
 
             <TextView
                 android:id="@+id/day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/name"
-                android:layout_below="@+id/name"
                 android:text="Monday"
                 android:textSize="18sp"
                 tools:layout_editor_absoluteX="61dp"
-                tools:layout_editor_absoluteY="101dp" />
+                tools:layout_editor_absoluteY="101dp"
+                android:layout_below="@+id/name"
+                android:layout_alignStart="@+id/name"
+                android:layout_marginTop="25dp" />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:text="Monday Study Sesh"
                 android:textSize="30sp"
-                tools:layout_editor_absoluteX="61dp"
-                tools:layout_editor_absoluteY="35dp" />
-        </android.support.constraint.ConstraintLayout>
+                tools:layout_editor_absoluteX="49dp"
+                tools:layout_editor_absoluteY="34dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp" />
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/profilesListView"
@@ -65,7 +69,7 @@
             android:layout_height="0dp"
             android:layout_weight=".1"
             android:backgroundTint="@android:color/holo_blue_dark"
-            android:text="Button" />
+            android:text="Add Profile" />
 
         <Button
             android:id="@+id/toggleOnOffButton"
