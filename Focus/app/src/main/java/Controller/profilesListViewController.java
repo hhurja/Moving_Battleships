@@ -101,9 +101,8 @@ public class profilesListViewController extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String name = String.valueOf(parent.getItemAtPosition(position));
                             System.out.println(name); // just check to see if this tap is working / list view works
-                            // TODO: open up actual profile
-                            //Profile p = new Profile(1, name);
-                            //EditProfile ep = new EditProfile();
+                            // set current profile
+                            focusModel.setCurrentProfile(name);
                             Intent intent = new Intent(profilesListViewController.mContext, EditProfile.class);
                             //ep.setProfile(p);
                             profilesListViewController.mContext.startActivity(intent);

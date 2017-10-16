@@ -28,7 +28,7 @@ import java.util.*;
  */
 
 public class AppChooser extends AppCompatActivity {
-    private Profile profile;
+    private static Profile profile;
     private ListView mListView;
     private Button fab_done;
     List<ApplicationInfo> packages = new ArrayList<>();
@@ -72,9 +72,10 @@ public class AppChooser extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {;
-                EditProfile ep = new EditProfile();
-                ep.setProfile(profile);
-                Intent intent = new Intent(getApplicationContext(), ep.getClass());
+                //EditProfile ep = new EditProfile();
+                //ep.setProfile(profile);
+                System.out.println("name of current profile is " + AppChooser.profile.getProfileName());
+                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
                 startActivity(intent);
 
             }

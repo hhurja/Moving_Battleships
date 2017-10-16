@@ -29,6 +29,7 @@ import Model.*;
 
 public class EditProfile extends AppCompatActivity {
     private Profile profile;
+    private FocusModel focusModel;
     private ListView mListView;
     private Button fab_schedule;
     private Button fab_plus;
@@ -40,12 +41,21 @@ public class EditProfile extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        focusModel = FocusModel.getInstance();
+        profile = focusModel.getCurrentProfile();
+        System.out.println("name of current profile is " + profile.getProfileName());
+        System.out.println("number of apps in profile is " + profile.getApps().size());
         setContentView(R.layout.activity_edit_profile_view);
 
         mListView = (ListView) findViewById(R.id.AppListView);
 
         //List<App> applications = profile.getApps();
-        String [] names = {"App 1", "App 2", "App 3", "App 4"};
+        ArrayList<App> apps = profile.getApps();
+        String[] profileNames = new String[apps.size()];
+        for (int i = 0; i < apps.size(); i++) {
+            profileNames[i] = apps.get(i).getAppName();
+        }
         /*int count = 0;
         for (App app : applications) {
             names[count] = app.getAppName();
@@ -53,7 +63,7 @@ public class EditProfile extends AppCompatActivity {
         } */
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         //        android.R.layout.simple_list_item_1, names);
-        ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), names);
+        ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), profileNames);
         mListView.setAdapter(adapter);
 
         fab_schedule = (Button) findViewById(R.id.fab_submit);

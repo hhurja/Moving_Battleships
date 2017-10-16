@@ -29,13 +29,18 @@ import Model.*;
 
 public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
     private Profile profile;
+    private FocusModel focusModel;
     private String name = "";
+    static View applicationsView;
+    static ViewGroup parent;
     //this will store the hashmap of the application packagename with corresponding icon
     public HashMap<String, Bitmap> icons;
+    private HashMap <CheckBox, String> buttonToName = new HashMap <CheckBox, String>();
 
     public InstalledApplicationsListAdapter(@NonNull Context context, String[] profileNames, List<ApplicationInfo> packages, Profile profile) {
         super(context, R.layout.application_chooser_row, profileNames);
-        this.profile = profile;
+        this.focusModel = FocusModel.getInstance();
+        this.profile = focusModel.getCurrentProfile();
     }
     /*public profilesListAdapter(@NonNull Context context, String[] profileNames) {
         super(context, R.layout.profile_row ,profileNames);
@@ -46,8 +51,9 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         System.out.println("getting view");
         LayoutInflater profilesInflator = LayoutInflater.from(getContext());
+        this.parent = parent;
 
-        View applicationsView = profilesInflator.inflate(R.layout.application_chooser_row, parent, false);
+        applicationsView = profilesInflator.inflate(R.layout.application_chooser_row, parent, false);
         // parse name from profile name
         name = getItem(position);
         TextView profileNameTextView = (TextView) applicationsView.findViewById(R.id.profileName);
@@ -55,8 +61,10 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
         ImageView appImage1 = (ImageView) applicationsView.findViewById(R.id.image1);
 
         profileNameTextView.setText(name);
+        System.out.println("name is " + name);
 
         CheckBox cb = (CheckBox) applicationsView.findViewById(R.id.checkBox3);
+        buttonToName.put(cb, name);
         cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
@@ -64,9 +72,12 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
                 // TODO Auto-generated method stub
 
                 if (isChecked) {
-                    //App app = new App(1, name, false);
                     //add application to profile
-                    //profile.addApp(app);
+                    String str = buttonToName.get((CheckBox) buttonView);
+                    System.out.println("name is " + str);
+                    focusModel.addAppToProfile(str, profile.getProfileName());
+                } else {
+                    // remove from profile
                 }
             }
 
