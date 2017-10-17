@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -54,7 +55,7 @@ public class schedulesListViewController extends Fragment {
 
         View view = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
         ArrayList<Schedule> schedules = focusModel.getSchedules();
-        ListView schedulesListView = (ListView) view.findViewById(R.id.schedulesListView);
+        final ListView schedulesListView = (ListView) view.findViewById(R.id.schedulesListView);
         System.out.println("Schedules List view iz..." + (ListView) view.findViewById(R.id.schedulesListView));
         ListAdapter schedulesAdapter = new schedulesListAdapter (context, schedules);
 
@@ -104,6 +105,7 @@ public class schedulesListViewController extends Fragment {
                                 Schedule s = focusModel.getSchedule(input.getText().toString());
                                 if ( s != null ) {
                                     focusModel.removeSchedule(s.getScheduleID());
+                                    ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
                                 }
 
                             }
@@ -370,7 +372,16 @@ public class schedulesListViewController extends Fragment {
                 if (wantToCloseDialog) {
                     //TODO: CREATE SCHEDULE
                     focusModel.createNewSchedule(name);
-                    focusModel.getSchedule(name).addTimeRange(days,tpStart.getHour(), tpStart.getMinute(), tpEnd.getHour(), tpEnd.getMinute());
+                        try {
+                            // thread to sleep for 1000 milliseconds
+                            Thread.sleep(1000);
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+
+                    if( focusModel.getSchedule(name) != null) {
+                        focusModel.getSchedule(name).addTimeRange(days, tpStart.getHour(), tpStart.getMinute(), tpEnd.getHour(), tpEnd.getMinute());
+                    }
 
                     System.out.println("Done!");
                     dialog.dismiss();
