@@ -117,7 +117,7 @@ public class EditProfile extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 // remove application from profile
                                 System.out.println(getBaseContext() + " : " + nameToPackage.get(name) + " : " + name);
-                                focusModel.removeAppFromProfile(getBaseContext(), nameToPackage.get(name), name);
+                                focusModel.removeAppFromProfile(getBaseContext(), nameToPackage.get(name), profile.getProfileName());
 
                                 //focusModel.getSchedule(scheduleName).removeProfile(focusModel.getSchedule(scheduleName).getScheduleID());
                                 //ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, names);
