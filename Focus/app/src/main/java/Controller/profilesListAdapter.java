@@ -26,6 +26,7 @@ public class profilesListAdapter extends ArrayAdapter<String>{
     //this will store the hashmap of the application packagename with corresponding icon
     public HashMap<String, Bitmap> icons;
     private FocusModel focusModel;
+    private Profile profile;
 
     public profilesListAdapter(@NonNull Context context, String[] profileNames, HashMap<String, Bitmap> hm) {
         super(context, R.layout.profile_row, profileNames);
@@ -54,12 +55,30 @@ public class profilesListAdapter extends ArrayAdapter<String>{
         ImageView appImage3 = (ImageView) profilesView.findViewById(R.id.image3);
 
         profileNameTextView.setText(name);
-        appImage1.setImageResource(R.drawable.facebook);
-        appImage2.setImageResource(R.drawable.instagram);
-        appImage3.setImageResource(R.drawable.snapchat);
+        //appImage1.setImageResource(R.drawable.facebook);
+        //appImage2.setImageResource(R.drawable.instagram);
+        //appImage3.setImageResource(R.drawable.snapchat);
 
         //using the application icon from the hashmap for exampe
-        appImage1.setImageBitmap(focusModel.getIconMap().get("com.google.android.apps.maps"));
+
+
+        //int count = 0;
+        //while (count < 3 && count < profile.getApps().size()) {
+
+        //}
+        profile = focusModel.getProfile(name);
+        if (profile.getApps().size() > 0) {
+            String appName = profile.getApps().get(0).getPackageName();
+            appImage1.setImageBitmap(focusModel.getIconMap().get(appName));
+        }
+        if (profile.getApps().size() > 1) {
+            String appName = profile.getApps().get(1).getPackageName();
+            appImage2.setImageBitmap(focusModel.getIconMap().get(appName));
+        }
+        if (profile.getApps().size() > 2) {
+            String appName = profile.getApps().get(2).getPackageName();
+            appImage3.setImageBitmap(focusModel.getIconMap().get(appName));
+        }
         return profilesView;
     }
 }

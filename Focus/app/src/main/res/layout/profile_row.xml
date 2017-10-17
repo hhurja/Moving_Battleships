@@ -42,19 +42,19 @@
                 android:id="@+id/image1"
                 android:layout_width="68dp"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/snapchat" />
+                app:srcCompat="@drawable/plus" />
 
             <ImageView
                 android:id="@+id/image2"
                 android:layout_width="75dp"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/instagram" />
+                app:srcCompat="@drawable/plus" />
 
             <ImageView
                 android:id="@+id/image3"
                 android:layout_width="74dp"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/facebook" />
+                app:srcCompat="@drawable/plus" />
         </LinearLayout>
 
         <TextView
