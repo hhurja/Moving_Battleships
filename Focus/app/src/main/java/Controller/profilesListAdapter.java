@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.*;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -79,6 +80,23 @@ public class profilesListAdapter extends ArrayAdapter<String>{
             String appName = profile.getApps().get(2).getPackageName();
             appImage3.setImageBitmap(focusModel.getIconMap().get(appName));
         }
+
+
+        Switch scheduledSwitch = (Switch) profilesView.findViewById(R.id.switch1);
+        if (profile.isActivated()) {
+            scheduledSwitch.setChecked(true);
+        } else {
+            scheduledSwitch.setChecked(false);
+        }
+        scheduledSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    profile.activate();
+                } else {
+                    profile.deactivate();
+                }
+            }
+        });
         return profilesView;
     }
 }
