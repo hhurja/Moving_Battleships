@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import Model.Schedule;
+import Model.*;
 import movingbattleship.org.focus.R;
 
 /**
@@ -51,12 +51,15 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
         scheduleTimeTextView.setText("2:00 pm - 4:00 pm");
         // access your linear layout
         LinearLayout schedulesLinearLayout = (LinearLayout)schedulesView.findViewById(R.id.profilesLinearLayout);
-        String[] names = {"Dating Apps", "Hunter's List", "Social Media", "Dinosaurs"};
+        ArrayList<String> names = new ArrayList<>();
+        for (Profile p : s.getProfiles()) {
+            names.add(p.getProfileName());
+        }
 
         if (schedulesLinearLayout != null) {
-            for (int i = 0; i < names.length; i++) {
+            for (int i = 0; i < names.size(); i++) {
                 TextView textView = new TextView(schedulesView.getContext());
-                textView.setText(names[i]);
+                textView.setText(names.get(i));
                 schedulesLinearLayout.addView(textView);
             }
         }

@@ -47,12 +47,6 @@ public class schedulesListViewController extends Fragment {
         mContext = c;
         focusModel = FocusModel.getInstance();
 
-        //test
-        focusModel.createNewSchedule("Aaron");
-        focusModel.createNewSchedule("Ruth");
-        focusModel.createNewSchedule("Shabina");
-
-
         View view = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
         ArrayList<Schedule> schedules = focusModel.getSchedules();
         final ListView schedulesListView = (ListView) view.findViewById(R.id.schedulesListView);
@@ -359,13 +353,16 @@ public class schedulesListViewController extends Fragment {
                 Boolean wantToCloseDialog = true;
                 //Do stuff, possibly set wantToCloseDialog to true then...
 
-                if (tpEnd.getHour() - tpStart.getHour() > 10 || (tpEnd.getHour() - tpStart.getHour() > 9 && tpEnd.getMinute() > tpStart.getMinute())) {
+                int start = tpStart.getHour() * 60 + tpStart.getMinute();
+                int end = tpEnd.getHour() * 60 + tpEnd.getMinute();
+
+                if ( end - start > 600) {
                     wantToCloseDialog = false;
                 }
-                if (tpEnd.getHour() < tpStart.getHour()) {
+                if (end < start) {
                     wantToCloseDialog = false;
                 }
-                if (tpEnd.getHour() * 60 + tpEnd.getMinute() - tpStart.getHour() * 60 + tpStart.getMinute() < 10) {
+                if (end - start < 10) {
                     wantToCloseDialog = false;
                 }
 
