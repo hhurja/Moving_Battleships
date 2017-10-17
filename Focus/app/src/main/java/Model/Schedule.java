@@ -35,8 +35,7 @@ public class Schedule {
         timeRanges = new ArrayList<>();
     }
 
-    public Schedule(int id, String scheduleName, ArrayList<String> days, int startHour, int startMinute,
-    int endHour, int endMinute){
+    public Schedule(int id, String scheduleName, ArrayList<String> days){
         this.id = id;
         this.name = scheduleName;
         activated = true;
@@ -154,6 +153,11 @@ public class Schedule {
             if (tr.inRange()) return true;
         }
         return false;
+    }
+
+    public void addTimeRange(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute){
+        timeRanges.add(new TimeRange(days, startHour, startMinute, endHour, endMinute));
+
     }
 
 
