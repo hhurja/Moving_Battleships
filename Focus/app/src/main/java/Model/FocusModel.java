@@ -727,7 +727,7 @@ public class FocusModel extends Thread{
         return true;
     }
 
-    private static String getAppNameFromPackage(Context context, String packageName){
+    public static String getAppNameFromPackage(Context context, String packageName){
 
         //Get App Name
         PackageManager packageManager = context.getPackageManager();
