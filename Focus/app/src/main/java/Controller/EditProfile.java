@@ -201,6 +201,7 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //focusModel.re
+                onBackPressed();
             }
         });
 
