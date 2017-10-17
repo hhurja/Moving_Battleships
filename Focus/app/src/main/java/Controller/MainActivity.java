@@ -78,10 +78,9 @@ public class MainActivity extends AppCompatActivity {
         AppProcessChecker apc = new AppProcessChecker(c, pm, usm, m);
         FocusModel fm = FocusModel.getInstance(apc, hm);
 
-        String name = "Profile1";
+        String name = "ExampleProfile";
         fm.createNewProfile(name);
         fm.addAppToProfile(getApplicationContext(), "com.google.android.apps.maps", name);
-        fm.addAppToProfile(getApplicationContext(), "com.gogii.textplus", name);
         fm.activateProfile(name);
 
 //        ArrayList<String> blocked = new ArrayList<String>();

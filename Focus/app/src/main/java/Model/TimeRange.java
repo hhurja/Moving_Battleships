@@ -4,12 +4,10 @@ package Model;
  * Created by aaronrschrock on 10/6/17.
  */
 
-import java.lang.reflect.Array;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class TimeRange {
 
@@ -41,6 +39,7 @@ public class TimeRange {
         thursday = false;
         friday = false;
         saturday = false;
+        dayMap = new HashMap<>();
 
         dayMap.put(1, sunday);
         dayMap.put(2, monday);
@@ -64,7 +63,9 @@ public class TimeRange {
         thursday = false;
         friday = false;
         saturday = false;
+        dayMap = new HashMap<>();
 
+        addDays(days);
         dayMap.put(1, sunday);
         dayMap.put(2, monday);
         dayMap.put(3, tuesday);
@@ -72,7 +73,6 @@ public class TimeRange {
         dayMap.put(5, thursday);
         dayMap.put(6, friday);
         dayMap.put(7, saturday);
-        addDays(days);
     }
 
 //    public Time getStartTime() {
@@ -109,9 +109,9 @@ public class TimeRange {
 
     public Boolean inRange(){
         Calendar cal = Calendar.getInstance();
-        int currDay = cal.DAY_OF_WEEK;
-        int currHour = cal.HOUR_OF_DAY;
-        int currMinute = cal.MINUTE;
+        int currDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        int currHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int currMinute = Calendar.getInstance().get(Calendar.MINUTE);
 
         if(dayMap.get(currDay)){
             if(currHour == startHour){
