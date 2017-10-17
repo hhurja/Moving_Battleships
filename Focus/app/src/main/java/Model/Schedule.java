@@ -14,8 +14,8 @@ public class Schedule {
     private int id;
     private String name;
     //HashMap<Integer, ArrayList<TimeRange>> profileSchedule;
-//    ArrayList<TimeRange> timeRanges;
-    TimeRange timeRange;
+    ArrayList<TimeRange> timeRanges;
+//    TimeRange timeRange;
     ArrayList<Profile> profiles;
     Boolean activated;
     Boolean repeat;
@@ -32,7 +32,7 @@ public class Schedule {
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<Profile>();
         //timeRange = new TimeRange();
-//        timeRanges = new ArrayList<>();
+        timeRanges = new ArrayList<>();
     }
 
     public Schedule(int id, String scheduleName, ArrayList<String> days, int startHour, int startMinute,
@@ -44,7 +44,7 @@ public class Schedule {
 
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
-        timeRange = new TimeRange(new Time(startHour, startMinute, 0), new Time(endHour, endMinute, 0));
+//        timeRange = new TimeRange(new Time(startHour, startMinute, 0), new Time(endHour, endMinute, 0));
 
     }
 
@@ -131,8 +131,8 @@ public class Schedule {
         return returnSet;
     }
 
-    public TimeRange getTimeRange(){
-        return timeRange;
+    public ArrayList<TimeRange> getTimeRanges(){
+        return timeRanges;
     }
 
     public void blockProfiles(){
@@ -147,6 +147,13 @@ public class Schedule {
 
     public Boolean isActive(){
         return activated;
+    }
+
+    public boolean isInTimeRange(){
+        for(TimeRange tr: timeRanges){
+            if (tr.inRange()) return true;
+        }
+        return false;
     }
 
 
