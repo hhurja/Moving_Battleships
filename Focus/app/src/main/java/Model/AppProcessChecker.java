@@ -16,6 +16,7 @@ import android.provider.Settings;
 
 import java.security.Permission;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.Timer;
@@ -48,7 +49,6 @@ public class AppProcessChecker {
     public PackageManager packageManager;
     public UsageStatsManager statsManager;
     public MainActivity mainActivity;
-    public ArrayList<String> package_names = new ArrayList<String>();
 
     public AppProcessChecker(Context c, PackageManager pm, UsageStatsManager usm, MainActivity ma) {
         context = c;
@@ -67,34 +67,24 @@ public class AppProcessChecker {
         }
         AppIconGenerator ap = new AppIconGenerator(packageManager);
     }
-    class block extends TimerTask {
-        private ArrayList<String> package_names;
-        block(ArrayList<String> package_names) {
-            this.package_names = package_names;
-        }
-        public void run() {
-            List<UsageStats> apps = statsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,  System.currentTimeMillis() - 1000*1000, System.currentTimeMillis());
-            if (apps != null && apps.size() > 0) {
-                SortedMap<Long, UsageStats> map = new TreeMap<Long, UsageStats>();
-                for (UsageStats usageStats : apps) {
-                    map.put(usageStats.getLastTimeUsed(), usageStats);
-                }
-                if (map != null && !map.isEmpty()) {
-                    UsageStats currentApp;
-                    currentApp = map.get(map.lastKey());
-                    if (package_names.contains(currentApp.getPackageName())) {
-                        Intent i = new Intent(mainActivity, DialogActivity.class);
-                        mainActivity.startActivity(i);
-                    }
+
+    public void blockApplication(HashSet<String> package_names) {
+        List<UsageStats> apps = statsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,  System.currentTimeMillis() - 1000*1000, System.currentTimeMillis());
+        if (apps != null && apps.size() > 0) {
+            SortedMap<Long, UsageStats> map = new TreeMap<Long, UsageStats>();
+            for (UsageStats usageStats : apps) {
+                map.put(usageStats.getLastTimeUsed(), usageStats);
+            }
+            if (map != null && !map.isEmpty()) {
+                UsageStats currentApp;
+                currentApp = map.get(map.lastKey());
+                if (package_names.contains(currentApp.getPackageName())) {
+                    Intent i = new Intent(mainActivity, DialogActivity.class);
+                    mainActivity.startActivity(i);
                 }
             }
         }
-    }
 
-    public void blockApplication(ArrayList<String> package_names) {
-        this.package_names = package_names;
-        Timer timer = new Timer();
-        timer.schedule(new block(this.package_names), 0, 3000);
     }
 
 }

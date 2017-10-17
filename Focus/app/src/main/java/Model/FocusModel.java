@@ -84,7 +84,7 @@ public class FocusModel extends Thread{
     public void run(){
         while (true){
             instance.updateWithSchedules();
-
+            apc.blockApplication(instance.getBlockedApps());
             //sleeps this thread for 2 seconds on the loop
             try {
                 Thread.sleep(2000);
