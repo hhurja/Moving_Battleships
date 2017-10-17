@@ -729,19 +729,14 @@ public class FocusModel extends Thread{
         }
     }
 
-    private void updateWithSchedules(){
-        for(Schedule s: instance.schedules){
-            if(isInTimeRange(s.getTimeRange())){
+    private void updateWithSchedules() {
+        for (Schedule s : instance.schedules) {
+            if (s.isInTimeRange()) {
                 s.blockProfiles();
-            }else{
+            } else {
                 s.unblockProfiles();
             }
         }
-    }
-
-    private static boolean isInTimeRange(TimeRange tr){
-
-        return true;
     }
 
     public static String getAppNameFromPackage(Context context, String packageName){
