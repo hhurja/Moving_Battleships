@@ -115,13 +115,17 @@ public class TimeRange {
         int currHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int currMinute = Calendar.getInstance().get(Calendar.MINUTE);
 
-        if(dayMap.get(currDay)){
-            if(currHour == startHour){
-                if(currMinute >= startMinute){
-                    if(currHour < endHour || (currHour == endHour && currMinute <= endMinute)) return true;
+        if (dayMap.get(currDay)!= null) {
+            if (dayMap.get(currDay)) {
+                if (currHour == startHour) {
+                    if (currMinute >= startMinute) {
+                        if (currHour < endHour || (currHour == endHour && currMinute <= endMinute))
+                            return true;
+                    }
+                } else if (currHour > startHour) {
+                    if (currHour < endHour || (currHour == endHour && currMinute <= endMinute))
+                        return true;
                 }
-            }else if(currHour >startHour){
-                if(currHour < endHour || (currHour == endHour && currMinute <= endMinute)) return true;
             }
         }
         return false;
