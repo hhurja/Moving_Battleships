@@ -103,13 +103,4 @@ public class Profile {
         return returnSet;
     }
 
-    /**
-     * TODO
-     private ArrayList<App> getBlockedApps() {
-     return null;
-     }
-     **/
-
-
-
 }
