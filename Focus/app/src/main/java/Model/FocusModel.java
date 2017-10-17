@@ -16,6 +16,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static android.R.attr.type;
+import static junit.runner.Version.id;
 import static movingbattleship.org.focus.R.id.profileName;
 
 /**
@@ -320,6 +322,7 @@ public class FocusModel extends Thread{
         }
         if(appID == -1){
             currApp = new App(numAppsCreated, appName, packageName);
+            apps.add(currApp);
             numAppsCreated++;
         }
 
@@ -624,8 +627,10 @@ public class FocusModel extends Thread{
 
     public HashSet<String> getBlockedApps(){
         HashSet<String> blockedSet = new HashSet<>();
-        for(App a: apps){
-            if(a.isBlocked()) blockedSet.add(a.getPackageName());
+        for(App a: apps) {
+            if (a.isBlocked()) {
+                blockedSet.add(a.getPackageName());
+            }
         }
         return blockedSet;
     }
