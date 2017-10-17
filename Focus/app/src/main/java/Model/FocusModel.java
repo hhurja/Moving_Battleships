@@ -3,6 +3,8 @@ package Model;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -87,7 +89,7 @@ public class FocusModel extends Thread{
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
+                //Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -293,7 +295,10 @@ public class FocusModel extends Thread{
         }
     }
 
-    public void addAppToProfile(String appName, String profileName) {
+    //TODO
+    //Input Context with getApplicationContext()
+    //So function call is addAppToProfile(getApplicationContext, appName, profileName);
+    public void addAppToProfile(Context context, String appName, String profileName) {
 
         int appID = getIdFromName("App", appName);
         int profileID = getIdFromName("Profile", profileName);
@@ -314,7 +319,7 @@ public class FocusModel extends Thread{
             }
         }
         if(appID == -1){
-            currApp = new App(numAppsCreated, appName, getAppNameFromPackage(appName));
+            currApp = new App(numAppsCreated, appName, getAppNameFromPackage(context, appName));
             numAppsCreated++;
         }
 
@@ -343,8 +348,10 @@ public class FocusModel extends Thread{
         //System.out.println("BACKEND: num apps in profile: "+currProf.getApps().size());
     }
 
-    public void removeAppFromProfile(String packageName, String profileName){
-        int appID = getIdFromName("App", getAppNameFromPackage(packageName));
+    //Input Context with getApplicationContext()
+    //So function call is removeAppFromProfile(getApplicationContext, packageName, profileName);
+    public void removeAppFromProfile(Context context, String packageName, String profileName){
+        int appID = getIdFromName("App", getAppNameFromPackage(context, packageName));
         int profileID = getIdFromName("Profile", profileName);
 
         //if app is in profile, remove from that profile
@@ -562,8 +569,9 @@ public class FocusModel extends Thread{
      *
      * App Functions
      */
-
-    public void createNewApp(String packageName) {
+    //Input Context with getApplicationContext()
+    //So function call is createNewApp(getApplicationContext, packageName);
+    public void createNewApp(Context context, String packageName) {
     /*	Create new schedule
     	 * if it already exists, output error message to console
     	 * otherwise, create the app with the input name and the next available id
@@ -571,7 +579,7 @@ public class FocusModel extends Thread{
     	 * increment numappscreated
 	 */
 
-        String appName = getAppNameFromPackage(packageName);
+        String appName = getAppNameFromPackage(context, packageName);
         if (alreadyExists("App", appName)) {
             System.out.println("Attempted to create a App that already exists. "
                     + "Do something about this -- " + appName);
@@ -718,14 +726,17 @@ public class FocusModel extends Thread{
 
         return true;
     }
-    private static String getAppNameFromPackage(String packageName){
-        return "TEST_APP_NAME";
-//        //Get App Name
-//        PackageManager packageManager = getPackageManager();
-//        ApplicationInfo applicationInfo = null;
-//        try {
-//            applicationInfo = packageManager.getApplicationInfo(packageName, 0);
-//        } catch (final NameNotFoundException e) {}
-//        final String appName = (String)((applicationInfo != null) ? packageManager.getApplicationLabel(applicationInfo) : "???");
+
+    private static String getAppNameFromPackage(Context context, String packageName){
+
+        //Get App Name
+        PackageManager packageManager = context.getPackageManager();
+        ApplicationInfo applicationInfo = null;
+        try {
+            applicationInfo = packageManager.getApplicationInfo(packageName, 0);
+        } catch (final NameNotFoundException e) {}
+        final String appName = (String)((applicationInfo != null) ? packageManager.getApplicationLabel(applicationInfo) : "???");
+
+        return appName;
     }
 }
