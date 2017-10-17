@@ -64,13 +64,10 @@ public class schedulesListViewController extends Fragment {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String name = String.valueOf(parent.getItemAtPosition(position));
-                        System.out.println(name); // just check to see if this tap is working / list view works
-                        // TODO: open up actual profile
-                        Schedule s = new Schedule(0,name); //TODO: just pass in name!?
-                        EditSchedule es = new EditSchedule();
-                        es.setSchedule(s);
-                        Intent intent = new Intent(schedulesListViewController.mContext, es.getClass());
+                        Schedule temp = (Schedule)parent.getItemAtPosition(position);
+                        String name = temp.getScheduleName();
+                        Intent intent = new Intent(schedulesListViewController.mContext, EditSchedule.class);
+                        intent.putExtra("scheduleName", name);
                         schedulesListViewController.mContext.startActivity(intent);
                     }
                 }
@@ -82,6 +79,43 @@ public class schedulesListViewController extends Fragment {
                     @Override
                     public void onClick(View v) {
                         getName(v);
+                    }
+                });
+
+        FloatingActionButton fbRemove = (FloatingActionButton) view.findViewById(R.id.deleteScheduleButton);
+        fbRemove.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        builder.setTitle("Enter schedule name to remove");
+
+                        myView = v;
+                        // Set up the input
+                        final EditText input = new EditText(v.getContext());
+                        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                        input.setInputType(InputType.TYPE_CLASS_TEXT);
+                        builder.setView(input);
+
+                        // Set up the buttons
+                        builder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Schedule s = focusModel.getSchedule(input.getText().toString());
+                                if ( s != null ) {
+                                    focusModel.removeSchedule(s.getScheduleID());
+                                }
+
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        builder.show();
                     }
                 });
         return view;
@@ -335,7 +369,8 @@ public class schedulesListViewController extends Fragment {
 
                 if (wantToCloseDialog) {
                     //TODO: CREATE SCHEDULE
-                    //focusModel.createNewSchedule(name, days, tpStart.getHour(), tpStart.getMinute(), tpEnd.getHour(), tpEnd.getMinute());
+                    focusModel.createNewSchedule(name);
+                    focusModel.getSchedule(name).addTimeRange(days,tpStart.getHour(), tpStart.getMinute(), tpEnd.getHour(), tpEnd.getMinute());
 
                     System.out.println("Done!");
                     dialog.dismiss();

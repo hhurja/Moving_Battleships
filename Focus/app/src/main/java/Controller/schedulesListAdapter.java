@@ -1,6 +1,7 @@
 package Controller;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -40,9 +41,12 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
         // parse name from profile name
         Schedule s = getItem(position);
         TextView scheduleNameTextView = (TextView) schedulesView.findViewById(R.id.name);
+        TextView scheduleActiveTextView = (TextView) schedulesView.findViewById(R.id.active);
         TextView scheduleDayTextView = (TextView) schedulesView.findViewById(R.id.day);
         TextView scheduleTimeTextView = (TextView) schedulesView.findViewById(R.id.time);
         scheduleNameTextView.setText(s.getScheduleName());
+        scheduleActiveTextView.setText(s.isActive() ? "Active" : "Off");
+        scheduleActiveTextView.setTextColor(s.isActive() ? Color.GREEN : Color.RED);
         scheduleDayTextView.setText("Monday");
         scheduleTimeTextView.setText("2:00 pm - 4:00 pm");
         // access your linear layout

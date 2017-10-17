@@ -19,12 +19,22 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addScheduleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|end"
+        android:clickable="true"
+        android:visibility="visible"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/plus" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/deleteScheduleButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right|end"
         android:clickable="true"
         app:fabSize="normal"
-        app:srcCompat="@drawable/plus" />
+        app:srcCompat="@android:drawable/ic_menu_delete" />
 
 </LinearLayout>
 
