@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import Model.*;
 
 import movingbattleship.org.focus.R;
 import movingbattleship.org.focus.*;
@@ -24,11 +25,13 @@ import movingbattleship.org.focus.*;
 public class profilesListAdapter extends ArrayAdapter<String>{
     //this will store the hashmap of the application packagename with corresponding icon
     public HashMap<String, Bitmap> icons;
+    private FocusModel focusModel;
 
     public profilesListAdapter(@NonNull Context context, String[] profileNames, HashMap<String, Bitmap> hm) {
         super(context, R.layout.profile_row, profileNames);
         icons = hm;
         System.out.println("in constructor");
+        focusModel = FocusModel.getInstance();
     }
     /*public profilesListAdapter(@NonNull Context context, String[] profileNames) {
         super(context, R.layout.profile_row ,profileNames);
@@ -56,7 +59,7 @@ public class profilesListAdapter extends ArrayAdapter<String>{
         appImage3.setImageResource(R.drawable.snapchat);
 
         //using the application icon from the hashmap for exampe
-        appImage1.setImageBitmap(icons.get("com.google.android.apps.maps"));
+        appImage1.setImageBitmap(focusModel.getIconMap().get("com.google.android.apps.maps"));
         return profilesView;
     }
 }

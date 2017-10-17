@@ -34,9 +34,17 @@ public class EditProfile extends AppCompatActivity {
     private Button fab_schedule;
     private Button fab_plus;
     private Button fab_done;
+    List<ApplicationInfo> packages = new ArrayList<>();
     /**
      * The {@link ViewPager} that will host the section contents.
      */
+
+    @Override
+    public void onBackPressed(){
+        // new ProfilesList
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -45,6 +53,19 @@ public class EditProfile extends AppCompatActivity {
         focusModel = FocusModel.getInstance();
         profile = focusModel.getCurrentProfile();
         setContentView(R.layout.activity_edit_profile_view);
+
+        HashMap<String, String> nameToPackage = new HashMap <String, String> ();
+        final PackageManager pm = getPackageManager();
+        packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        //String[] names = new String[packages.size()];
+        int count = 0;
+        for (ApplicationInfo packageInfo : packages) {
+            //if (!FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName).substring(0,))
+            //names[count] = FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName);
+            nameToPackage.put(FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName), packageInfo.packageName);
+            //count ++;
+        }
 
         mListView = (ListView) findViewById(R.id.AppListView);
 
@@ -61,7 +82,7 @@ public class EditProfile extends AppCompatActivity {
         } */
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         //        android.R.layout.simple_list_item_1, names);
-        ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), profileNames);
+        ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), profileNames, nameToPackage);
         mListView.setAdapter(adapter);
 
         fab_schedule = (Button) findViewById(R.id.fab_submit);
@@ -93,6 +114,8 @@ public class EditProfile extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);

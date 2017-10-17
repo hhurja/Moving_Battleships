@@ -35,6 +35,7 @@ public class AppChooser extends AppCompatActivity {
     private ListView mListView;
     private Button fab_done;
     List<ApplicationInfo> packages = new ArrayList<>();
+    HashMap<String, String> nameToPackage = new HashMap <String, String> ();
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -64,13 +65,15 @@ public class AppChooser extends AppCompatActivity {
         String[] names = new String[packages.size()];
         int count = 0;
         for (ApplicationInfo packageInfo : packages) {
-            names[count] = packageInfo.packageName;
+            //if (!FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName).substring(0,))
+            names[count] = FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName);
+            nameToPackage.put(names[count], packageInfo.packageName);
             count ++;
         }
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         //        android.R.layout.simple_list_item_1, names);
 
-        ListAdapter adapter = new InstalledApplicationsListAdapter(mListView.getContext(), names, packages);
+        ListAdapter adapter = new InstalledApplicationsListAdapter(mListView.getContext(), names, nameToPackage);
         mListView.setAdapter(adapter);
 
         Button button = (Button) findViewById(R.id.add_applications);

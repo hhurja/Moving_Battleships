@@ -36,9 +36,11 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
     //this will store the hashmap of the application packagename with corresponding icon
     public HashMap<String, Bitmap> icons;
     private HashMap <CheckBox, String> buttonToName = new HashMap <CheckBox, String>();
+    private HashMap<String, String> nameToPackage;
 
-    public InstalledApplicationsListAdapter(@NonNull Context context, String[] profileNames, List<ApplicationInfo> packages) {
+    public InstalledApplicationsListAdapter(@NonNull Context context, String[] profileNames, HashMap <String, String> nameToPackage) {
         super(context, R.layout.application_chooser_row, profileNames);
+        this.nameToPackage = nameToPackage;
         this.focusModel = FocusModel.getInstance();
         this.profile = focusModel.getCurrentProfile();
     }
@@ -70,15 +72,16 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // TODO Auto-generated method stub
-
+                String str = nameToPackage.get(buttonToName.get((CheckBox) buttonView));
                 if (isChecked) {
                     //add application to profile
-                    String str = buttonToName.get((CheckBox) buttonView);
+
                     System.out.println("name is " + str);
                     focusModel.addAppToProfile(applicationsView.getContext(), str, profile.getProfileName());
                     System.out.println("new size of profile apps is " + profile.getApps().size());
                 } else {
                     // remove from profile
+                    focusModel.removeAppFromProfile(applicationsView.getContext(), str, profile.getProfileName());
                 }
             }
 
@@ -88,7 +91,7 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
         //appImage1.setImageResource(R.drawable.facebook);
 
         //using the application icon from the hashmap for exampe
-        //appImage1.setImageBitmap(icons.get("com.google.android.apps.maps"));
+        appImage1.setImageBitmap((focusModel.getIconMap()).get(nameToPackage.get(name)));
         return applicationsView;
     }
 }
