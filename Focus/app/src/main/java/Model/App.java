@@ -61,7 +61,7 @@ public class App {
 
     public void blockApp(Integer profileID) {
         blocked = true;
-        blockedProfileIDs.add(profileID);
+        if(!blockedProfileIDs.contains(profileID)) blockedProfileIDs.add(profileID);
     }
 
     public int getAppID(){
