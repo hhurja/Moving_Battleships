@@ -19,6 +19,7 @@ public class Schedule {
     ArrayList<Profile> profiles;
     Boolean activated;
     Boolean repeat;
+    Boolean blocked;
 
 
     public Schedule(int id, String name){
@@ -26,6 +27,7 @@ public class Schedule {
         this.name = name;
         activated = true;
         repeat = false;
+        blocked = false;
 
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<Profile>();
@@ -135,7 +137,19 @@ public class Schedule {
 
     public void blockProfiles(){
         for(Profile p: profiles) p.blockProfile();
+        blocked = true;
     }
+
+    public void unblockProfiles(){
+        for(Profile p: profiles) p.unblockProfile();
+        blocked = false;
+    }
+
+    public Boolean isActive(){
+        return activated;
+    }
+
+
 
 //    public void addTimeRangeToProfile(Profile p, TimeRange tr){
 ////    	System.out.println(p+ " "+ profileSchedule.get(p.getProfileID()));

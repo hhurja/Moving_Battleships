@@ -733,6 +733,8 @@ public class FocusModel extends Thread{
         for(Schedule s: instance.schedules){
             if(isInTimeRange(s.getTimeRange())){
                 s.blockProfiles();
+            }else{
+                s.unblockProfiles();
             }
         }
     }
