@@ -209,7 +209,10 @@ public class FocusModel extends Thread{
         }
     }
 
-    public void removeProfile(int profileID) {
+
+
+    public void removeProfile(String profileName) {
+        int profileID = getIdFromName("Profile", profileName);
         /*	Remove profile from FocusModel
          	* first checks for existence of the profile
          	* remove the profile from profiles array in FocusModel
