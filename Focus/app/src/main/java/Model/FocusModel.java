@@ -481,8 +481,9 @@ public class FocusModel extends Thread{
         }
     }
 
-    public void addProfileToSchedule(int profileID, int scheduleID) {
-
+    public void addProfileToSchedule(String profileName, String scheduleName) {
+        int profileID = getIdFromName("Profile", profileName);
+        int scheduleID = getIdFromName("Schedule", scheduleName);
         Profile currProf = null;
         Schedule currSched = null;
 

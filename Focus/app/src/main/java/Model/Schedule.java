@@ -157,7 +157,6 @@ public class Schedule {
 
     public void addTimeRange(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute){
         timeRanges.add(new TimeRange(days, startHour, startMinute, endHour, endMinute));
-
     }
 
 
