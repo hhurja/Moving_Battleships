@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -40,6 +41,7 @@ public class FocusModel extends Thread{
 
     private AppProcessChecker apc;
     private Profile currProf;
+    private HashMap<String, Bitmap> iconMap;
 
     //Instance for Singleton Class
     private static FocusModel instance= null;
@@ -55,9 +57,11 @@ public class FocusModel extends Thread{
         numAppsCreated = 0;
         currProf = null;
         apc = null;
+        iconMap = null;
         schedules = new ArrayList<>();
         profiles = new ArrayList<>();
         apps = new ArrayList<>();
+
 
         profiles_to_schedules = new HashMap<>();
         apps_to_profiles = new HashMap<>();
@@ -65,7 +69,7 @@ public class FocusModel extends Thread{
         this.start();
     }
 
-    protected FocusModel(AppProcessChecker apc) {
+    protected FocusModel(AppProcessChecker apc, HashMap<String, Bitmap> iconMap) {
         //Exists only to defeate instantiation
         numProfilesCreated = 0;
         numSchedulesCreated = 0;
@@ -76,6 +80,8 @@ public class FocusModel extends Thread{
         apps = new ArrayList<>();
 
         this.apc = apc;
+        this.iconMap = iconMap;
+
         profiles_to_schedules = new HashMap<>();
         apps_to_profiles = new HashMap<>();
 
@@ -104,9 +110,9 @@ public class FocusModel extends Thread{
         return instance;
     }
 
-    public static FocusModel getInstance(AppProcessChecker apc) {
+    public static FocusModel getInstance(AppProcessChecker apc, HashMap<String, Bitmap> iconMap) {
         if (instance == null) {
-            instance = new FocusModel(apc);
+            instance = new FocusModel(apc, iconMap);
         }
         return instance;
     }
@@ -121,6 +127,14 @@ public class FocusModel extends Thread{
 
     public ArrayList <Schedule> getSchedules() {
         return schedules;
+    }
+
+    public HashMap<String, Bitmap> getIconMap(){
+        return iconMap;
+    }
+
+    public void setIconMap(HashMap<String, Bitmap> i){
+        iconMap = i;
     }
 
     public Profile getProfile(String profileName) {
@@ -717,17 +731,13 @@ public class FocusModel extends Thread{
 
     private void updateWithSchedules(){
         for(Schedule s: instance.schedules){
-            for(TimeRange tr: s.getTimeRanges()){
-                for(Profile p: s.getProfiles()){
-                    if(isInTimeRange(tr, p)){
-                        p.blockProfile();
-                    }
-                }
+            if(isInTimeRange(s.getTimeRange())){
+                s.blockProfiles();
             }
         }
     }
 
-    private static boolean isInTimeRange(TimeRange tr, Profile p){
+    private static boolean isInTimeRange(TimeRange tr){
 
         return true;
     }
