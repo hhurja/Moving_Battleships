@@ -82,7 +82,7 @@ public class profilesListAdapter extends ArrayAdapter<String>{
         }
 
 
-        Switch scheduledSwitch = (Switch) profilesView.findViewById(R.id.switch1);
+        /*Switch scheduledSwitch = (Switch) profilesView.findViewById(R.id.switch1);
         if (profile.isActivated()) {
             scheduledSwitch.setChecked(true);
         } else {
@@ -96,7 +96,7 @@ public class profilesListAdapter extends ArrayAdapter<String>{
                     profile.deactivate();
                 }
             }
-        });
+        }); */
         return profilesView;
     }
 }

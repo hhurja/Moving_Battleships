@@ -90,8 +90,9 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println("fab submit clicked");
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                profile.activate();
+                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                //startActivity(intent);
             }
         });
 
@@ -110,8 +111,7 @@ public class EditProfile extends AppCompatActivity {
         fab_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("fab done clicked");
-                onBackPressed();
+                profile.deactivate();
             }
         });
 
