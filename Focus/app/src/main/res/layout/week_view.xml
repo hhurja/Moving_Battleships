@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         app:eventTextColor="@android:color/white"
         app:textSize="12sp"
-        app:hourHeight="60dp"
+        app:hourHeight="20dp"
         app:headerColumnPadding="8dp"
         app:headerRowPadding="12dp"
         app:columnGap="8dp"
@@ -19,7 +19,8 @@
         app:todayBackgroundColor="#1848adff"
         app:headerColumnBackground="#ffffffff"
         app:disableScrollHorizontal="true"
-        app:showNowLine="true"/>
+        app:showNowLine="true"
+        app:enableZoom="true"/>
 
 
 </RelativeLayout>
