@@ -1,6 +1,6 @@
 package Controller;
 
-import android.app.Service;
+import android.app.AlertDialog;
 import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,48 +8,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.os.IBinder;
+import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.view.WindowManager.LayoutParams;
-
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
-import android.app.AlertDialog;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import Model.AppIconGenerator;
 import Model.AppProcessChecker;
 import Model.FocusModel;
 import movingbattleship.org.focus.R;
-import movingbattleship.org.focus.*;
 
 import static android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS;
-import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -96,10 +78,9 @@ public class MainActivity extends AppCompatActivity {
         AppProcessChecker apc = new AppProcessChecker(c, pm, usm, m);
         FocusModel fm = FocusModel.getInstance(apc, hm);
 
-        String name = "Profile1";
+        String name = "ExampleProfile";
         fm.createNewProfile(name);
         fm.addAppToProfile(getApplicationContext(), "com.google.android.apps.maps", name);
-        fm.addAppToProfile(getApplicationContext(), "com.gogii.textplus", name);
         fm.activateProfile(name);
 
 //        ArrayList<String> blocked = new ArrayList<String>();
@@ -120,12 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        String n = "Profile1";
-        fm.createNewProfile(n);
-        fm.addAppToProfile(getApplicationContext(), "com.google.android.apps.maps", n);
-        fm.addAppToProfile(getApplicationContext(), "com.gogii.textplus", n);
-        fm.activateProfile(n);
     }
 
     @Override

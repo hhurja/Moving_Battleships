@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -41,13 +42,6 @@ public class EditProfile extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-
-    @Override
-    public void onBackPressed(){
-        // new ProfilesList
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-    }
 
     public void onClick(View v) {
         // CITED: https://stackoverflow.com/questions/10903754/input-text-dialog-android
@@ -171,6 +165,8 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println("fab submit clicked");
+                fab_schedule.setBackgroundColor(Color.GREEN);
+                fab_done.setBackgroundColor(Color.GRAY);
                 profile.activate();
                 //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 //startActivity(intent);
@@ -192,6 +188,8 @@ public class EditProfile extends AppCompatActivity {
         fab_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fab_done.setBackgroundColor(Color.RED);
+                fab_schedule.setBackgroundColor(Color.GRAY);
                 profile.deactivate();
             }
         });
