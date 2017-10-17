@@ -8,6 +8,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class TimeRange {
 
@@ -123,6 +125,51 @@ public class TimeRange {
             }
         }
         return false;
+    }
+
+    public int getStartHour() {
+        return startHour;
+    }
+
+    public void setStartHour(int startHour) {
+        this.startHour = startHour;
+    }
+
+    public int getStartMinute() {
+        return startMinute;
+    }
+
+    public void setStartMinute(int startMinute) {
+        this.startMinute = startMinute;
+    }
+
+    public int getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(int endHour) {
+        this.endHour = endHour;
+    }
+
+    public int getEndMinute() {
+        return endMinute;
+    }
+
+    public void setEndMinute(int endMinute) {
+        this.endMinute = endMinute;
+    }
+
+    public ArrayList<Integer> getDays() {
+        ArrayList<Integer> days = new ArrayList<>();
+        Iterator it = dayMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            if((boolean)pair.getValue()) {
+                days.add(new Integer((int)pair.getKey()));
+            }
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+        return days;
     }
 
 //    public void printRanges(){

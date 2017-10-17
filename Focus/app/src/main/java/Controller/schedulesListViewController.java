@@ -115,6 +115,19 @@ public class schedulesListViewController extends Fragment {
                         builder.show();
                     }
                 });
+
+        FloatingActionButton fbCalendar = (FloatingActionButton) view.findViewById(R.id.calendarActionButton);
+        fbCalendar.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(schedulesListViewController.mContext, WeekView.class);
+                        //intent.putExtra("scheduleName", name);
+                        schedulesListViewController.mContext.startActivity(intent);
+                    }
+                });
+
+
         return view;
     }
 
