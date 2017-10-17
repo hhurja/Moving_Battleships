@@ -198,8 +198,10 @@ public class EditProfile extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //focusModel.re
-                onBackPressed();
+                focusModel.removeProfile(profile.getProfileName());
+                focusModel.setCurrentProfile(null);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
 
