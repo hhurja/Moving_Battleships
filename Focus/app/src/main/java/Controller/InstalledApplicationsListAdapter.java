@@ -75,7 +75,7 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
                     //add application to profile
                     String str = buttonToName.get((CheckBox) buttonView);
                     System.out.println("name is " + str);
-                    focusModel.addAppToProfile(str, profile.getProfileName());
+                    focusModel.addAppToProfile(applicationsView.getContext(), str, profile.getProfileName());
                     System.out.println("new size of profile apps is " + profile.getApps().size());
                 } else {
                     // remove from profile
