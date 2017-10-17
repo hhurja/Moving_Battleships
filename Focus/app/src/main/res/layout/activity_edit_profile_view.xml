@@ -48,11 +48,19 @@
             android:text="Delete this Profile" />
 
         <Button
+            android:id="@+id/fab_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="submit"
+            android:src="@drawable/schedule"
+            android:text="Toggle On" />
+
+        <Button
             android:id="@+id/fab_done"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".1"
-            android:text="Unschedule" />
+            android:text="Toggle Off" />
 
         <Button
             android:id="@+id/fab_plus"
@@ -63,13 +71,7 @@
             android:src="@drawable/plus"
             android:text="Add Application" />
 
-        <Button
-            android:id="@+id/fab_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="submit"
-            android:src="@drawable/schedule"
-            android:text="Schedule" />
+
 
     </LinearLayout>
 
