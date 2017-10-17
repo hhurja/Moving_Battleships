@@ -375,6 +375,7 @@ public class FocusModel extends Thread{
         for(App a: currProf.getApps()){
             if(a.getAppID() == appID){
                 currProf.removeApp(appID);
+                break;
             }
         }
 
