@@ -40,6 +40,7 @@ public class schedulesListViewController extends Fragment {
 
     private static Context mContext;
     private static View myView;
+    private ListView schedulesListView;
     FocusModel focusModel = null;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context, Context c) {
@@ -49,7 +50,7 @@ public class schedulesListViewController extends Fragment {
 
         View view = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
         ArrayList<Schedule> schedules = focusModel.getSchedules();
-        final ListView schedulesListView = (ListView) view.findViewById(R.id.schedulesListView);
+        schedulesListView = (ListView) view.findViewById(R.id.schedulesListView);
         System.out.println("Schedules List view iz..." + (ListView) view.findViewById(R.id.schedulesListView));
         ListAdapter schedulesAdapter = new schedulesListAdapter (context, schedules);
 
@@ -114,6 +115,19 @@ public class schedulesListViewController extends Fragment {
                         builder.show();
                     }
                 });
+
+        FloatingActionButton fbCalendar = (FloatingActionButton) view.findViewById(R.id.calendarActionButton);
+        fbCalendar.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(schedulesListViewController.mContext, WeekView.class);
+                        //intent.putExtra("scheduleName", name);
+                        schedulesListViewController.mContext.startActivity(intent);
+                    }
+                });
+
+
         return view;
     }
 
@@ -378,6 +392,7 @@ public class schedulesListViewController extends Fragment {
 
                     if( focusModel.getSchedule(name) != null) {
                         focusModel.getSchedule(name).addTimeRange(days, tpStart.getHour(), tpStart.getMinute(), tpEnd.getHour(), tpEnd.getMinute());
+                        ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
                     }
 
                     System.out.println("Done!");

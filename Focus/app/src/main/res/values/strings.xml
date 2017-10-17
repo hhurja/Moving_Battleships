@@ -5,4 +5,7 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_edit_profile_view">EditProfileView</string>
     <string name="title_activity_edit_schedules">activity_edit_schedules</string>
+    <string name="action_day_view">Day View</string>
+    <string name="action_three_day_view">3 Day View</string>
+    <string name="action_week_view">Week View</string>
 </resources>
