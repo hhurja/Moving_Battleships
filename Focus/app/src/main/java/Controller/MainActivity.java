@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         // If the user did not turn the notification listener service on we prompt him to do so
         if(!isNotificationServiceEnabled()){
+            System.out.println("showing notification service dialogue");
             enableNotificationListenerAlertDialog = buildNotificationServiceAlertDialog();
             enableNotificationListenerAlertDialog.show();
         }
@@ -122,15 +123,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
-        // get profile information from backend
-        // this assumes that id is the same id associated
-        // with Profile class instance on backend
-        //Profile profile = getProfileFromId(id);
-        // display on EditProfileView
-        //if (profile != null) {
-        //$this->updateProfileShown(profile);
-        //}
 
         return super.onOptionsItemSelected(item);
     }
