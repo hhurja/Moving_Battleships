@@ -298,8 +298,8 @@ public class FocusModel extends Thread{
     //TODO
     //Input Context with getApplicationContext()
     //So function call is addAppToProfile(getApplicationContext, appName, profileName);
-    public void addAppToProfile(Context context, String appName, String profileName) {
-
+    public void addAppToProfile(Context context, String packageName, String profileName) {
+        String appName = getAppNameFromPackage(context, packageName);
         int appID = getIdFromName("App", appName);
         int profileID = getIdFromName("Profile", profileName);
         App currApp = null;
@@ -319,7 +319,7 @@ public class FocusModel extends Thread{
             }
         }
         if(appID == -1){
-            currApp = new App(numAppsCreated, appName, getAppNameFromPackage(context, appName));
+            currApp = new App(numAppsCreated, appName, packageName);
             numAppsCreated++;
         }
 
