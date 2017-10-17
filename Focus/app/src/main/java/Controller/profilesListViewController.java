@@ -1,38 +1,32 @@
 package Controller;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ListAdapter;
-import android.support.v4.app.*;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.content.Intent;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.TimePicker;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import Model.FocusModel;
-import movingbattleship.org.focus.R;
-
 import Model.Profile;
+import movingbattleship.org.focus.R;
 
 public class profilesListViewController extends Fragment {
     //this hashmap stores the application and their corresponding icons
@@ -128,23 +122,6 @@ public class profilesListViewController extends Fragment {
                         titleBox.setHint("Title");
                         titleBox.setInputType(InputType.TYPE_CLASS_TEXT);
                         layout.addView(titleBox);
-
-                        /*TimePicker tpStart = new TimePicker(v.getContext());
-                        tpStart.setLayoutMode(1);
-                        tpStart.setScaleY((float).5);
-                        tpStart.setScaleX((float).5); */
-
-                        //TextView to = new TextView(v.getContext());
-                        //to.setText("TO");
-
-                        /*TimePicker tpEnd = new TimePicker(v.getContext());
-                        tpEnd.setLayoutMode(2);
-                        tpEnd.setScaleY((float).5);
-                        tpEnd.setScaleX((float).5); */
-
-                        //layout.addView(tpStart);
-                        //layout.addView(to);
-                        //layout.addView(tpEnd);
                         sv.addView(layout);
                         builder.setView(sv);
 

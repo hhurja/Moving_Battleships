@@ -1,27 +1,29 @@
 package Controller;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.widget.Button;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.ListAdapter;
-import Model.Profile;
-import android.content.pm.*;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import Model.App;
+import Model.FocusModel;
+import Model.Profile;
 import movingbattleship.org.focus.R;
-import java.util.*;
-import Model.*;
 
 /**
  * Created by Ruth on 10/14/17.
@@ -35,6 +37,7 @@ public class EditProfile extends AppCompatActivity {
     private Button fab_plus;
     private Button fab_done;
     List<ApplicationInfo> packages = new ArrayList<>();
+    private HashMap<String, String> nameToPackage = new HashMap <String, String> ();
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -46,6 +49,40 @@ public class EditProfile extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClick(View v) {
+        // CITED: https://stackoverflow.com/questions/10903754/input-text-dialog-android
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Edit Profile name");
+
+
+        // Set up the input
+        final EditText input = new EditText(v.getContext());
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Change", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Add profile with that name to schedule
+                //focusModel.getSchedule(scheduleName).setScheduleName(input.getText().toString());
+                //scheduleName = input.getText().toString();
+                //TextView scheduleNameTextView = (TextView) findViewById(R.id.name);
+                //scheduleNameTextView.setText(scheduleName);
+                profile.setProfileName(input.getText().toString());
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +91,7 @@ public class EditProfile extends AppCompatActivity {
         profile = focusModel.getCurrentProfile();
         setContentView(R.layout.activity_edit_profile_view);
 
-        HashMap<String, String> nameToPackage = new HashMap <String, String> ();
+
         final PackageManager pm = getPackageManager();
         packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
@@ -68,6 +105,50 @@ public class EditProfile extends AppCompatActivity {
         }
 
         mListView = (ListView) findViewById(R.id.AppListView);
+
+        mListView.setOnItemClickListener(
+
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        final View v = view;
+                        final String name = String.valueOf(parent.getItemAtPosition(position));
+                        // CITED: https://stackoverflow.com/questions/10903754/input-text-dialog-android
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setTitle("Remove Application from Profile?");
+
+                        // Set up the buttons
+                        builder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // remove application from profile
+                                System.out.println(getBaseContext() + " : " + nameToPackage.get(name) + " : " + name);
+                                focusModel.removeAppFromProfile(getBaseContext(), nameToPackage.get(name), name);
+
+                                //focusModel.getSchedule(scheduleName).removeProfile(focusModel.getSchedule(scheduleName).getScheduleID());
+                                //ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, names);
+                                //ListView lv = (ListView)findViewById(R.id.profilesListView);
+                                mListView = (ListView) findViewById(R.id.AppListView);
+                                ArrayList<App> apps = profile.getApps();
+                                String[] profileNames = new String[apps.size()];
+                                for (int i = 0; i < apps.size(); i++) {
+                                    profileNames[i] = apps.get(i).getAppName();
+                                }
+                                ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), profileNames, nameToPackage);
+                                mListView.setAdapter(adapter);
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        builder.show();
+                    }
+                }
+        );
 
         //List<App> applications = profile.getApps();
         ArrayList<App> apps = profile.getApps();
@@ -112,6 +193,14 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 profile.deactivate();
+            }
+        });
+
+        Button deleteButton = (Button) findViewById(R.id.deleteProfile);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //focusModel.remo
             }
         });
 

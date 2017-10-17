@@ -1,29 +1,21 @@
 package Controller;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.widget.*;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.*;
 import android.view.View;
-import android.widget.CheckBox;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
-import java.util.List;
 
+import Model.FocusModel;
+import Model.Profile;
 import movingbattleship.org.focus.R;
-import movingbattleship.org.focus.*;
-import Model.*;
 
 /**
  * Created by adammoffitt on 10/9/17.
@@ -36,7 +28,7 @@ public class EditProfileListAdapter extends ArrayAdapter<String>{
     private View applicationsView;
     //this will store the hashmap of the application packagename with corresponding icon
     public HashMap<String, Bitmap> icons;
-    private HashMap<Button, String> buttonToName = new HashMap <Button, String> ();
+    //private HashMap<Button, String> buttonToName = new HashMap <Button, String> ();
     private HashMap<String, String> nameToPackage;
 
     public EditProfileListAdapter(@NonNull Context context, String[] profileNames, HashMap<String, String> nameToPackage) {
@@ -67,23 +59,23 @@ public class EditProfileListAdapter extends ArrayAdapter<String>{
 
         profileNameTextView.setText(name);
 
-        Button button = (Button) applicationsView.findViewById(R.id.remove_button);
+        /*Button button = (Button) applicationsView.findViewById(R.id.remove_button);
         buttonToName.put(button, name);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {;
                 String str = nameToPackage.get(buttonToName.get((Button) view));
                 System.out.println("string in remove from profile is : " + str);
-                /*profilesListViewController.profilesAdapter = new profilesListAdapter(profilesListViewController.context, profileNames, icons);
-                profilesListViewController.profilesListView.setAdapter(profilesAdapter);
-                profilesListViewController.profilesListView.invalidate(); */
+                //profilesListViewController.profilesAdapter = new profilesListAdapter(profilesListViewController.context, profileNames, icons);
+                //profilesListViewController.profilesListView.setAdapter(profilesAdapter);
+                //profilesListViewController.profilesListView.invalidate();
                 // remove from profile
                 view.setVisibility(ListView.INVISIBLE);
                 focusModel.removeAppFromProfile(applicationsView.getContext(), str, profile.getProfileName());
                 //EditProfileListAdapter.notifyDataSetChanged();
                 view.setVisibility(ListView.VISIBLE);
             }
-        });
+        }); */
 
         //using the application icon from the hashmap for exampe
         System.out.println("name is " + nameToPackage.get(name));

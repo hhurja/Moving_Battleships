@@ -1,25 +1,18 @@
 package Model;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 
-/**
- * Created by aaronrschrock on 10/6/17.
- */
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import static android.R.attr.type;
-import static junit.runner.Version.id;
-import static movingbattleship.org.focus.R.id.profileName;
+/**
+ * Created by aaronrschrock on 10/6/17.
+ */
 
 /**
  * FocusModel is the class that contains profiles, schedules, and the main functionality
@@ -380,9 +373,11 @@ public class FocusModel extends Thread{
         }
 
         //if the schedule is in map and the app is too, remove the app from arraylist associated with profile
-        if(apps_to_profiles.get(profileID).contains(appID)){
+//        if(apps_to_profiles.get(profileID) != null){
+        if(apps_to_profiles.get(profileID).contains(appID)) {
             apps_to_profiles.get(profileID).remove(appID);
         }
+//        }
     }
 
     public ArrayList<App> getAppsFromProfile(int profileID) {
@@ -656,7 +651,7 @@ public class FocusModel extends Thread{
             for(Profile p: profiles){
                 if(p.getProfileName().equals(name)) return p.getProfileID();
             }
-            System.out.println("Error in getIdFromName: Did not find profile name");
+//            System.out.println("Error in getIdFromName: Did not find profile name");
             return -1;
         } else if(type.equals("App")){
             for(App a: apps){
