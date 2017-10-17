@@ -93,10 +93,14 @@ public class MainActivity extends AppCompatActivity {
         Context c = getApplicationContext();
         PackageManager pm = getPackageManager();
         UsageStatsManager usm = (UsageStatsManager)getSystemService(Context.USAGE_STATS_SERVICE);
-        AppIconGenerator aicongen = new AppIconGenerator(getPackageManager());
-        hm = aicongen.getAppIcon();
         AppProcessChecker apc = new AppProcessChecker(c, pm, usm, m);
-        FocusModel fm = FocusModel.getInstance(apc);
+        FocusModel fm = FocusModel.getInstance(apc, hm);
+
+        String name = "Profile1";
+        fm.createNewProfile(name);
+        fm.addAppToProfile(getApplicationContext(), "com.google.android.apps.maps", name);
+        fm.addAppToProfile(getApplicationContext(), "com.gogii.textplus", name);
+        fm.activateProfile(name);
 
 //        ArrayList<String> blocked = new ArrayList<String>();
 //        blocked.add("com.google.android.apps.maps");
@@ -117,7 +121,11 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-
+        String n = "Profile1";
+        fm.createNewProfile(n);
+        fm.addAppToProfile(getApplicationContext(), "com.google.android.apps.maps", n);
+        fm.addAppToProfile(getApplicationContext(), "com.gogii.textplus", n);
+        fm.activateProfile(n);
     }
 
     @Override
