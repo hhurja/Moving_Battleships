@@ -1,5 +1,6 @@
 package Controller;
 
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -151,6 +152,9 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(schedulesListViewController.mContext, EditSchedule.class);
+        intent.putExtra("scheduleName", event.getName());
+        schedulesListViewController.mContext.startActivity(intent);
     }
 
     @Override

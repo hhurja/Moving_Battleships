@@ -17,6 +17,9 @@
         app:noOfVisibleDays="3"
         app:dayBackgroundColor="#05000000"
         app:todayBackgroundColor="#1848adff"
-        app:headerColumnBackground="#ffffffff"/>
+        app:headerColumnBackground="#ffffffff"
+        app:disableScrollHorizontal="true"
+        app:showNowLine="true"/>
+
 
 </RelativeLayout>

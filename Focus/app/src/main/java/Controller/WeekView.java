@@ -7,6 +7,7 @@ import com.alamkanak.weekview.WeekViewEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import Model.FocusModel;
 import Model.Schedule;
@@ -32,13 +33,22 @@ public class WeekView extends BaseWeekView {
                     startTime.set(Calendar.DAY_OF_WEEK, i);
                     startTime.set(Calendar.HOUR_OF_DAY,t.getStartHour());
                     startTime.set(Calendar.MINUTE,t.getStartMinute());
-                    startTime.set(Calendar.MONTH,newMonth-1);
-                    startTime.set(Calendar.YEAR,newYear);
+                    startTime.set(Calendar.MONTH, newMonth-1);
+                    startTime.set(Calendar.YEAR, newYear);
+                    System.out.println("Start time: " + startTime);
+                    System.out.println("Get Start time: " + startTime.getTime());
                     Calendar endTime = (Calendar) startTime.clone();
-                    endTime.add(Calendar.HOUR,t.getEndHour());
-                    endTime.set(Calendar.MONTH,t.getEndMinute());
-                    WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
-                    event.setColor(Color.RED);
+                    System.out.println("Say WHAT????: " + endTime.getTime());
+                    endTime.set(Calendar.DAY_OF_WEEK, i);
+                    endTime.set(Calendar.HOUR_OF_DAY,t.getEndHour());
+                    endTime.set(Calendar.MINUTE,t.getEndMinute());
+                    endTime.set(Calendar.MONTH, newMonth-1);
+                    endTime.set(Calendar.YEAR, newYear);
+                    System.out.println("End time: " + endTime);
+                    System.out.println("Get End time: " + endTime.getTime());
+                    WeekViewEvent event = new WeekViewEvent(1, s.getScheduleName(), startTime, endTime);
+                    Random rnd = new Random();
+                    event.setColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
                     events.add(event);
                 }
             }
