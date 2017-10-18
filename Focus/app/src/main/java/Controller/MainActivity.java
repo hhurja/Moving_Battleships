@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -24,10 +25,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Model.AppIconGenerator;
 import Model.AppProcessChecker;
+import Model.DatabaseHelper;
 import Model.FocusModel;
 import movingbattleship.org.focus.R;
 
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     public static HashMap<String, Bitmap> hm;
 
+    private DatabaseHelper mDatabaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
         fm.createNewProfile(name);
         fm.addAppToProfile(getApplicationContext(), "com.google.android.apps.maps", name);
         fm.activateProfile(name);
+
+        fm.createNewSchedule("Test", new ArrayList<String>(), 15, 30, 18, 0);
+
+//        mDatabaseHelper = new DatabaseHelper(this);
+//        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+//        fm.createDatabase(mDatabaseHelper);
 
 //        ArrayList<String> blocked = new ArrayList<String>();
 //        blocked.add("com.google.android.apps.maps");
@@ -245,14 +257,10 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            System.out.println("* WOLOLOLO - " + getArguments().getInt(ARG_SECTION_NUMBER));
-
             if ( getArguments().getInt(ARG_SECTION_NUMBER) == 1 ) {
-                System.out.println("1 WOLOLOLO");
                 profilesListViewController plvc = new profilesListViewController();
                 return plvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext(), hm, mContext);
             } else {
-                System.out.println("2 WOLOLOLO");
                 schedulesListViewController slvc = new schedulesListViewController();
                 return slvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext(), mContext);
             }

@@ -36,6 +36,8 @@ public class FocusModel extends Thread{
     private Profile currProf;
     private HashMap<String, Bitmap> iconMap;
 
+    private DatabaseHelper mDatabaseHelper;
+
     //Instance for Singleton Class
     private static FocusModel instance= null;
 
@@ -443,7 +445,7 @@ public class FocusModel extends Thread{
         }
     }
 
-    public void createNewSchedules (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
+    public void createNewSchedule (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
                          int endHour, int endMinute){
 
         if (alreadyExists("Schedule", scheduleName)) {
@@ -750,5 +752,20 @@ public class FocusModel extends Thread{
         final String appName = (String)((applicationInfo != null) ? packageManager.getApplicationLabel(applicationInfo) : "???");
 
         return appName;
+    }
+
+    public void createDatabase(DatabaseHelper dbHelper){
+        System.out.println("*****************************************");
+//        mDatabaseHelper = new DatabaseHelper(context);
+
+        Boolean insertData = dbHelper.addDataToIdTable(Integer.toString(numProfilesCreated),
+                Integer.toString(numAppsCreated), Integer.toString(numSchedulesCreated));
+
+        if(insertData){
+            System.out.println("Data Successfully input");
+        }else{
+            System.out.println("Data Did not enter db");
+        }
+        System.out.println(dbHelper.getTableAsString("id_table"));
     }
 }

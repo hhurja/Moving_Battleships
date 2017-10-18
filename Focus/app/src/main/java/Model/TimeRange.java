@@ -65,6 +65,7 @@ public class TimeRange {
         thursday = false;
         friday = false;
         saturday = false;
+
         dayMap = new HashMap<>();
 
         addDays(days);
@@ -87,6 +88,7 @@ public class TimeRange {
 
     public void addDays(ArrayList<String> days){
         for(String S: days){
+            System.out.println("PRINTING DAYS: " + S);
             if(S.toLowerCase().equals("sunday")) sunday = true;
             if(S.toLowerCase().equals("monday")) monday = true;
             if(S.toLowerCase().equals("tuesday")) tuesday = true;
@@ -165,17 +167,30 @@ public class TimeRange {
 
     public ArrayList<Integer> getDays() {
         ArrayList<Integer> days = new ArrayList<>();
-        Iterator it = dayMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            if((boolean)pair.getValue()) {
-                days.add(new Integer((int)pair.getKey()));
+//        Iterator it = dayMap.entrySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry pair = (Map.Entry)it.next();
+//            if((boolean)pair.getValue()) {
+//                days.add(new Integer((int)pair.getKey()));
+//            }
+//            it.remove(); // avoids a ConcurrentModificationException
+//        }
+        for(Integer key: dayMap.keySet()){
+            if(dayMap.get(key)){
+                days.add(key);
             }
-            it.remove(); // avoids a ConcurrentModificationException
         }
         return days;
     }
 
+    public String getTime() {
+        String s = "";
+
+        s += startHour%12 + ":" + (startMinute > 9 ? startMinute : "0"+startMinute)
+                + "-" + endHour%12 + ":" + (endMinute > 9 ? endMinute : "0"+endMinute) + (endHour>11 ? "PM" : "AM");
+
+        return s;
+    }
 //    public void printRanges(){
 //        System.out.println("Starts: "+ startTime + ", Ends: " + endTime);
 //        if(sunday) System.out.print("Sunday, ");
