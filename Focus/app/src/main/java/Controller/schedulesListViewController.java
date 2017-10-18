@@ -38,7 +38,7 @@ import movingbattleship.org.focus.R;
 @TargetApi(23)
 public class schedulesListViewController extends Fragment {
 
-    private static Context mContext;
+    public static Context mContext;
     private static View myView;
     private ListView schedulesListView;
     FocusModel focusModel = null;

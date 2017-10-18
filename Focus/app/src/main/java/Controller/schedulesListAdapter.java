@@ -66,4 +66,25 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
 
         return schedulesView;
     }
+
+    private String getDaysString(ArrayList<Integer> days) {
+        String daysString = "";
+
+        for (int i = 0; i < days.size(); i++) {
+            switch(i) {
+                case 1 : daysString += "Mo";
+                case 2 : daysString += "Tu";
+                case 3 : daysString += "We";
+                case 4 : daysString += "Th";
+                case 5 : daysString += "Fr";
+                case 6 : daysString += "Sa";
+                case 7 : daysString += "Su";
+            }
+            if(i < days.size()-1){
+                daysString += ", ";
+            }
+        }
+
+        return daysString;
+    }
 }

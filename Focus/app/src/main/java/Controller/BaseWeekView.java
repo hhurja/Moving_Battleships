@@ -1,5 +1,6 @@
 package Controller;
 
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -87,7 +88,7 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                 }
                 return true;
-            case R.id.action_three_day_view:
+            /*case R.id.action_three_day_view:
                 if (mWeekViewType != TYPE_THREE_DAY_VIEW) {
                     item.setChecked(!item.isChecked());
                     mWeekViewType = TYPE_THREE_DAY_VIEW;
@@ -98,7 +99,7 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
                     mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                 }
-                return true;
+                return true;*/
             case R.id.action_week_view:
                 if (mWeekViewType != TYPE_WEEK_VIEW) {
                     item.setChecked(!item.isChecked());
@@ -151,6 +152,9 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(schedulesListViewController.mContext, EditSchedule.class);
+        intent.putExtra("scheduleName", event.getName());
+        schedulesListViewController.mContext.startActivity(intent);
     }
 
     @Override
