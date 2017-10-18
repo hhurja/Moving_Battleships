@@ -758,7 +758,7 @@ public class FocusModel extends Thread{
         System.out.println("*****************************************");
 //        mDatabaseHelper = new DatabaseHelper(context);
 
-        Boolean insertData = dbHelper.addData(Integer.toString(numProfilesCreated),
+        Boolean insertData = dbHelper.addDataToIdTable(Integer.toString(numProfilesCreated),
                 Integer.toString(numAppsCreated), Integer.toString(numSchedulesCreated));
 
         if(insertData){
@@ -766,5 +766,6 @@ public class FocusModel extends Thread{
         }else{
             System.out.println("Data Did not enter db");
         }
+        System.out.println(dbHelper.getTableAsString("id_table"));
     }
 }
