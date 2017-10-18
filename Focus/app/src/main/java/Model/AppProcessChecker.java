@@ -2,12 +2,14 @@ package Model;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AppOpsManager;
 import android.app.Dialog;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Build;
@@ -55,12 +57,11 @@ public class AppProcessChecker {
         packageManager = pm;
         statsManager = usm;
         mainActivity = ma;
-        if(PackageManager.PERMISSION_GRANTED != packageManager.checkPermission(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, packageManager.getNameForUid(getCallingUid()))){
+
+        if(!permissionGranted()){
             Intent overlayPermission = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
             overlayPermission.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(overlayPermission);
-        }
-        if(PackageManager.PERMISSION_GRANTED != packageManager.checkPermission(Settings.ACTION_USAGE_ACCESS_SETTINGS, packageManager.getNameForUid(getCallingUid()))){
             Intent usagePermission = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             usagePermission.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(usagePermission);
@@ -86,5 +87,18 @@ public class AppProcessChecker {
         }
 
     }
+
+    public boolean permissionGranted() {
+        try {
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 0);
+            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            int mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, applicationInfo.uid, applicationInfo.packageName);
+            return (mode == AppOpsManager.MODE_ALLOWED);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+    //** this function was created with the help of this StackOverflow post: https://stackoverflow.com/questions/27215013/check-if-my-application-has-usage-access-enabled
 
 }
