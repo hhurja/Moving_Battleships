@@ -445,7 +445,7 @@ public class FocusModel extends Thread{
         }
     }
 
-    public void createNewSchedules (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
+    public void createNewSchedule (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
                          int endHour, int endMinute){
 
         if (alreadyExists("Schedule", scheduleName)) {

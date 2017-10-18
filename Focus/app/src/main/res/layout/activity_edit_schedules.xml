@@ -17,7 +17,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".3" >
+            android:layout_weight=".4" >
 
             <TextView
                 android:id="@+id/name"
@@ -74,8 +74,8 @@
         <ListView
             android:id="@+id/profilesListView"
             android:layout_width="match_parent"
-            android:layout_height="141dp"
-            android:layout_weight="0.18" />
+            android:layout_height="0dp"
+            android:layout_weight="0.4" />
 
         <Button
             android:id="@+id/addProfileButton"

@@ -65,6 +65,17 @@ public class TimeRange {
         thursday = false;
         friday = false;
         saturday = false;
+
+        for(String S: days){
+            if(S.toLowerCase().equals("sunday")) sunday = true;
+            if(S.toLowerCase().equals("monday")) monday = true;
+            if(S.toLowerCase().equals("tuesday")) tuesday = true;
+            if(S.toLowerCase().equals("wednesday")) wednesday = true;
+            if(S.toLowerCase().equals("thursday")) thursday = true;
+            if(S.toLowerCase().equals("friday")) friday = true;
+            if(S.toLowerCase().equals("saturday")) saturday = true;
+        }
+
         dayMap = new HashMap<>();
 
         addDays(days);
@@ -176,6 +187,14 @@ public class TimeRange {
         return days;
     }
 
+    public String getTime() {
+        String s = "";
+
+        s += startHour%12 + ":" + (startMinute > 9 ? startMinute : "0"+startMinute)
+                + "-" + endHour%12 + ":" + (endMinute > 9 ? endMinute : "0"+endMinute) + (endHour>11 ? "PM" : "AM");
+
+        return s;
+    }
 //    public void printRanges(){
 //        System.out.println("Starts: "+ startTime + ", Ends: " + endTime);
 //        if(sunday) System.out.print("Sunday, ");

@@ -24,18 +24,28 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/day"
-        android:layout_height="wrap_content"
+    <TableLayout
+        android:id="@+id/daysAndTimesTable"
         android:layout_width="0dp"
-        android:layout_weight=".8"
-        android:textStyle="bold" />
+        android:layout_weight="1"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight=".8" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </TableLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/profilesLinearLayout"

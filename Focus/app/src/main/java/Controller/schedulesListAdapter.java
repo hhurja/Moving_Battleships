@@ -9,11 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import Model.*;
+import Model.Profile;
+import Model.Schedule;
+import Model.TimeRange;
 import movingbattleship.org.focus.R;
 
 /**
@@ -42,13 +46,33 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
         Schedule s = getItem(position);
         TextView scheduleNameTextView = (TextView) schedulesView.findViewById(R.id.name);
         TextView scheduleActiveTextView = (TextView) schedulesView.findViewById(R.id.active);
-        TextView scheduleDayTextView = (TextView) schedulesView.findViewById(R.id.day);
-        TextView scheduleTimeTextView = (TextView) schedulesView.findViewById(R.id.time);
+        //TextView scheduleDayTextView = (TextView) schedulesView.findViewById(R.id.day);
+        //TextView scheduleTimeTextView = (TextView) schedulesView.findViewById(R.id.time);
         scheduleNameTextView.setText(s.getScheduleName());
         scheduleActiveTextView.setText(s.isActive() ? "Active" : "Off");
         scheduleActiveTextView.setTextColor(s.isActive() ? Color.GREEN : Color.RED);
-        scheduleDayTextView.setText("Monday");
-        scheduleTimeTextView.setText("2:00 pm - 4:00 pm");
+        //scheduleDayTextView.setText("Monday");
+        //scheduleTimeTextView.setText("2:00 pm - 4:00 pm");
+
+        TableLayout daysAndTimesTable = (TableLayout) schedulesView.findViewById(R.id.daysAndTimesTable);
+        for (TimeRange t : s.getTimeRanges()) {
+            System.out.println(s.getTimeRanges());
+            String days = getDaysString(t.getDays());
+            String times = t.getTime();
+            System.out.println(days + " " + times);
+
+            TextView daysTextView = new TextView(getContext());
+            daysTextView.setText(days);
+            TextView timesTextView = new TextView(getContext());
+            timesTextView.setText(times);
+            TableRow dtRow = new TableRow(getContext());
+            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+            dtRow.setLayoutParams(lp);
+            dtRow.addView(daysTextView);
+            //dtRow.addView(timesTextView);
+            daysAndTimesTable.addView(dtRow);
+        }
+
         // access your linear layout
         LinearLayout schedulesLinearLayout = (LinearLayout)schedulesView.findViewById(R.id.profilesLinearLayout);
         ArrayList<String> names = new ArrayList<>();
@@ -71,7 +95,7 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
         String daysString = "";
 
         for (int i = 0; i < days.size(); i++) {
-            switch(i) {
+            switch(days.get(i)) {
                 case 1 : daysString += "Mo";
                 case 2 : daysString += "Tu";
                 case 3 : daysString += "We";

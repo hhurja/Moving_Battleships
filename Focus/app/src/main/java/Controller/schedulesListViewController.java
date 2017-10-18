@@ -31,8 +31,7 @@ import android.widget.TimePicker;
 
 import java.util.ArrayList;
 
-import Model.FocusModel;
-import Model.Schedule;
+import Model.*;
 import movingbattleship.org.focus.R;
 
 @TargetApi(23)
@@ -51,7 +50,6 @@ public class schedulesListViewController extends Fragment {
         View view = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
         ArrayList<Schedule> schedules = focusModel.getSchedules();
         schedulesListView = (ListView) view.findViewById(R.id.schedulesListView);
-        System.out.println("Schedules List view iz..." + (ListView) view.findViewById(R.id.schedulesListView));
         ListAdapter schedulesAdapter = new schedulesListAdapter (context, schedules);
 
         schedulesListView.setAdapter(schedulesAdapter);
@@ -299,7 +297,8 @@ public class schedulesListViewController extends Fragment {
                 Boolean wantToCloseDialog = !days.isEmpty();
                 //Do stuff, possibly set wantToCloseDialog to true then...
                 if(wantToCloseDialog) {
-                    getTimes(schedulesListViewController.myView, n, days);
+                    System.out.println("DAYS: " + days);
+                    getProfiles(schedulesListViewController.myView, n, days);
                     dialog.dismiss();
                 }
                 else {
@@ -310,10 +309,53 @@ public class schedulesListViewController extends Fragment {
         });
     }
 
-    void getTimes(View v, String n, ArrayList<String> d) {
+    void getProfiles(View v, String n, ArrayList<String> d) {
+        final String names = n;
+        final ArrayList<String> days = d;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Choose profiles to add to schedule");
+        LinearLayout layout = new LinearLayout(v.getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final ArrayList<CheckBox> profilesCheckBoxes = new ArrayList<>();
+
+        for (Profile p : focusModel.getAllProfiles()) {
+            CheckBox cb = new CheckBox(v.getContext());
+            cb.setText(p.getProfileName());
+            profilesCheckBoxes.add(cb);
+            layout.addView(cb);
+        }
+        builder.setView(layout);
+        // Set up the buttons
+        builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ArrayList<String> profiles = new ArrayList<String>();
+
+                for (CheckBox cb : profilesCheckBoxes) {
+                    if(cb.isChecked()) {
+                        profiles.add(cb.getText().toString());
+                        getTimes(schedulesListViewController.myView, names, days, profiles);
+                    }
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    void getTimes(View v, String n, ArrayList<String> d, ArrayList<String> p) {
 
         final String name = n;
         final ArrayList<String> days = d;
+        final ArrayList<String> profiles = p;
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Set Time Range");
 
@@ -381,24 +423,21 @@ public class schedulesListViewController extends Fragment {
                 }
 
                 if (wantToCloseDialog) {
-                    //TODO: CREATE SCHEDULE
-                    focusModel.createNewSchedule(name);
-                        try {
-                            // thread to sleep for 1000 milliseconds
-                            Thread.sleep(1000);
-                        } catch (Exception e) {
-                            System.out.println(e);
-                        }
 
+                    focusModel.createNewSchedule(name);
                     if( focusModel.getSchedule(name) != null) {
                         focusModel.getSchedule(name).addTimeRange(days, tpStart.getHour(), tpStart.getMinute(), tpEnd.getHour(), tpEnd.getMinute());
                         ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
                     }
 
-                    System.out.println("Done!");
+                    for(String p : profiles){
+                        if (focusModel.getProfile(p) != null) {
+                            focusModel.getSchedule(name).addProfile(focusModel.getProfile(p));
+                        }
+                    }
+
                     dialog.dismiss();
                 } else {
-                    System.out.println("show error message");
                     errorMessage.setVisibility(View.VISIBLE);
                     //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
                 }
