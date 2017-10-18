@@ -30,20 +30,27 @@ public class profilesListAdapter extends ArrayAdapter<String>{
     public profilesListAdapter(@NonNull Context context, String[] profileNames, HashMap<String, Bitmap> hm) {
         super(context, R.layout.profile_row, profileNames);
         icons = hm;
-        System.out.println("in constructor");
         focusModel = FocusModel.getInstance();
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        System.out.println("getting view");
         LayoutInflater profilesInflator = LayoutInflater.from(getContext());
 
         View profilesView = profilesInflator.inflate(R.layout.profile_row, parent, false);
         // parse name from profile name
         String name = getItem(position);
         TextView profileNameTextView = (TextView) profilesView.findViewById(R.id.profileName);
+
+        profile = focusModel.getProfile(name);
+
+        TextView timerText = (TextView) profilesView.findViewById(R.id.timer);
+        if (profile.isActivated()) {
+            //timerText.setText("Blocked until: ");
+        } else {
+            timerText.setVisibility(TextView.INVISIBLE);
+        }
 
         ImageView appImage1 = (ImageView) profilesView.findViewById(R.id.image1);
         ImageView appImage2 = (ImageView) profilesView.findViewById(R.id.image2);

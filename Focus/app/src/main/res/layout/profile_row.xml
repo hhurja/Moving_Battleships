@@ -22,6 +22,13 @@
                 android:text="Name"
                 android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/timer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.03"
+                android:text="Blocked Until: " />
+
 
         </LinearLayout>
     </RelativeLayout>
