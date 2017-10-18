@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,6 +91,9 @@ public class EditProfile extends AppCompatActivity {
         for (ApplicationInfo packageInfo : packages) {
             nameToPackage.put(FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName), packageInfo.packageName);
         }
+
+        TextView profileName = (TextView) findViewById(R.id.name);
+        profileName.setText(profile.getProfileName());
 
         mListView = (ListView) findViewById(R.id.AppListView);
 
