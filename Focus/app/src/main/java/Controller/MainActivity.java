@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        mDatabaseHelper = new DatabaseHelper(this);
 //        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-//
+
 //        fm.createDatabase(mDatabaseHelper);
 
 //        ArrayList<String> blocked = new ArrayList<String>();
