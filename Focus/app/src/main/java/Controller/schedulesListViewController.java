@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,7 +32,9 @@ import android.widget.TimePicker;
 
 import java.util.ArrayList;
 
-import Model.*;
+import Model.FocusModel;
+import Model.Profile;
+import Model.Schedule;
 import movingbattleship.org.focus.R;
 
 @TargetApi(23)
@@ -114,7 +117,7 @@ public class schedulesListViewController extends Fragment {
                     }
                 });
 
-        FloatingActionButton fbCalendar = (FloatingActionButton) view.findViewById(R.id.calendarActionButton);
+        Button fbCalendar = (Button) view.findViewById(R.id.calendarActionButton);
         fbCalendar.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

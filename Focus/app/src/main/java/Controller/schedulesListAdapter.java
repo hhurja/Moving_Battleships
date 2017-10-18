@@ -8,14 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import Model.Profile;
 import Model.Schedule;
 import Model.TimeRange;
 import movingbattleship.org.focus.R;
@@ -69,11 +67,11 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
             dtRow.setLayoutParams(lp);
             dtRow.addView(daysTextView);
-            //dtRow.addView(timesTextView);
+            dtRow.addView(timesTextView);
             daysAndTimesTable.addView(dtRow);
         }
 
-        // access your linear layout
+        /*access your linear layout
         LinearLayout schedulesLinearLayout = (LinearLayout)schedulesView.findViewById(R.id.profilesLinearLayout);
         ArrayList<String> names = new ArrayList<>();
         for (Profile p : s.getProfiles()) {
@@ -86,13 +84,15 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
                 textView.setText(names.get(i));
                 schedulesLinearLayout.addView(textView);
             }
-        }
+        } */
 
         return schedulesView;
     }
 
     private String getDaysString(ArrayList<Integer> days) {
         String daysString = "";
+
+        System.out.println(days);
 
         for (int i = 0; i < days.size(); i++) {
             switch(days.get(i)) {

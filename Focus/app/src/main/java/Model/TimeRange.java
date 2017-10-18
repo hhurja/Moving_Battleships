@@ -66,16 +66,6 @@ public class TimeRange {
         friday = false;
         saturday = false;
 
-        for(String S: days){
-            if(S.toLowerCase().equals("sunday")) sunday = true;
-            if(S.toLowerCase().equals("monday")) monday = true;
-            if(S.toLowerCase().equals("tuesday")) tuesday = true;
-            if(S.toLowerCase().equals("wednesday")) wednesday = true;
-            if(S.toLowerCase().equals("thursday")) thursday = true;
-            if(S.toLowerCase().equals("friday")) friday = true;
-            if(S.toLowerCase().equals("saturday")) saturday = true;
-        }
-
         dayMap = new HashMap<>();
 
         addDays(days);
@@ -98,6 +88,7 @@ public class TimeRange {
 
     public void addDays(ArrayList<String> days){
         for(String S: days){
+            System.out.println("PRINTING DAYS: " + S);
             if(S.toLowerCase().equals("sunday")) sunday = true;
             if(S.toLowerCase().equals("monday")) monday = true;
             if(S.toLowerCase().equals("tuesday")) tuesday = true;

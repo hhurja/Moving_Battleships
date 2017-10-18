@@ -11,15 +11,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import Model.FocusModel;
-import Model.Schedule;
 import Model.Profile;
+import Model.Schedule;
+import Model.TimeRange;
 import movingbattleship.org.focus.R;
 
 public class EditSchedule extends AppCompatActivity {
@@ -33,7 +35,6 @@ public class EditSchedule extends AppCompatActivity {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
-        System.out.println("Schedule Set: " + this.schedule);
     }
 
     @Override
@@ -48,7 +49,6 @@ public class EditSchedule extends AppCompatActivity {
         if (extras != null) {
             scheduleName = extras.getString("scheduleName");
             schedule = focusModel.getSchedule(scheduleName);
-            System.out.println("Does this extra thing work: " + scheduleName);
         }
 
         for ( Profile p : focusModel.getSchedule(scheduleName).getProfiles() ) {
@@ -57,25 +57,32 @@ public class EditSchedule extends AppCompatActivity {
             }
         }
 
-        System.out.println("Schedule: " + schedule);
+        System.out.println("Schedule: " + schedule.getScheduleName());
         String name = ( schedule != null ) ? schedule.getScheduleName() : "Awesome Study Session";
         String day = "Tuesday"; //TODO
         String time = "2:00 pm - 4:00 pm"; //TODO
 
         TextView scheduleNameTextView = (TextView) findViewById(R.id.name);
-        TextView scheduleTimeTextView = (TextView) findViewById(R.id.time);
         scheduleNameTextView.setText(name);
-        scheduleTimeTextView.setText(time);
 
-        ArrayList<String> tempList = new ArrayList<>();
-        tempList.add("Monday");
-        tempList.add("Thursday");
-        tempList.add("Friday"); //schedule.getDays()
+        TableLayout daysAndTimesTable = (TableLayout) findViewById(R.id.datesAndTimesTableLayout);
+        for (TimeRange t : schedule.getTimeRanges()) {
+            System.out.println(schedule.getTimeRanges());
+            String days = getDaysString(t.getDays());
+            String times = t.getTime();
+            System.out.println(days + " " + times);
 
-        GridView gridview = (GridView) findViewById(R.id.daysGrid);
-        ArrayAdapter<String> gridAdapter = new ArrayAdapter<>(gridview.getContext(),
-                android.R.layout.simple_list_item_1, tempList);
-        gridview.setAdapter(gridAdapter);
+            TextView daysTextView = new TextView(getApplicationContext());
+            daysTextView.setText(days);
+            TextView timesTextView = new TextView(getApplicationContext());
+            timesTextView.setText(times);
+            TableRow dtRow = new TableRow(getApplicationContext());
+            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+            dtRow.setLayoutParams(lp);
+            dtRow.addView(daysTextView);
+            dtRow.addView(timesTextView);
+            daysAndTimesTable.addView(dtRow);
+        }
 
         Button addProfileButton = (Button) findViewById(R.id.addProfileButton);
         Button toggleOnOff = (Button) findViewById(R.id.toggleOnOffButton);
@@ -215,5 +222,28 @@ public class EditSchedule extends AppCompatActivity {
         });
 
         builder.show();
+    }
+
+    private String getDaysString(ArrayList<Integer> days) {
+        String daysString = "";
+
+        System.out.println(days);
+
+        for (int i = 0; i < days.size(); i++) {
+            switch(days.get(i)) {
+                case 1 : daysString += "Mo";
+                case 2 : daysString += "Tu";
+                case 3 : daysString += "We";
+                case 4 : daysString += "Th";
+                case 5 : daysString += "Fr";
+                case 6 : daysString += "Sa";
+                case 7 : daysString += "Su";
+            }
+            if(i < days.size()-1){
+                daysString += ", ";
+            }
+        }
+
+        return daysString;
     }
 }
