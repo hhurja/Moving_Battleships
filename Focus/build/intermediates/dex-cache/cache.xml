@@ -7,7 +7,7 @@
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
-        sha1="aa8c5cd5b3089075aed5974672a1653bad63b47f">
+        sha1="fa13c0f0ebf5160b66293861bb7a832bf5960c33">
         <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_90a3c8bc5c1abbe7e68efc0d0e6e174fc54307ef/classes.dex" />
     </item>
     <item
@@ -18,6 +18,15 @@
         revision="26.0.2"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
         <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_4b0f8641c12471f6d0a95668a126651602239c37/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/adammoffitt/.android/build-cache/2a201f50a7e52c5cd8d5761066a79b939075b591/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="e918cb1180dbbd0a259a6da8356a762abc314f99">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_244c07bc7ecfb0276cc4f974ae6a664cc5ef977b/classes.dex" />
     </item>
 
 </items>

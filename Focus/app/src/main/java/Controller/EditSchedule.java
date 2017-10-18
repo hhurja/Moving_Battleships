@@ -74,8 +74,10 @@ public class EditSchedule extends AppCompatActivity {
 
             TextView daysTextView = new TextView(getApplicationContext());
             daysTextView.setText(days);
+            daysTextView.setPadding(10, 10, 10, 10);
             TextView timesTextView = new TextView(getApplicationContext());
             timesTextView.setText(times);
+            timesTextView.setPadding(10, 10, 10, 10);
             TableRow dtRow = new TableRow(getApplicationContext());
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
             dtRow.setLayoutParams(lp);

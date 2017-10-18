@@ -30,16 +30,27 @@ public class WeekView extends BaseWeekView {
             for (TimeRange t : s.getTimeRanges()) {
                 for (Integer i : t.getDays()) {
                     Calendar startTime = Calendar.getInstance();
-                    startTime.set(Calendar.DAY_OF_WEEK, i);
+                    //if (startTime.get(Calendar.DAY_OF_WEEK) < i) {
+                    //    startTime.set(Calendar.DAY_OF_MONTH, startTime.get(Calendar.DAY_OF_MONTH) +((7-startTime.get(Calendar.DAY_OF_WEEK))+i));
+                    //} else {
+                        startTime.set(Calendar.DAY_OF_WEEK, i);
+                    //}
+                    if ( i < Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+                        startTime.set(Calendar.DAY_OF_MONTH, startTime.get(Calendar.DAY_OF_MONTH)+7);
+                    }
                     startTime.set(Calendar.HOUR_OF_DAY,t.getStartHour());
                     startTime.set(Calendar.MINUTE,t.getStartMinute());
                     startTime.set(Calendar.MONTH, newMonth-1);
                     startTime.set(Calendar.YEAR, newYear);
                     System.out.println("Start time: " + startTime);
                     System.out.println("Get Start time: " + startTime.getTime());
+
                     Calendar endTime = (Calendar) startTime.clone();
-                    System.out.println("Say WHAT????: " + endTime.getTime());
+                    //if (endTime.get(Calendar.DAY_OF_WEEK) < i) {
+                      //  endTime.set(Calendar.DAY_OF_MONTH, endTime.get(Calendar.DAY_OF_MONTH) +((7-endTime.get(Calendar.DAY_OF_WEEK))+i));
+                    //} else {
                     endTime.set(Calendar.DAY_OF_WEEK, i);
+                    //}
                     endTime.set(Calendar.HOUR_OF_DAY,t.getEndHour());
                     endTime.set(Calendar.MINUTE,t.getEndMinute());
                     endTime.set(Calendar.MONTH, newMonth-1);
