@@ -754,17 +754,17 @@ public class FocusModel extends Thread{
         return appName;
     }
 
-//    public void createDatabase(DatabaseHelper dbHelper){
-//        System.out.println("*****************************************");
-////        mDatabaseHelper = new DatabaseHelper(context);
-//
-//        Boolean insertData = mDatabaseHelper.addData(Integer.toString(numProfilesCreated),
-//                Integer.toString(numAppsCreated), Integer.toString(numSchedulesCreated));
-//
-//        if(insertData){
-//            System.out.println("Data Successfully input");
-//        }else{
-//            System.out.println("Data Did not enter db");
-//        }
-//    }
+    public void createDatabase(DatabaseHelper dbHelper){
+        System.out.println("*****************************************");
+//        mDatabaseHelper = new DatabaseHelper(context);
+
+        Boolean insertData = dbHelper.addData(Integer.toString(numProfilesCreated),
+                Integer.toString(numAppsCreated), Integer.toString(numSchedulesCreated));
+
+        if(insertData){
+            System.out.println("Data Successfully input");
+        }else{
+            System.out.println("Data Did not enter db");
+        }
+    }
 }

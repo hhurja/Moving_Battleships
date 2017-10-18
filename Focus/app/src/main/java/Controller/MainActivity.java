@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 
 import Model.AppIconGenerator;
 import Model.AppProcessChecker;
+import Model.DatabaseHelper;
 import Model.FocusModel;
 import movingbattleship.org.focus.R;
 
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     public static HashMap<String, Bitmap> hm;
 
+    private DatabaseHelper mDatabaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
         fm.activateProfile(name);
 
         fm.createNewSchedule("Test", new ArrayList<String>(), 15, 30, 18, 0);
+
+//        mDatabaseHelper = new DatabaseHelper(this);
+//        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+//
+//        fm.createDatabase(mDatabaseHelper);
 
 //        ArrayList<String> blocked = new ArrayList<String>();
 //        blocked.add("com.google.android.apps.maps");

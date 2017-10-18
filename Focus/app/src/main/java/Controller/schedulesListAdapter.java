@@ -95,15 +95,24 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
         System.out.println(days);
 
         for (int i = 0; i < days.size(); i++) {
-            switch(days.get(i)) {
-                case 1 : daysString += "Mo";
-                case 2 : daysString += "Tu";
-                case 3 : daysString += "We";
-                case 4 : daysString += "Th";
-                case 5 : daysString += "Fr";
-                case 6 : daysString += "Sa";
-                case 7 : daysString += "Su";
-            }
+            if(days.get(i) == 1) daysString += "Su";
+            if(days.get(i) == 2) daysString += "Mo";
+            if(days.get(i) == 3) daysString += "Tu";
+            if(days.get(i) == 4) daysString += "We";
+            if(days.get(i) == 5) daysString += "Th";
+            if(days.get(i) == 6) daysString += "Fr";
+            if(days.get(i) == 7) daysString += "Sa";
+
+
+//            switch(days.get(i)) {
+//                case 1 : daysString += "Mo";
+//                case 2 : daysString += "Tu";
+//                case 3 : daysString += "We";
+//                case 4 : daysString += "Th";
+//                case 5 : daysString += "Fr";
+//                case 6 : daysString += "Sa";
+//                case 7 : daysString += "Su";
+//            }
             if(i < days.size()-1){
                 daysString += ", ";
             }
