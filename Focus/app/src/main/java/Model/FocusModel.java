@@ -768,4 +768,17 @@ public class FocusModel extends Thread{
         }
         System.out.println(dbHelper.getTableAsString("id_table"));
     }
+
+    public boolean appInProfile(String profName, String appName){
+        int profileID = getIdFromName("Profile", profName);
+        int appID = getIdFromName("App", appName);
+
+        if(profileID == -1 || appID == -1){
+            System.out.println("Error in appInProfile function in fm: appname or profilename not found"+profName+" "+appName);
+            return false;
+        }
+        return apps_to_profiles.get(profileID).contains(appID);
+
+
+    }
 }
