@@ -20,6 +20,7 @@ public class Profile {
     private ArrayList<App> apps;
     private ArrayList<Integer> scheduleIDs; //TODO do we need this?
     private boolean activated;
+    private boolean onOffSwitch;
 
     /**
      * Constructors
@@ -29,6 +30,7 @@ public class Profile {
         this.profileName = profileName;
         activated = false;
         apps = new ArrayList<>();
+        onOffSwitch = true;
     }
 
     /**
@@ -101,6 +103,18 @@ public class Profile {
             returnSet.add(a.getAppID());
         }
         return returnSet;
+    }
+
+    public boolean isOn(){
+        return onOffSwitch;
+    }
+
+    public void turnOn(){
+        onOffSwitch = true;
+    }
+
+    public void turnOfF(){
+        onOffSwitch = false;
     }
 
 }
