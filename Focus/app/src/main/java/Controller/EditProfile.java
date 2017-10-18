@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -14,8 +13,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,9 +36,10 @@ public class EditProfile extends AppCompatActivity {
     private Profile profile;
     private FocusModel focusModel;
     private ListView mListView;
-    private Button fab_schedule;
+    private Button fab_toggle;
     private Button fab_plus;
-    private Button fab_done;
+    private TextView timerText;
+    private Button fab_start;
     List<ApplicationInfo> packages = new ArrayList<>();
     private HashMap<String, String> nameToPackage = new HashMap <String, String> ();
     /**
@@ -95,6 +97,14 @@ public class EditProfile extends AppCompatActivity {
         TextView profileName = (TextView) findViewById(R.id.name);
         profileName.setText(profile.getProfileName());
 
+        timerText = (TextView) findViewById(R.id.timer);
+        //TODO: figure out if we call isOn(), isActive(), or both
+        if (profile.isActivated()) {
+            //timerText.setText("Blocked until: " + profile.g)
+        } else {
+            timerText.setVisibility(TextView.INVISIBLE);
+        }
+
         mListView = (ListView) findViewById(R.id.AppListView);
 
         mListView.setOnItemClickListener(
@@ -143,13 +153,67 @@ public class EditProfile extends AppCompatActivity {
         ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), profileNames, nameToPackage);
         mListView.setAdapter(adapter);
 
-        fab_schedule = (Button) findViewById(R.id.fab_submit);
-        fab_schedule.setOnClickListener(new View.OnClickListener() {
+        fab_toggle = (Button) findViewById(R.id.fab_toggle);
+        // if profile is on, allow user to toggle off
+        if (profile.isOn()) {
+            fab_toggle.setText("Toggle Off");
+        } else {
+            fab_toggle.setText("Toggle On");
+        }
+        fab_toggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fab_schedule.setBackgroundColor(Color.GREEN);
-                fab_done.setBackgroundColor(Color.GRAY);
-                profile.activate();
+                if (profile.isOn()) {
+                    profile.turnOfF();
+                } else {
+                    profile.turnOn();
+                }
+                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
+                startActivity(intent);
+            }
+        });
+
+        fab_start = (Button) findViewById(R.id.startBlocking);
+        fab_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              // pop up dialogue to create new schedule
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Set Blocking time");
+                ScrollView sv = new ScrollView(view.getContext());
+                LinearLayout layout = new LinearLayout(view.getContext());
+                layout.setOrientation(LinearLayout.VERTICAL);
+
+                final EditText hoursBox = new EditText(view.getContext());
+                hoursBox.setHint("Hours");
+                hoursBox.setInputType(InputType.TYPE_CLASS_TEXT);
+                layout.addView(hoursBox);
+
+                final EditText minutesBox = new EditText(view.getContext());
+                minutesBox.setHint("Minutes");
+                minutesBox.setInputType(InputType.TYPE_CLASS_TEXT);
+                layout.addView(minutesBox);
+
+                sv.addView(layout);
+                builder.setView(sv);
+
+                // Set up the buttons
+                builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getApplicationContext(), EditProfile.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
             }
         });
 
@@ -157,14 +221,13 @@ public class EditProfile extends AppCompatActivity {
         fab_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("fab plus clicked");
                 Intent intent = new Intent(getApplicationContext(), AppChooser.class);
                 startActivity(intent);
 
             }
         });
 
-        fab_done = (Button) findViewById(R.id.fab_done);
+       /* fab_done = (Button) findViewById(R.id.fab_done);
         fab_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,7 +235,7 @@ public class EditProfile extends AppCompatActivity {
                 fab_schedule.setBackgroundColor(Color.GRAY);
                 profile.deactivate();
             }
-        });
+        }); */
 
         Button deleteButton = (Button) findViewById(R.id.deleteProfile);
         deleteButton.setOnClickListener(new View.OnClickListener() {

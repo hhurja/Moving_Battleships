@@ -21,6 +21,12 @@
 
 
             <TextView
+                android:id="@+id/timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Blocked until: " />
+
+            <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,19 +54,18 @@
             android:text="Delete this Profile" />
 
         <Button
-            android:id="@+id/fab_submit"
+            android:id="@+id/startBlocking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start Blocking these Applications" />
+
+        <Button
+            android:id="@+id/fab_toggle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="submit"
             android:src="@drawable/schedule"
             android:text="Toggle On" />
-
-        <Button
-            android:id="@+id/fab_done"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".1"
-            android:text="Toggle Off" />
 
         <Button
             android:id="@+id/fab_plus"
