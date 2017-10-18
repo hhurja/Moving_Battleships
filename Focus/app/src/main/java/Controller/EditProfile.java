@@ -187,6 +187,12 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
