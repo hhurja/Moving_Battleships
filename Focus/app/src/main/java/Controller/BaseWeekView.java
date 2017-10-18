@@ -73,9 +73,6 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
         int id = item.getItemId();
         setupDateTimeInterpreter(id == R.id.action_week_view);
         switch (id){
-            case R.id.action_today:
-                mWeekView.goToToday();
-                return true;
             case R.id.action_day_view:
                 if (mWeekViewType != TYPE_DAY_VIEW) {
                     item.setChecked(!item.isChecked());

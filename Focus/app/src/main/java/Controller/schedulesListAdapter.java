@@ -61,8 +61,10 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
 
             TextView daysTextView = new TextView(getContext());
             daysTextView.setText(days);
+            daysTextView.setPadding(10, 10, 10, 10);
             TextView timesTextView = new TextView(getContext());
             timesTextView.setText(times);
+            timesTextView.setPadding(10, 10, 10, 10);
             TableRow dtRow = new TableRow(getContext());
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
             dtRow.setLayoutParams(lp);
@@ -103,16 +105,6 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
             if(days.get(i) == 6) daysString += "Fr";
             if(days.get(i) == 7) daysString += "Sa";
 
-
-//            switch(days.get(i)) {
-//                case 1 : daysString += "Mo";
-//                case 2 : daysString += "Tu";
-//                case 3 : daysString += "We";
-//                case 4 : daysString += "Th";
-//                case 5 : daysString += "Fr";
-//                case 6 : daysString += "Sa";
-//                case 7 : daysString += "Su";
-//            }
             if(i < days.size()-1){
                 daysString += ", ";
             }

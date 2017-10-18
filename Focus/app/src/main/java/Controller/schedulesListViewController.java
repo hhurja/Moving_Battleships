@@ -51,7 +51,13 @@ public class schedulesListViewController extends Fragment {
         focusModel = FocusModel.getInstance();
 
         View view = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
+        TextView emptyMessage = new TextView(view.getContext());
+        emptyMessage.setText("No schedules. Add a schedule to get Focused!");
+
         ArrayList<Schedule> schedules = focusModel.getSchedules();
+        if (schedules.isEmpty()) {
+            //TODO: show error
+        }
         schedulesListView = (ListView) view.findViewById(R.id.schedulesListView);
         ListAdapter schedulesAdapter = new schedulesListAdapter (context, schedules);
 
@@ -208,7 +214,7 @@ public class schedulesListViewController extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Add profile with that name to schedule
-                getDays(schedulesListViewController.myView, input.getText().toString());
+                getProfiles(schedulesListViewController.myView, input.getText().toString());
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -221,13 +227,14 @@ public class schedulesListViewController extends Fragment {
         builder.show();
     }
 
-    void getDays(View v, String name) {
+    void getDays(View v, String name, ArrayList<String> p) {
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Choose days schedule");
         LinearLayout layout = new LinearLayout(v.getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
 
         final String n = name;
+        final ArrayList<String> profiles = p;
 
         final TextView errorMessage = new TextView(v.getContext());
         errorMessage.setVisibility(View.GONE);
@@ -301,7 +308,7 @@ public class schedulesListViewController extends Fragment {
                 //Do stuff, possibly set wantToCloseDialog to true then...
                 if(wantToCloseDialog) {
                     System.out.println("DAYS: " + days);
-                    getProfiles(schedulesListViewController.myView, n, days);
+                    getTimes(schedulesListViewController.myView, n, days, profiles);
                     dialog.dismiss();
                 }
                 else {
@@ -312,9 +319,8 @@ public class schedulesListViewController extends Fragment {
         });
     }
 
-    void getProfiles(View v, String n, ArrayList<String> d) {
+    void getProfiles(View v, String n) {
         final String names = n;
-        final ArrayList<String> days = d;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Choose profiles to add to schedule");
@@ -339,9 +345,9 @@ public class schedulesListViewController extends Fragment {
                 for (CheckBox cb : profilesCheckBoxes) {
                     if(cb.isChecked()) {
                         profiles.add(cb.getText().toString());
-                        getTimes(schedulesListViewController.myView, names, days, profiles);
                     }
                 }
+                getDays(schedulesListViewController.myView, names, profiles);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -396,6 +402,14 @@ public class schedulesListViewController extends Fragment {
                // Do nothing?
             }
         });
+        builder.setNeutralButton("Add another time range",
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        getDays(schedulesListViewController.myView, name, profiles);
+                    }
+                });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -405,6 +419,49 @@ public class schedulesListViewController extends Fragment {
 
         final AlertDialog dialog = builder.create();
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Boolean wantToCloseDialog = true;
+                //Do stuff, possibly set wantToCloseDialog to true then...
+
+                int start = tpStart.getHour() * 60 + tpStart.getMinute();
+                int end = tpEnd.getHour() * 60 + tpEnd.getMinute();
+
+                if ( end - start > 600) {
+                    wantToCloseDialog = false;
+                }
+                if (end < start) {
+                    wantToCloseDialog = false;
+                }
+                if (end - start < 10) {
+                    wantToCloseDialog = false;
+                }
+
+                if (wantToCloseDialog) {
+
+                    focusModel.createNewSchedule(name);
+                    if( focusModel.getSchedule(name) != null) {
+                        focusModel.getSchedule(name).addTimeRange(days, tpStart.getHour(), tpStart.getMinute(), tpEnd.getHour(), tpEnd.getMinute());
+                        ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
+                    }
+
+                    for(String p : profiles){
+                        if (focusModel.getProfile(p) != null) {
+                            focusModel.getSchedule(name).addProfile(focusModel.getProfile(p));
+                        }
+                    }
+
+                    getDays(schedulesListViewController.myView, name, profiles);
+                    dialog.dismiss();
+                } else {
+                    errorMessage.setVisibility(View.VISIBLE);
+                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+                }
+            }
+        });
+
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
