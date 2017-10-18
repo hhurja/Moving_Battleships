@@ -27,6 +27,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -214,7 +215,7 @@ public class schedulesListViewController extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Add profile with that name to schedule
-                getProfiles(schedulesListViewController.myView, input.getText().toString());
+                getRepeat(schedulesListViewController.myView, input.getText().toString());
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -227,7 +228,35 @@ public class schedulesListViewController extends Fragment {
         builder.show();
     }
 
-    void getDays(View v, String name, ArrayList<String> p) {
+    void getRepeat(View v, String n){
+        final String name = n;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Enter new schedule name:");
+
+        final Switch mySwitch = new Switch(v.getContext());
+
+        builder.setView(mySwitch);
+
+        // Set up the buttons
+        builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Add profile with that name to schedule
+                getProfiles(schedulesListViewController.myView, mySwitch.isChecked(), name);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    void getDays(View v, boolean r, String name, ArrayList<String> p) {
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Choose days schedule");
         LinearLayout layout = new LinearLayout(v.getContext());
@@ -235,7 +264,7 @@ public class schedulesListViewController extends Fragment {
 
         final String n = name;
         final ArrayList<String> profiles = p;
-
+        final boolean repeat = r;
         final TextView errorMessage = new TextView(v.getContext());
         errorMessage.setVisibility(View.GONE);
         errorMessage.setTextColor(Color.RED);
@@ -308,7 +337,7 @@ public class schedulesListViewController extends Fragment {
                 //Do stuff, possibly set wantToCloseDialog to true then...
                 if(wantToCloseDialog) {
                     System.out.println("DAYS: " + days);
-                    getTimes(schedulesListViewController.myView, n, days, profiles);
+                    getTimes(schedulesListViewController.myView, repeat, n, days, profiles);
                     dialog.dismiss();
                 }
                 else {
@@ -319,9 +348,9 @@ public class schedulesListViewController extends Fragment {
         });
     }
 
-    void getProfiles(View v, String n) {
+    void getProfiles(View v, boolean r, String n) {
         final String names = n;
-
+        final boolean repeat = r;
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Choose profiles to add to schedule");
         LinearLayout layout = new LinearLayout(v.getContext());
@@ -347,7 +376,7 @@ public class schedulesListViewController extends Fragment {
                         profiles.add(cb.getText().toString());
                     }
                 }
-                getDays(schedulesListViewController.myView, names, profiles);
+                getDays(schedulesListViewController.myView, repeat, names, profiles);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -360,9 +389,10 @@ public class schedulesListViewController extends Fragment {
         builder.show();
     }
 
-    void getTimes(View v, String n, ArrayList<String> d, ArrayList<String> p) {
+    void getTimes(View v, boolean r, String n, ArrayList<String> d, ArrayList<String> p) {
 
         final String name = n;
+        final boolean repeat = r;
         final ArrayList<String> days = d;
         final ArrayList<String> profiles = p;
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -407,7 +437,7 @@ public class schedulesListViewController extends Fragment {
                 {
                     public void onClick(DialogInterface dialog, int id)
                     {
-                        getDays(schedulesListViewController.myView, name, profiles);
+                        getDays(schedulesListViewController.myView, repeat, name, profiles);
                     }
                 });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -453,7 +483,7 @@ public class schedulesListViewController extends Fragment {
                         }
                     }
 
-                    getDays(schedulesListViewController.myView, name, profiles);
+                    getDays(schedulesListViewController.myView, repeat, name, profiles);
                     dialog.dismiss();
                 } else {
                     errorMessage.setVisibility(View.VISIBLE);

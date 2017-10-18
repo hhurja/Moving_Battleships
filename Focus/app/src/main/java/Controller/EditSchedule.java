@@ -53,7 +53,9 @@ public class EditSchedule extends AppCompatActivity {
 
         for ( Profile p : focusModel.getSchedule(scheduleName).getProfiles() ) {
             if(p!=null) {
-                names.add(p.getProfileName());
+                if (!names.contains(p.getProfileName())){
+                    names.add(p.getProfileName());
+                }
             }
         }
 
@@ -115,7 +117,9 @@ public class EditSchedule extends AppCompatActivity {
                                 ArrayList<String> namesList = new ArrayList<>();
                                 for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
                                     if ( p!= null ) {
-                                        namesList.add(p.getProfileName());
+                                        if(!namesList.contains(p.getProfileName())) {
+                                            namesList.add(p.getProfileName());
+                                        }
                                     }
                                 }
                                 ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, namesList);
@@ -159,7 +163,9 @@ public class EditSchedule extends AppCompatActivity {
                                 ArrayList<String> namesList = new ArrayList<>();
                                 for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
                                     if(p!=null) {
-                                        namesList.add(p.getProfileName());
+                                        if(!namesList.contains(p.getProfileName())) {
+                                            namesList.add(p.getProfileName());
+                                        }
                                     }
                                 }
                                 ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, namesList);
