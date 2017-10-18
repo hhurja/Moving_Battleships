@@ -1,29 +1,23 @@
 package Controller;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Button;
 import android.widget.ListAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import Model.FocusModel;
 import Model.Profile;
-import android.content.pm.*;
-
 import movingbattleship.org.focus.R;
-import java.util.*;
 
 /**
  * Created by Ruth on 10/14/17.
@@ -66,9 +60,18 @@ public class AppChooser extends AppCompatActivity {
         int count = 0;
         for (ApplicationInfo packageInfo : packages) {
             //if (!FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName).substring(0,))
-            names[count] = FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName);
-            nameToPackage.put(names[count], packageInfo.packageName);
-            count ++;
+            String appName = FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName);
+            System.out.println("app name is " + appName + " from " + packageInfo.packageName);
+            String checkName = "";
+            if (appName.length() > 10) {
+                checkName = appName.substring(0, 11);
+            }
+            if (!checkName.equals("com.android")) {
+                names[count] = appName;
+                nameToPackage.put(appName, packageInfo.packageName);
+                count ++;
+            }
+
         }
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         //        android.R.layout.simple_list_item_1, names);
