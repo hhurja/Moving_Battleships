@@ -167,13 +167,18 @@ public class TimeRange {
 
     public ArrayList<Integer> getDays() {
         ArrayList<Integer> days = new ArrayList<>();
-        Iterator it = dayMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            if((boolean)pair.getValue()) {
-                days.add(new Integer((int)pair.getKey()));
+//        Iterator it = dayMap.entrySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry pair = (Map.Entry)it.next();
+//            if((boolean)pair.getValue()) {
+//                days.add(new Integer((int)pair.getKey()));
+//            }
+//            it.remove(); // avoids a ConcurrentModificationException
+//        }
+        for(Integer key: dayMap.keySet()){
+            if(dayMap.get(key)){
+                days.add(key);
             }
-            it.remove(); // avoids a ConcurrentModificationException
         }
         return days;
     }
