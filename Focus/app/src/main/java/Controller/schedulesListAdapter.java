@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,8 @@ public class schedulesListAdapter extends ArrayAdapter<Schedule>{
             TextView timesTextView = new TextView(getContext());
             timesTextView.setText(times);
             timesTextView.setPadding(10, 10, 10, 10);
+            timesTextView.setGravity(Gravity.RIGHT);
+            timesTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
             TableRow dtRow = new TableRow(getContext());
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
             dtRow.setLayoutParams(lp);

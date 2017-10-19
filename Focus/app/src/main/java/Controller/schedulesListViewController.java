@@ -232,7 +232,7 @@ public class schedulesListViewController extends Fragment {
         final String name = n;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-        builder.setTitle("Enter new schedule name:");
+        builder.setTitle("Repeat schedule?");
 
         final Switch mySwitch = new Switch(v.getContext());
 

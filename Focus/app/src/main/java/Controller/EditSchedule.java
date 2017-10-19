@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -61,8 +62,6 @@ public class EditSchedule extends AppCompatActivity {
 
         System.out.println("Schedule: " + schedule.getScheduleName());
         String name = ( schedule != null ) ? schedule.getScheduleName() : "Awesome Study Session";
-        String day = "Tuesday"; //TODO
-        String time = "2:00 pm - 4:00 pm"; //TODO
 
         TextView scheduleNameTextView = (TextView) findViewById(R.id.name);
         scheduleNameTextView.setText(name);
@@ -80,6 +79,8 @@ public class EditSchedule extends AppCompatActivity {
             TextView timesTextView = new TextView(getApplicationContext());
             timesTextView.setText(times);
             timesTextView.setPadding(10, 10, 10, 10);
+            timesTextView.setGravity(Gravity.RIGHT);
+            timesTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
             TableRow dtRow = new TableRow(getApplicationContext());
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
             dtRow.setLayoutParams(lp);

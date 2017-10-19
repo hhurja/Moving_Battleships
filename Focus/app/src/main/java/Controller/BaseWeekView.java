@@ -1,5 +1,7 @@
 package Controller;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -8,6 +10,8 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
@@ -16,9 +20,14 @@ import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import Model.FocusModel;
+import Model.Profile;
+import Model.Schedule;
+import Model.TimeRange;
 import movingbattleship.org.focus.R;
 
 /**
@@ -56,11 +65,61 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
         // Set long press listener for empty view
         mWeekView.setEmptyViewLongPressListener(this);
 
+        // Set long press listener for empty view
+        mWeekView.setEmptyViewClickListener(new WeekView.EmptyViewClickListener() {
+            @Override
+            public void onEmptyViewClicked(Calendar time) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mWeekView.getContext());
+                builder.setTitle("Profiles Scheduled for " + time.get(Calendar.DATE));
+
+                LinearLayout ll = new LinearLayout(mWeekView.getContext());
+                ArrayList<String> names = new ArrayList<>();
+                FocusModel focusModel = FocusModel.getInstance();
+                for (Schedule s : focusModel.getSchedules()) {
+                    for (TimeRange t : s.getTimeRanges()) {
+                        for(Integer i : t.getDays()) {
+                            if ( i == time.get(Calendar.DAY_OF_WEEK) ) {
+                                for(Profile p : s.getProfiles()) {
+                                    if(!names.contains(p.getProfileName())) {
+                                        names.add(p.getProfileName());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            for (int i = 0; i < names.size(); i++) {
+                TextView textView = new TextView(mWeekView.getContext());
+                textView.setText(names.get(i));
+                ll.addView(textView);
+            }
+
+                builder.setView(ll);
+                // Set up the buttons
+                builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
         // Set up a date time interpreter to interpret how the date and time will be formatted in
         // the week view. This is optional.
         setupDateTimeInterpreter(false);
-    }
 
+    }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
