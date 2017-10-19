@@ -246,15 +246,13 @@ public class EditSchedule extends AppCompatActivity {
         return daysString;
     }
 
-    void getDays(View v, boolean r, String name, ArrayList<String> p) {
+    void getDays(View v, String name) {
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Edit Schedule Time Ranges");
         LinearLayout layout = new LinearLayout(v.getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
 
         final String n = name;
-        final ArrayList<String> profiles = p;
-        final boolean repeat = r;
         final TextView errorMessage = new TextView(v.getContext());
         errorMessage.setVisibility(View.GONE);
         errorMessage.setTextColor(Color.RED);
@@ -307,27 +305,28 @@ public class EditSchedule extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+
                 ArrayList<String> days = new ArrayList<String>();
                 if(m.isChecked()) {
                     days.add("Monday");
                 } if(tu.isChecked()) {
                 days.add("Tuesday");
-            } if(w.isChecked()) {
+                } if(w.isChecked()) {
                 days.add("Wednesday");
-            } if(th.isChecked()) {
+                } if(th.isChecked()) {
                 days.add("Thursday");
-            } if(f.isChecked()) {
+                } if(f.isChecked()) {
                 days.add("Friday");
-            } if(sa.isChecked()) {
+                } if(sa.isChecked()) {
                 days.add("Saturday");
-            } if(su.isChecked()) {
+                } if(su.isChecked()) {
                 days.add("Sunday");
             }
                 Boolean wantToCloseDialog = !days.isEmpty();
                 //Do stuff, possibly set wantToCloseDialog to true then...
                 if(wantToCloseDialog) {
                     System.out.println("DAYS: " + days);
-                    getTimes(EditSchedule.myView, repeat, n, days, profiles);
+                    getTimes(EditSchedule.myView, n, days);
                     dialog.dismiss();
                 }
                 else {
@@ -338,13 +337,11 @@ public class EditSchedule extends AppCompatActivity {
         });
     }
 
-    void getTimes(View v, boolean r, String n, ArrayList<String> d, ArrayList<String> p) {
+    void getTimes(View v, String n, ArrayList<String> d) {
 
         myView = v;
         final String name = n;
-        final boolean repeat = r;
         final ArrayList<String> days = d;
-        final ArrayList<String> profiles = p;
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Set Time Range");
 
@@ -387,7 +384,7 @@ public class EditSchedule extends AppCompatActivity {
                 {
                     public void onClick(DialogInterface dialog, int id)
                     {
-                        getDays(EditSchedule.myView, repeat, name, profiles);
+                        getDays(EditSchedule.myView, name);
                     }
                 });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -427,7 +424,7 @@ public class EditSchedule extends AppCompatActivity {
                         setDateAndTimeTable();
                     }
 
-                    getDays(EditSchedule.myView, repeat, name, profiles);
+                    getDays(EditSchedule.myView, name);
                     dialog.dismiss();
                 } else {
                     errorMessage.setVisibility(View.VISIBLE);
@@ -462,13 +459,6 @@ public class EditSchedule extends AppCompatActivity {
                     if( focusModel.getSchedule(name) != null) {
                         focusModel.getSchedule(name).addTimeRange(days, tpStart.getHour(), tpStart.getMinute(), tpEnd.getHour(), tpEnd.getMinute());
                         setDateAndTimeTable();
-                    }
-
-                    for(String p : profiles){
-                        if (focusModel.getProfile(p) != null) {
-                            //focusModel.getSchedule(name).addProfile(focusModel.getProfile(p));
-                            focusModel.addProfileToSchedule(p, name);
-                        }
                     }
 
                     dialog.dismiss();
@@ -508,7 +498,8 @@ public class EditSchedule extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-
+                System.out.println("CLICKED TABLE WOHOO!");
+                getDays(v, scheduleName);
             }
         });
     }

@@ -164,7 +164,7 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (profile.isOn()) {
-                    profile.turnOfF();
+                    profile.turnOFF();
                 } else {
                     profile.turnOn();
                 }
