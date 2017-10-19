@@ -234,8 +234,6 @@ public class FocusModel extends Thread{
         }
     }
 
-
-
     public void removeProfile(String profileName) {
         int profileID = getIdFromName("Profile", profileName);
         /*	Remove profile from FocusModel
@@ -502,6 +500,35 @@ public class FocusModel extends Thread{
         } else {
             System.out.println("Error: Tried to remove Schedule that does not exist. SchedID: " + scheduleID);
         }
+    }
+
+    public void removeProfileFromSchedule(String profileName, String scheduleName){
+        int scheduleID = getIdFromName("Schedule", scheduleName);
+        int profileID = getIdFromName("Profile", profileName);
+
+        Schedule currSched = null;
+
+        for (Schedule s : schedules) {
+            if (s.getScheduleID() == scheduleID) {
+                currSched = s;
+                break;
+            }
+        }
+
+        //if app is in profile, remove from that profile
+        for(Profile p: currSched.getProfiles()){
+            if(p.getProfileID() == profileID){
+                currSched.removeProfile(profileID);
+                break;
+            }
+        }
+
+        //if the schedule is in map and the app is too, remove the app from arraylist associated with profile
+//        if(apps_to_profiles.get(profileID) != null){
+        if(profiles_to_schedules.get(scheduleID).contains(profileID)) {
+            profiles_to_schedules.get(scheduleID).remove(profileID);
+        }
+//        }
     }
 
     public void addProfileToSchedule(String profileName, String scheduleName) {

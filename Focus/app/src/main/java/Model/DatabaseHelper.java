@@ -312,6 +312,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean makeP2SQuery(SQLiteDatabase db, ArrayList<Schedule> schedules){
         boolean correct = true;
+//        System.out.println("asdASDFASDF SCHEDULES = " + schedules);
         for(Schedule s: schedules) {
             int schedID = s.getScheduleID();
             for(Profile p: s.getProfiles()){
@@ -329,14 +330,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean makeBP2AQuery(SQLiteDatabase db, ArrayList<App> apps){
         boolean correct = true;
+        System.out.println("asdASDFASDF APPS = " + apps);
         for(App a: apps) {
             int appID = a.getAppID();
             for(Integer pID: a.getBlockedProfileIDs()){
                 ContentValues cv = new ContentValues();
 //                System.out.println("APPID = "+ a.getAppID() + " PROFILEID = " + profID);
-                cv.put(p2sCol0, Integer.toString(pID));
-                cv.put(a2pCol1, Integer.toString(appID));
-                long result = db.insert(P2S_TABLE_NAME, null, cv);
+                cv.put(bp2aCol0, Integer.toString(pID));
+                cv.put(bp2aCol1, Integer.toString(appID));
+                long result = db.insert(BP2A_TABLE_NAME, null, cv);
                 if ( result == -1 ) correct = false;
             }
         }

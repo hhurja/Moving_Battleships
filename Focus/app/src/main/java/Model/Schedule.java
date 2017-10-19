@@ -139,7 +139,8 @@ public class Schedule {
     }
 
     public void blockProfiles(){
-        for(Profile p: profiles) p.blockProfile();
+        for(Profile p: profiles)
+            if(p.isOn()) p.blockProfile();
         blocked = true;
     }
 
