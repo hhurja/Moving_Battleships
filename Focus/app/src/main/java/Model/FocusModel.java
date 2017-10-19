@@ -478,6 +478,20 @@ public class FocusModel extends Thread{
             numSchedulesCreated++;
         }
     }
+    public void createNewSchedule (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
+                                   int endHour, int endMinute, boolean invis){
+
+        if (alreadyExists("Schedule", scheduleName)) {
+            System.out.println("Attempted to create a Schedule that already exists. "
+                    + "Do something about this -- " + scheduleName);
+        } else {
+            Schedule newSched = new Schedule(numSchedulesCreated, scheduleName, invis);
+            schedules.add(newSched);
+            newSched.addTimeRange(days, startHour, startMinute, endHour, endMinute);
+            profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
+            numSchedulesCreated++;
+        }
+    }
 
     public void removeSchedule(int scheduleID) {
 	    /*	Remove schedule from FocusModel
