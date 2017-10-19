@@ -118,6 +118,27 @@ public class FocusModel extends Thread{
      *
      * Getter Functions
      */
+
+    public ArrayList<App> getAllApps(){
+        return apps;
+    }
+
+    public ArrayList<Schedule> getAllSchedules(){
+        return schedules;
+    }
+
+    public int getNumProfilesCreated(){
+        return numProfilesCreated;
+    }
+
+    public int getNumAppsCreated(){
+        return numAppsCreated;
+    }
+
+    public int getNumSchedulesCreated(){
+        return numSchedulesCreated;
+    }
+
     public ArrayList <Profile> getAllProfiles() {
         return profiles;
     }
@@ -760,15 +781,21 @@ public class FocusModel extends Thread{
         System.out.println("*****************************************");
 //        mDatabaseHelper = new DatabaseHelper(context);
 
-        Boolean insertData = dbHelper.addDataToIdTable(Integer.toString(numProfilesCreated),
-                Integer.toString(numAppsCreated), Integer.toString(numSchedulesCreated));
-
-        if(insertData){
-            System.out.println("Data Successfully input");
-        }else{
-            System.out.println("Data Did not enter db");
-        }
+//        Boolean insertData = dbHelper.addDataToIdTable(Integer.toString(numProfilesCreated),
+//                Integer.toString(numAppsCreated), Integer.toString(numSchedulesCreated));
+//
+//
+//
+//        if(insertData){
+//            System.out.println("Data Successfully input");
+//        }else{
+//            System.out.println("Data Did not enter db");
+//        }
+        dbHelper.writeAllData(this);
         System.out.println(dbHelper.getTableAsString("id_table"));
+        System.out.println(dbHelper.getTableAsString("app_table"));
+        System.out.println(dbHelper.getTableAsString("schedule_table"));
+        System.out.println(dbHelper.getTableAsString("prof_table"));
     }
 
     public boolean appInProfile(String profName, String appName){

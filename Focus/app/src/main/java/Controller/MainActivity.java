@@ -90,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
 
         fm.createNewSchedule("Test", new ArrayList<String>(), 15, 30, 18, 0);
 
-//        mDatabaseHelper = new DatabaseHelper(this);
-//        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+        mDatabaseHelper = new DatabaseHelper(this);
+        //SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
 
-//        fm.createDatabase(mDatabaseHelper);
+        fm.createDatabase(mDatabaseHelper);
 
 //        ArrayList<String> blocked = new ArrayList<String>();
 //        blocked.add("com.google.android.apps.maps");
