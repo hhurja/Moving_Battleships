@@ -1,6 +1,9 @@
 package Controller;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
@@ -31,6 +35,7 @@ import Model.AppIconGenerator;
 import Model.AppProcessChecker;
 import Model.DatabaseHelper;
 import Model.FocusModel;
+import Model.Profile;
 import movingbattleship.org.focus.R;
 
 import static android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS;
@@ -46,12 +51,16 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private static Context mContext;
+    public static Context mContext;
 
     //Notification Listener Variables
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
     //private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
     private AlertDialog enableNotificationListenerAlertDialog;
+
+    //Variables for sending notifications
+    public static int NotificationID = 0;
+    public static String CHANNEL_ID = "my_channel_id";
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -73,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
             enableNotificationListenerAlertDialog = buildNotificationServiceAlertDialog();
             enableNotificationListenerAlertDialog.show();
         }
+        //Create a channel for sending notifications
+        createChannel();
 
         AppIconGenerator aig = new AppIconGenerator(getPackageManager());
         hm = aig.getAppIcon();
@@ -185,6 +196,22 @@ public class MainActivity extends AppCompatActivity {
                 });
         return(alertDialogBuilder.create());
     }
+
+    /**
+     *
+     * Create a channel for sending notifications
+     */
+    @TargetApi(Build.VERSION_CODES.O)
+    public void createChannel() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        int notifyID = 1;
+        String CHANNEL_ID = "my_channel_id";
+        CharSequence name = "Focus Channel";
+        int importantce = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importantce);
+        notificationManager.createNotificationChannel(mChannel);
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
