@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,8 +24,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -139,66 +136,6 @@ public class schedulesListViewController extends Fragment {
         return view;
     }
 
-    void getAll(View v) {
-        // CITED: https://stackoverflow.com/questions/10903754/input-text-dialog-android
-        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-        builder.setTitle("Create Schedule");
-        ScrollView sv = new ScrollView(v.getContext());
-        LinearLayout layout = new LinearLayout(v.getContext());
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        final EditText titleBox = new EditText(v.getContext());
-        titleBox.setHint("Title");
-        titleBox.setInputType(InputType.TYPE_CLASS_TEXT);
-        layout.addView(titleBox);
-
-        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday" , "Friday" , "Saturday" , "Sunday"};
-        final Spinner daySpinner = new Spinner(v.getContext());
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(v.getContext(),
-                android.R.layout.simple_spinner_item, days);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        daySpinner.setAdapter(dataAdapter);
-
-        layout.addView(daySpinner);
-
-        TimePicker tpStart = new TimePicker(v.getContext());
-        tpStart.setLayoutMode(1);
-        tpStart.setScaleY((float).5);
-        tpStart.setScaleX((float).5);
-
-        TextView to = new TextView(v.getContext());
-        to.setText("TO");
-
-        TimePicker tpEnd = new TimePicker(v.getContext());
-        tpEnd.setLayoutMode(2);
-        tpEnd.setScaleY((float).5);
-        tpEnd.setScaleX((float).5);
-
-        layout.addView(tpStart);
-        layout.addView(to);
-        layout.addView(tpEnd);
-        sv.addView(layout);
-        builder.setView(sv);
-
-        // Set up the buttons
-        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Add profile with that name to schedule
-                EditSchedule.names.add(titleBox.getText().toString());
-                // TODO
-                //focusModel.getSchedule().addProfile(focusModel.getProfile());
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
     void getName(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Enter new schedule name:");
@@ -479,7 +416,8 @@ public class schedulesListViewController extends Fragment {
 
                     for(String p : profiles){
                         if (focusModel.getProfile(p) != null) {
-                            focusModel.getSchedule(name).addProfile(focusModel.getProfile(p));
+                            //focusModel.getSchedule(name).addProfile(focusModel.getProfile(p));
+                            focusModel.addProfileToSchedule(p, name);
                         }
                     }
 
@@ -522,7 +460,8 @@ public class schedulesListViewController extends Fragment {
 
                     for(String p : profiles){
                         if (focusModel.getProfile(p) != null) {
-                            focusModel.getSchedule(name).addProfile(focusModel.getProfile(p));
+                            //focusModel.getSchedule(name).addProfile(focusModel.getProfile(p));
+                            focusModel.addProfileToSchedule(p, name);
                         }
                     }
 

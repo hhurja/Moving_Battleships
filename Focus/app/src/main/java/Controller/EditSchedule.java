@@ -160,7 +160,7 @@ public class EditSchedule extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // Add profile with that name to schedule
-                                focusModel.getSchedule(scheduleName).addProfile(focusModel.getProfile(input.getText().toString()));
+                                focusModel.addProfileToSchedule(input.getText().toString(), scheduleName);
                                 ArrayList<String> namesList = new ArrayList<>();
                                 for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
                                     if(p!=null) {
