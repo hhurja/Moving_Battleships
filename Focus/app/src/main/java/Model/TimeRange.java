@@ -99,6 +99,10 @@ public class TimeRange {
         }
     }
 
+    public boolean isRepeating(){
+        return repeat;
+    }
+
     public Time getTimeRemaining() {
         return Time.valueOf("5");
     }
