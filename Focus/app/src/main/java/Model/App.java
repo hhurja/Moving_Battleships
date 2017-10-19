@@ -5,9 +5,19 @@ package Model;
  */
 
 
+import android.annotation.TargetApi;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
+
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
+
+import Controller.MainActivity;
+import movingbattleship.org.focus.R;
+
+import static movingbattleship.org.focus.R.id.profileName;
 
 /**
  * App is a class that stores the name of an application
@@ -76,9 +86,10 @@ public class App {
         if (blockedProfileIDs.isEmpty()) {
             blocked = false;
 
-            //TODO send all notifications
+            //send all stored notifications
             for (Notification n : notifications) {
-                //TODO send notifications
+                sendNotification(n);
+
             }
             notifications.clear();
         }
@@ -94,6 +105,24 @@ public class App {
 
     public void addNotification(Notification n) {
         notifications.add(n);
+    }
+
+    /**
+     *
+     * Sends a notification
+     */
+    @TargetApi(Build.VERSION_CODES.O)
+    public void sendNotification(Notification n) {
+        NotificationManager notificationManager = (NotificationManager) MainActivity.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        android.app.Notification notification = new android.app.Notification.Builder(MainActivity.mContext)
+                .setSmallIcon(R.drawable.check)
+                .setContentTitle(name + " recieved a notification while blocked")
+                .setContentText(n.getTickerText())
+                .setChannelId(MainActivity.CHANNEL_ID).build();
+
+        notificationManager.notify(MainActivity.NotificationID++, notification);
+        System.out.println("Notification should be sent");
     }
 
 
