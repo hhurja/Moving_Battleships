@@ -45,9 +45,11 @@ public class Schedule {
         activated = true;
         repeat = false;
         invisible = false;
+        isInRange = false;
 
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
+        timeRanges = new ArrayList<>();
 //        timeRange = new TimeRange(new Time(startHour, startMinute, 0), new Time(endHour, endMinute, 0));
 
     }
@@ -56,10 +58,12 @@ public class Schedule {
         this.name = scheduleName;
         activated = true;
         repeat = false;
-        invisible = true;
+        invisible = invis;
+        isInRange = false;
 
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
+        timeRanges = new ArrayList<>();
 //        timeRange = new TimeRange(new Time(startHour, startMinute, 0), new Time(endHour, endMinute, 0));
 
     }
@@ -152,8 +156,13 @@ public class Schedule {
     }
 
     public void blockProfiles(){
-        for(Profile p: profiles)
-            if(p.isOn()) p.blockProfile();
+        for(Profile p: profiles) {
+            if (p.isOn()) p.blockProfile();
+            if (!isInRange){
+                p.turnOn();
+                isInRange = true;
+            }
+        }
         blocked = true;
     }
 
@@ -168,8 +177,12 @@ public class Schedule {
 
     public boolean isInTimeRange(){
         for(TimeRange tr: timeRanges){
-            if (tr.inRange()) return true;
+            if (tr.inRange()){
+                return true;
+            }
+
         }
+        isInRange = false;
         return false;
     }
 
@@ -197,6 +210,10 @@ public class Schedule {
         hm.add(maxHour);
         hm.add(maxMinute);
         return hm;
+    }
+
+    public void clearTimeRanges(){
+        timeRanges.clear();
     }
 
 
