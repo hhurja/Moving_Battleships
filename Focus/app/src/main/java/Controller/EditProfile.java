@@ -101,8 +101,8 @@ public class EditProfile extends AppCompatActivity {
         timerText = (TextView) findViewById(R.id.timer);
         //TODO: figure out if we call isOn(), isActive(), or both
         if (profile.isActivated()) {
-            ArrayList <Integer> endTime = focusModel.endOfTimer(profile.getProfileName());
-            timerText.setText("Blocked until: " + endTime.get(0) + ":" + endTime.get(1));
+            //ArrayList <Integer> endTime = focusModel.endOfTimer(profile.getProfileName());
+            timerText.setText("Blocked until: " + profile.time);
         } else {
             timerText.setVisibility(TextView.INVISIBLE);
         }
@@ -179,6 +179,7 @@ public class EditProfile extends AppCompatActivity {
         fab_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final View myView = view;
                 // pop up dialogue to create new schedule
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Set Blocking time");
@@ -203,43 +204,59 @@ public class EditProfile extends AppCompatActivity {
                 builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int currDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-                        int currHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                        int currMinute = Calendar.getInstance().get(Calendar.MINUTE);
-                        String schedName = Integer.toString(Calendar.DAY_OF_WEEK) +
-                                Integer.toString(Calendar.HOUR_OF_DAY) + Integer.toString(Calendar.MINUTE);
-                        ArrayList <String> days = new ArrayList<String> ();
-                        if (currDay == 1) {
-                            days.add("monday");
-                        } else if (currDay == 2) {
-                            days.add("tuesday");
-                        } else if (currDay == 3) {
-                            days.add("wednesday");
-                        }else if (currDay == 4) {
-                            days.add("thursday");
-                        }else if (currDay == 5) {
-                            days.add("friday");
-                        }else if (currDay == 6) {
-                            days.add("saturday");
-                        }else if (currDay == 7) {
-                            days.add("sunday");
+
+                        if (minutesBox.getText().toString().length() == 0 || hoursBox.getText().toString().length() == 0) {
+                            showErrorMessage(myView);
                         }
-                        int endHour = 0;
-                        int endMinute = currMinute + Integer.parseInt(minutesBox.getText().toString());
-                        if (endMinute >= 60) {
-                            endHour += 1;
+
+                        else if (Integer.parseInt(minutesBox.getText().toString()) < 10 && Integer.parseInt(hoursBox.getText().toString()) == 0 || Integer.parseInt(hoursBox.getText().toString()) > 10) {
+                            showErrorMessage(myView);
                         }
-                        endHour = currHour + Integer.parseInt(hoursBox.getText().toString());
-                        if (endHour > 23) {
-                            endHour = endHour - 24;
+
+                        else {
+                            profile.addTime(Integer.parseInt(minutesBox.getText().toString()), Integer.parseInt(hoursBox.getText().toString()));
+                            int currDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                            int currHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                            int currMinute = Calendar.getInstance().get(Calendar.MINUTE);
+                            String schedName = Integer.toString(Calendar.DAY_OF_WEEK) +
+                                    Integer.toString(Calendar.HOUR_OF_DAY) + Integer.toString(Calendar.MINUTE);
+                            ArrayList <String> days = new ArrayList<String> ();
+                            if (currDay == 1) {
+                                days.add("monday");
+                            } else if (currDay == 2) {
+                                days.add("tuesday");
+                            } else if (currDay == 3) {
+                                days.add("wednesday");
+                            }else if (currDay == 4) {
+                                days.add("thursday");
+                            }else if (currDay == 5) {
+                                days.add("friday");
+                            }else if (currDay == 6) {
+                                days.add("saturday");
+                            }else if (currDay == 7) {
+                                days.add("sunday");
+                            }
+                            int endHour = 0;
+                            int endMinute = currMinute + Integer.parseInt(minutesBox.getText().toString());
+                            if (endMinute >= 60) {
+                                endHour += 1;
+                            }
+                            endHour = currHour + Integer.parseInt(hoursBox.getText().toString());
+                            if (endHour > 23) {
+                                endHour = endHour - 24;
+                            }
+                            System.out.println("name is " + schedName + " days is " + days + " currHours is " +
+                                    currHour + " currMinute is " + currMinute + " endHours is " + endHour +
+                                    " endMinute is " + endMinute);
+                            //focusModel.createNewSchedule(schedName, days, currHour, currMinute,
+                            //endHour, endMinute, true);
+
+
+
+                            profile.activate();
+                            Intent intent = new Intent(getApplicationContext(), EditProfile.class);
+                            startActivity(intent);
                         }
-                        System.out.println("name is " + schedName + " days is " + days + " currHours is " +
-                                currHour + " currMinute is " + currMinute + " endHours is " + endHour +
-                                " endMinute is " + endMinute);
-                        focusModel.createNewSchedule(schedName, days, currHour, currMinute,
-                        endHour, endMinute, true);
-                        Intent intent = new Intent(getApplicationContext(), EditProfile.class);
-                        startActivity(intent);
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -298,4 +315,28 @@ public class EditProfile extends AppCompatActivity {
     }
 
 
+    void showErrorMessage(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("Invalid time");
+
+        // Set up the input
+        final TextView t = new TextView(view.getContext());
+        t.setText("Timer must be greater than 10 minutes and less than 10 hours");
+        builder.setView(t);
+
+        // Set up the buttons
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
 }

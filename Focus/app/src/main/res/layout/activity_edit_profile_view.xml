@@ -38,7 +38,7 @@
                 android:id="@+id/timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Blocked until: "
+                android:text=""
                 android:layout_weight="0.4"/>
 
         </LinearLayout>

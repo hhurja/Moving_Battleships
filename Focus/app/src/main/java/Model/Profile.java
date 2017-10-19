@@ -6,10 +6,10 @@ import android.content.Context;
 import android.os.Build;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 
 import Controller.MainActivity;
-import movingbattleship.org.focus.R;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -29,6 +29,7 @@ public class Profile {
     private ArrayList<Integer> scheduleIDs; //TODO do we need this?
     private boolean activated;
     private boolean onOffSwitch;
+    public String time;
 
     /**
      * Constructors
@@ -39,6 +40,7 @@ public class Profile {
         activated = false;
         apps = new ArrayList<>();
         onOffSwitch = true;
+        time = "";
     }
 
     /**
@@ -164,6 +166,22 @@ public class Profile {
 
         notificationManager.notify(MainActivity.NotificationID++, notification);
         System.out.println("Notification should be sent");
+    }
+
+    public void addTime(int min, int hour) {
+        int currDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        int currHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int currMinute = Calendar.getInstance().get(Calendar.MINUTE);
+
+        int finalHours = 0;
+        int finalMin = min;
+        if (min + currMinute > 60) {
+            finalHours++;
+            finalMin = min + currMinute - 60;
+        }
+        finalHours += hour;
+
+        time = Integer.toString(finalHours) + ":" + Integer.toString(finalMin);
     }
 
 }

@@ -47,7 +47,7 @@ public class profilesListAdapter extends ArrayAdapter<String>{
 
         TextView timerText = (TextView) profilesView.findViewById(R.id.timer);
         if (profile.isActivated()) {
-            //timerText.setText("Blocked until: ");
+            timerText.setText("Blocked until: " + profile.time);
         } else {
             timerText.setVisibility(TextView.INVISIBLE);
         }
