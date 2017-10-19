@@ -252,6 +252,7 @@ public class EditSchedule extends AppCompatActivity {
         LinearLayout layout = new LinearLayout(v.getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
 
+        final View tempView = v;
         final String n = name;
         final TextView errorMessage = new TextView(v.getContext());
         errorMessage.setVisibility(View.GONE);
@@ -326,7 +327,7 @@ public class EditSchedule extends AppCompatActivity {
                 //Do stuff, possibly set wantToCloseDialog to true then...
                 if(wantToCloseDialog) {
                     System.out.println("DAYS: " + days);
-                    getTimes(EditSchedule.myView, n, days);
+                    getTimes(tempView, n, days);
                     dialog.dismiss();
                 }
                 else {
