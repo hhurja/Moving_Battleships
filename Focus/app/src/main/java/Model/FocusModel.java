@@ -6,9 +6,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -26,7 +28,7 @@ public class FocusModel extends Thread{
 
     //Maps each each object to the others that hold it
     private HashMap<Integer, HashSet<Integer>> profiles_to_schedules; //scheduleID to list of profileIDs
-    private HashMap<Integer, HashSet<Integer>> apps_to_profiles;
+    private HashMap<Integer, HashSet<Integer>> apps_to_profiles; //profileID to list of apps
 
     private int numProfilesCreated;
     private int numSchedulesCreated;
@@ -780,5 +782,46 @@ public class FocusModel extends Thread{
         return apps_to_profiles.get(profileID).contains(appID);
 
 
+    }
+
+    public ArrayList<Integer> endOfTimer(String profName){
+        //Returns a pair of integers
+        //first is the latest hour that this profile will be engaged
+        //second is the latest minute of that hour
+        ArrayList<Integer> hm = new ArrayList<>();
+        int profileID = getIdFromName("Profile", profName);
+
+        String lastDay = "";
+        int lastHour = -1;
+        int lastMinute = -1;
+
+
+
+        for(Map.Entry<Integer, HashSet<Integer>> entry: profiles_to_schedules.entrySet()){
+            int currScheduleID = entry.getKey();
+            HashSet<Integer> currProfs = entry.getValue();
+            Schedule currSchedule = null;
+
+            if(currProfs.contains(profileID)){
+                for(Schedule s: schedules){
+                    if (currScheduleID == s.getScheduleID()) {
+                        currSchedule = s;
+                    }
+                }
+                if(currSchedule != null){
+                    if(currSchedule.isInTimeRange()){
+                        hm = currSchedule.getLatestHM();
+                    }
+                }
+            }
+            if(hm.get(0) >= lastHour){
+                lastHour = hm.get(0);
+                if(hm.get(1) > lastMinute) lastMinute = hm.get(1);
+            }
+        }
+        hm.clear();
+        hm.add(lastHour);
+        hm.add(lastMinute);
+        return hm;
     }
 }
