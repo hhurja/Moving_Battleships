@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Model.FocusModel;
@@ -47,7 +48,8 @@ public class profilesListAdapter extends ArrayAdapter<String>{
 
         TextView timerText = (TextView) profilesView.findViewById(R.id.timer);
         if (profile.isActivated()) {
-            //timerText.setText("Blocked until: ");
+            ArrayList<Integer> end = focusModel.endOfTimer(profile.getProfileName());
+            timerText.setText("Blocked until: " + end.get(0) + ":" + end.get(1));
         } else {
             timerText.setVisibility(TextView.INVISIBLE);
         }

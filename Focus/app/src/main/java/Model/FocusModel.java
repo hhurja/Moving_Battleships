@@ -259,6 +259,9 @@ public class FocusModel extends Thread{
             //remove profile from any schedule that contains it
             for (Schedule s : schedules) {
                 if (s.getProfileIDs().contains(profileID)) {
+                    if(s.invisible){
+                        removeSchedule(s.getScheduleID());
+                    }
                     s.removeProfile(profileID);
                 }
             }
