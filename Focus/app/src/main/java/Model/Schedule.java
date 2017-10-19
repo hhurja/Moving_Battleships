@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.sql.Time;
+import java.util.StringTokenizer;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -20,6 +21,7 @@ public class Schedule {
     Boolean activated;
     Boolean repeat;
     Boolean blocked;
+    Boolean invisible;
 
 
     public Schedule(int id, String name){
@@ -28,6 +30,7 @@ public class Schedule {
         activated = true;
         repeat = false;
         blocked = false;
+        invisible = false;
 
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<Profile>();
@@ -40,6 +43,7 @@ public class Schedule {
         this.name = scheduleName;
         activated = true;
         repeat = false;
+        invisible = false;
 
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
@@ -157,6 +161,28 @@ public class Schedule {
 
     public void addTimeRange(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute){
         timeRanges.add(new TimeRange(days, startHour, startMinute, endHour, endMinute));
+    }
+
+    public ArrayList<Integer> getLatestHM(){
+        //returns an arraylist that will be 2 integers long every time
+        //the first int is the latest hour that this schedule will be engaged until
+        //the second int is the latest minute of that hour
+        ArrayList<Integer> hm = new ArrayList<>();
+
+        int maxHour = -1;
+        int maxMinute = -1;
+
+        for(TimeRange tr: timeRanges){
+            if(tr.inRange()){
+                if(tr.getEndHour() >= maxHour){
+                    maxHour = tr.getEndHour();
+                    if(tr.getEndMinute() > maxMinute) maxMinute = tr.getEndMinute();
+                }
+            }
+        }
+        hm.add(maxHour);
+        hm.add(maxMinute);
+        return hm;
     }
 
 
