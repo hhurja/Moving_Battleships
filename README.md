@@ -1,4 +1,8 @@
-Welcome to Focus! Please start our application and grant the two permissions that Focus! will need in order to run successfully.
+Welcome to Focus! 
+
+Before you start, please ensure you are using Android API 26 and the emulator 
+
+Please start our application and grant the two permissions that Focus! will need in order to run successfully.
         1). UsageStatsManager permission
         2). Notification permission
         

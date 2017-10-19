@@ -499,10 +499,10 @@ public class EditSchedule extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                System.out.println("CLICKED TABLE WOHOO!");
+                focusModel.getSchedule(scheduleName).clearTimeRanges();
                 getDays(v, scheduleName);
+                setDateAndTimeTable();
             }
         });
     }
-
 }
