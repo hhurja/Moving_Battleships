@@ -1,21 +1,27 @@
 package Controller;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.util.ArrayList;
 
@@ -25,12 +31,14 @@ import Model.Schedule;
 import Model.TimeRange;
 import movingbattleship.org.focus.R;
 
+@TargetApi(23)
 public class EditSchedule extends AppCompatActivity {
 
     private FocusModel focusModel;
     private Schedule schedule;
     private boolean isActive;
     private String scheduleName;
+    private static View myView;
 
     public static ArrayList<String> names = new ArrayList<String>();
 
@@ -50,6 +58,7 @@ public class EditSchedule extends AppCompatActivity {
         if (extras != null) {
             scheduleName = extras.getString("scheduleName");
             schedule = focusModel.getSchedule(scheduleName);
+            isActive = schedule.isActive();
         }
 
         for ( Profile p : focusModel.getSchedule(scheduleName).getProfiles() ) {
@@ -66,33 +75,11 @@ public class EditSchedule extends AppCompatActivity {
         TextView scheduleNameTextView = (TextView) findViewById(R.id.name);
         scheduleNameTextView.setText(name);
 
-        TableLayout daysAndTimesTable = (TableLayout) findViewById(R.id.datesAndTimesTableLayout);
-        for (TimeRange t : schedule.getTimeRanges()) {
-            System.out.println(schedule.getTimeRanges());
-            String days = getDaysString(t.getDays());
-            String times = t.getTime();
-            System.out.println(days + " " + times);
-
-            TextView daysTextView = new TextView(getApplicationContext());
-            daysTextView.setText(days);
-            daysTextView.setPadding(10, 10, 10, 10);
-            TextView timesTextView = new TextView(getApplicationContext());
-            timesTextView.setText(times);
-            timesTextView.setPadding(10, 10, 10, 10);
-            timesTextView.setGravity(Gravity.RIGHT);
-            timesTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
-            TableRow dtRow = new TableRow(getApplicationContext());
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-            dtRow.setLayoutParams(lp);
-            dtRow.addView(daysTextView);
-            dtRow.addView(timesTextView);
-            daysAndTimesTable.addView(dtRow);
-        }
+        setDateAndTimeTable();
 
         Button addProfileButton = (Button) findViewById(R.id.addProfileButton);
-        Button toggleOnOff = (Button) findViewById(R.id.toggleOnOffButton);
-        toggleOnOff.setBackgroundColor(isActive ? Color.RED : Color.GREEN);
-        toggleOnOff.setText(isActive ? "Turn Schedule Off" : "Turn Schedule On");
+        Switch toggleOnOff = (Switch) findViewById(R.id.simple_switch);
+        toggleOnOff.setChecked(isActive);
 
         ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
         ListView lv = (ListView)findViewById(R.id.profilesListView);
@@ -104,7 +91,7 @@ public class EditSchedule extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         final View v = view;
-                        String name = String.valueOf(parent.getItemAtPosition(position));
+                        final String name = String.valueOf(parent.getItemAtPosition(position));
                         // CITED: https://stackoverflow.com/questions/10903754/input-text-dialog-android
                         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                         builder.setTitle("Remove Profile from Schedule?");
@@ -114,7 +101,8 @@ public class EditSchedule extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // Add profile with that name to schedule
-                                focusModel.getSchedule(scheduleName).removeProfile(focusModel.getSchedule(scheduleName).getScheduleID());
+                                //focusModel.getSchedule(scheduleName).removeProfile(focusModel.getSchedule(scheduleName).getScheduleID());
+                                focusModel.removeProfileFromSchedule(name, scheduleName);
                                 ArrayList<String> namesList = new ArrayList<>();
                                 for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
                                     if ( p!= null ) {
@@ -139,39 +127,44 @@ public class EditSchedule extends AppCompatActivity {
                     }
                 }
         );
-
         addProfileButton.setOnClickListener(
                 new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
                         // CITED: https://stackoverflow.com/questions/10903754/input-text-dialog-android
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                        builder.setTitle("Add Profile to Schedule");
+                        builder.setTitle("Choose profiles to add to schedule");
+                        LinearLayout layout = new LinearLayout(v.getContext());
+                        layout.setOrientation(LinearLayout.VERTICAL);
+                        final ArrayList<CheckBox> profilesCheckBoxes = new ArrayList<>();
                         final View view = v;
-
-                        // Set up the input
-                        final EditText input = new EditText(v.getContext());
-                        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                        input.setInputType(InputType.TYPE_CLASS_TEXT);
-                        builder.setView(input);
-
+                        for (Profile p : focusModel.getAllProfiles()) {
+                            CheckBox cb = new CheckBox(v.getContext());
+                            cb.setText(p.getProfileName());
+                            profilesCheckBoxes.add(cb);
+                            layout.addView(cb);
+                        }
+                        builder.setView(layout);
                         // Set up the buttons
-                        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // Add profile with that name to schedule
-                                focusModel.addProfileToSchedule(input.getText().toString(), scheduleName);
-                                ArrayList<String> namesList = new ArrayList<>();
-                                for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
-                                    if(p!=null) {
-                                        if(!namesList.contains(p.getProfileName())) {
-                                            namesList.add(p.getProfileName());
-                                        }
+                                ArrayList<String> profiles = new ArrayList<String>();
+
+                                for (CheckBox cb : profilesCheckBoxes) {
+                                    if(cb.isChecked()) {
+                                        profiles.add(cb.getText().toString());
                                     }
                                 }
-                                ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, namesList);
+                                for (int i = 0; i < profiles.size(); i++) {
+                                    if (!names.contains(profiles.get(i))) {
+                                        names.add(profiles.get(i));
+                                    }
+                                }
+                                ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, names);
                                 ListView lv = (ListView)findViewById(R.id.profilesListView);
                                 lv.setAdapter(listAdapter);
+
                             }
                         });
                         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -180,7 +173,6 @@ public class EditSchedule extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-
                         builder.show();
                     }
                 }
@@ -192,10 +184,9 @@ public class EditSchedule extends AppCompatActivity {
                     public void onClick(View v) {
                         //TODO: Turn schedule on or off
                         isActive = !isActive;
-                        Button toggleOnOff = (Button) findViewById(R.id.toggleOnOffButton);
+                        Switch toggleOnOff = (Switch) findViewById(R.id.simple_switch);
                         focusModel.getSchedule(scheduleName).setActivated(isActive);
-                        toggleOnOff.setBackgroundColor(isActive ? Color.RED : Color.GREEN);
-                        toggleOnOff.setText(isActive ? "Turn Schedule Off" : "Turn Schedule On");
+                        toggleOnOff.setChecked(isActive);
                     }
                 }
         );
@@ -246,15 +237,7 @@ public class EditSchedule extends AppCompatActivity {
             if(days.get(i) == 5) daysString += "Th";
             if(days.get(i) == 6) daysString += "Fr";
             if(days.get(i) == 7) daysString += "Sa";
-//            switch(days.get(i)) {
-//                case 1 : daysString += "Mo";
-//                case 2 : daysString += "Tu";
-//                case 3 : daysString += "We";
-//                case 4 : daysString += "Th";
-//                case 5 : daysString += "Fr";
-//                case 6 : daysString += "Sa";
-//                case 7 : daysString += "Su";
-//            }
+
             if(i < days.size()-1){
                 daysString += ", ";
             }
@@ -262,4 +245,272 @@ public class EditSchedule extends AppCompatActivity {
 
         return daysString;
     }
+
+    void getDays(View v, boolean r, String name, ArrayList<String> p) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Edit Schedule Time Ranges");
+        LinearLayout layout = new LinearLayout(v.getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final String n = name;
+        final ArrayList<String> profiles = p;
+        final boolean repeat = r;
+        final TextView errorMessage = new TextView(v.getContext());
+        errorMessage.setVisibility(View.GONE);
+        errorMessage.setTextColor(Color.RED);
+        errorMessage.setText("Choose schedule days");
+
+        final CheckBox m = new CheckBox(v.getContext());
+        m.setText("Monday");
+        m.setChecked(true);
+        final CheckBox tu = new CheckBox(v.getContext());
+        tu.setText("Tuesday");
+        final CheckBox w = new CheckBox(v.getContext());
+        w.setText("Wednesday");
+        final CheckBox th = new CheckBox(v.getContext());
+        th.setText("Thursday");
+        final CheckBox f = new CheckBox(v.getContext());
+        f.setText("Friday");
+        final CheckBox sa = new CheckBox(v.getContext());
+        sa.setText("Saturday");
+        final CheckBox su = new CheckBox(v.getContext());
+        su.setText("Sunday");
+
+        layout.addView(errorMessage);
+        layout.addView(m);
+        layout.addView(tu);
+        layout.addView(w);
+        layout.addView(th);
+        layout.addView(f);
+        layout.addView(sa);
+        layout.addView(su);
+
+        builder.setView(layout);
+        // Set up the buttons
+        builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO: set days ???
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                ArrayList<String> days = new ArrayList<String>();
+                if(m.isChecked()) {
+                    days.add("Monday");
+                } if(tu.isChecked()) {
+                days.add("Tuesday");
+            } if(w.isChecked()) {
+                days.add("Wednesday");
+            } if(th.isChecked()) {
+                days.add("Thursday");
+            } if(f.isChecked()) {
+                days.add("Friday");
+            } if(sa.isChecked()) {
+                days.add("Saturday");
+            } if(su.isChecked()) {
+                days.add("Sunday");
+            }
+                Boolean wantToCloseDialog = !days.isEmpty();
+                //Do stuff, possibly set wantToCloseDialog to true then...
+                if(wantToCloseDialog) {
+                    System.out.println("DAYS: " + days);
+                    getTimes(EditSchedule.myView, repeat, n, days, profiles);
+                    dialog.dismiss();
+                }
+                else {
+                    errorMessage.setVisibility(View.VISIBLE);
+                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+                }
+            }
+        });
+    }
+
+    void getTimes(View v, boolean r, String n, ArrayList<String> d, ArrayList<String> p) {
+
+        myView = v;
+        final String name = n;
+        final boolean repeat = r;
+        final ArrayList<String> days = d;
+        final ArrayList<String> profiles = p;
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Set Time Range");
+
+        LinearLayout layout = new LinearLayout(v.getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final TextView errorMessage = new TextView(v.getContext());
+        errorMessage.setText("Please enter a valid time range (Less than 10 hrs and Greater than 10 mins)");
+        errorMessage.setVisibility(View.GONE);
+        errorMessage.setTextColor(Color.RED);
+
+        final TimePicker tpStart = new TimePicker(new ContextThemeWrapper(v.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+        tpStart.setLayoutMode(1);
+        tpStart.setScaleY((float) .8);
+
+        TextView to = new TextView(v.getContext());
+        to.setText("TO");
+        to.setGravity(Gravity.CENTER);
+
+        final TimePicker tpEnd = new TimePicker(new ContextThemeWrapper(v.getContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+        tpEnd.setLayoutMode(2);
+        tpEnd.setScaleY((float) .8);
+
+        layout.addView(errorMessage);
+        layout.addView(tpStart);
+        layout.addView(to);
+        layout.addView(tpEnd);
+
+        builder.setView(layout);
+
+        // Set up the buttons
+        builder.setPositiveButton("Create Schedule!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing?
+            }
+        });
+        builder.setNeutralButton("Add another time range",
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        getDays(EditSchedule.myView, repeat, name, profiles);
+                    }
+                });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Boolean wantToCloseDialog = true;
+                //Do stuff, possibly set wantToCloseDialog to true then...
+
+                int start = tpStart.getHour() * 60 + tpStart.getMinute();
+                int end = tpEnd.getHour() * 60 + tpEnd.getMinute();
+
+                if ( end - start > 600) {
+                    wantToCloseDialog = false;
+                }
+                if (end < start) {
+                    wantToCloseDialog = false;
+                }
+                if (end - start < 10) {
+                    wantToCloseDialog = false;
+                }
+
+                if (wantToCloseDialog) {
+
+                    focusModel.createNewSchedule(name);
+                    if( focusModel.getSchedule(name) != null) {
+                        focusModel.getSchedule(name).addTimeRange(days, tpStart.getHour(), tpStart.getMinute(), tpEnd.getHour(), tpEnd.getMinute());
+                        setDateAndTimeTable();
+                    }
+
+                    getDays(EditSchedule.myView, repeat, name, profiles);
+                    dialog.dismiss();
+                } else {
+                    errorMessage.setVisibility(View.VISIBLE);
+                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+                }
+            }
+        });
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Boolean wantToCloseDialog = true;
+                //Do stuff, possibly set wantToCloseDialog to true then...
+
+                int start = tpStart.getHour() * 60 + tpStart.getMinute();
+                int end = tpEnd.getHour() * 60 + tpEnd.getMinute();
+
+                if ( end - start > 600) {
+                    wantToCloseDialog = false;
+                }
+                if (end < start) {
+                    wantToCloseDialog = false;
+                }
+                if (end - start < 10) {
+                    wantToCloseDialog = false;
+                }
+
+                if (wantToCloseDialog) {
+
+                    focusModel.createNewSchedule(name);
+                    if( focusModel.getSchedule(name) != null) {
+                        focusModel.getSchedule(name).addTimeRange(days, tpStart.getHour(), tpStart.getMinute(), tpEnd.getHour(), tpEnd.getMinute());
+                        setDateAndTimeTable();
+                    }
+
+                    for(String p : profiles){
+                        if (focusModel.getProfile(p) != null) {
+                            //focusModel.getSchedule(name).addProfile(focusModel.getProfile(p));
+                            focusModel.addProfileToSchedule(p, name);
+                        }
+                    }
+
+                    dialog.dismiss();
+                } else {
+                    errorMessage.setVisibility(View.VISIBLE);
+                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
+                }
+            }
+        });
+    }
+
+    void setDateAndTimeTable() {
+        TableLayout daysAndTimesTable = (TableLayout) findViewById(R.id.datesAndTimesTableLayout);
+        for (TimeRange t : schedule.getTimeRanges()) {
+            System.out.println(schedule.getTimeRanges());
+            String days = getDaysString(t.getDays());
+            String times = t.getTime();
+            System.out.println(days + " " + times);
+
+            TextView daysTextView = new TextView(getApplicationContext());
+            daysTextView.setText(days);
+            daysTextView.setPadding(10, 10, 10, 10);
+            TextView timesTextView = new TextView(getApplicationContext());
+            timesTextView.setText(times);
+            timesTextView.setPadding(10, 10, 10, 10);
+            timesTextView.setGravity(Gravity.RIGHT);
+            timesTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+            TableRow dtRow = new TableRow(getApplicationContext());
+            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+            dtRow.setLayoutParams(lp);
+            dtRow.addView(daysTextView);
+            dtRow.addView(timesTextView);
+            daysAndTimesTable.addView(dtRow);
+        }
+        daysAndTimesTable.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+            }
+        });
+    }
+
 }
