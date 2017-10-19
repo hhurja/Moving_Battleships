@@ -158,7 +158,12 @@ public class Schedule {
 
     public void blockProfiles(){
         for(Profile p: profiles) {
-            if (p.isOn()) p.blockProfile();
+            if (p.isOn()){
+                System.out.println("BLOCKING FOR PROFILE: "+ p.getProfileName());
+                p.blockProfile();
+            }else{
+                System.out.println("NOT BLOCKING FOR PROFILE: "+ p.getProfileName());
+            }
             if (!isInRange){
                 p.turnOn();
                 isInRange = true;
