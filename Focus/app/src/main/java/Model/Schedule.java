@@ -32,6 +32,7 @@ public class Schedule {
         repeat = false;
         blocked = false;
         invisible = false;
+        isInRange = false;
 
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<Profile>();
