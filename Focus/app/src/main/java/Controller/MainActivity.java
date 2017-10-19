@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         fm.addAppToProfile(getApplicationContext(), "com.google.android.apps.maps", name);
         fm.activateProfile(name);
 
-        fm.createNewSchedule("Test", new ArrayList<String>(), 15, 30, 18, 0);
+//        fm.createNewSchedule("Test", new ArrayList<String>(), 15, 30, 18, 0);
 
         mDatabaseHelper = new DatabaseHelper(this);
         //SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();

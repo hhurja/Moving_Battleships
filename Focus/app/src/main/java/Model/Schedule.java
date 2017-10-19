@@ -22,6 +22,7 @@ public class Schedule {
     Boolean repeat;
     Boolean blocked;
     Boolean invisible;
+    Boolean isInRange;
 
 
     public Schedule(int id, String name){
@@ -44,6 +45,18 @@ public class Schedule {
         activated = true;
         repeat = false;
         invisible = false;
+
+//        profileSchedule = new HashMap<>();
+        profiles = new ArrayList<>();
+//        timeRange = new TimeRange(new Time(startHour, startMinute, 0), new Time(endHour, endMinute, 0));
+
+    }
+    public Schedule(int id, String scheduleName, boolean invis){
+        this.id = id;
+        this.name = scheduleName;
+        activated = true;
+        repeat = false;
+        invisible = true;
 
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
@@ -139,7 +152,8 @@ public class Schedule {
     }
 
     public void blockProfiles(){
-        for(Profile p: profiles) p.blockProfile();
+        for(Profile p: profiles)
+            if(p.isOn()) p.blockProfile();
         blocked = true;
     }
 

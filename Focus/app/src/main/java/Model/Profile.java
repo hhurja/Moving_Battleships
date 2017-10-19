@@ -129,7 +129,7 @@ public class Profile {
         onOffSwitch = true;
     }
 
-    public void turnOfF(){
+    public void turnOFF(){
         onOffSwitch = false;
     }
 
