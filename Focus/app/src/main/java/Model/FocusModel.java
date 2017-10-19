@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import static movingbattleship.org.focus.R.drawable.schedule;
+
 /**
  * Created by aaronrschrock on 10/6/17.
  */
@@ -89,6 +91,7 @@ public class FocusModel extends Thread{
     public void run(){
         while (true){
             instance.updateWithSchedules();
+//            System.out.println("CHECKING FOR NULL: "+apc+" "+instance);
             apc.blockApplication(instance.getBlockedApps());
             //sleeps this thread for 2 seconds on the loop
             try {
@@ -473,8 +476,13 @@ public class FocusModel extends Thread{
             System.out.println("Attempted to create a Schedule that already exists. "
                     + "Do something about this -- " + scheduleName);
         } else {
-            // schedules.add(new Schedule(numSchedulesCreated, scheduleName));
+            Schedule newSched = new Schedule(numSchedulesCreated, Long.toString(System.currentTimeMillis()));
+            schedules.add(newSched);
+            newSched.addProfile(currProf);
+            newSched.addTimeRange(days, startHour, startMinute, endHour, endMinute);
+            System.out.println("ASDFASDFASDFAFF "+ newSched);
             profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
+
             numSchedulesCreated++;
         }
     }
@@ -487,9 +495,11 @@ public class FocusModel extends Thread{
         } else {
             Schedule newSched = new Schedule(numSchedulesCreated, Long.toString(System.currentTimeMillis()), invis);
             schedules.add(newSched);
+            newSched.addProfile(currProf);
             newSched.addTimeRange(days, startHour, startMinute, endHour, endMinute);
             System.out.println("ASDFASDFASDFAFF "+ newSched);
             profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
+
             numSchedulesCreated++;
         }
     }
@@ -799,8 +809,10 @@ public class FocusModel extends Thread{
     private void updateWithSchedules() {
         for (Schedule s : instance.schedules) {
             if (s.isInTimeRange()) {
+                System.out.println("BLOCKING FOR SCHEDULE: "+ s.getScheduleName());
                 s.blockProfiles();
             } else {
+                System.out.println("NOT BLOCKING FOR SCHEDULE: "+ s.getScheduleName());
                 s.unblockProfiles();
             }
         }
@@ -864,6 +876,7 @@ public class FocusModel extends Thread{
 
 
         for(Map.Entry<Integer, HashSet<Integer>> entry: profiles_to_schedules.entrySet()){
+            hm.clear();
             int currScheduleID = entry.getKey();
             HashSet<Integer> currProfs = entry.getValue();
             Schedule currSchedule = null;
@@ -880,7 +893,7 @@ public class FocusModel extends Thread{
                     }
                 }
             }
-            if(hm != null && hm.get(0) >= lastHour){
+            if(hm != null && hm.size() > 1 && hm.get(0) >= lastHour){
                 lastHour = hm.get(0);
                 if(hm.get(1) > lastMinute) lastMinute = hm.get(1);
             }
