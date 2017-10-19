@@ -42,6 +42,7 @@ public class schedulesListViewController extends Fragment {
     private static View myView;
     private ListView schedulesListView;
     FocusModel focusModel = null;
+    private View masterView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context, Context c) {
 
@@ -49,6 +50,7 @@ public class schedulesListViewController extends Fragment {
         focusModel = FocusModel.getInstance();
 
         View view = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
+        masterView = view;
         TextView emptyMessage = new TextView(view.getContext());
         emptyMessage.setText("No schedules. Add a schedule to get Focused!");
 
@@ -134,6 +136,13 @@ public class schedulesListViewController extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        schedulesListView = (ListView) masterView.findViewById(R.id.schedulesListView);
+        ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
     }
 
     void getName(View v){
