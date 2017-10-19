@@ -61,6 +61,10 @@ public class App {
      *
      */
 
+    public HashSet<Integer> getBlockedProfileIDs(){
+        return blockedProfileIDs;
+    }
+
     public String getAppName() {
         return name;
     }
