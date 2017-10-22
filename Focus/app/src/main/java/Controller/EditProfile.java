@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -28,6 +29,8 @@ import Model.App;
 import Model.FocusModel;
 import Model.Profile;
 import movingbattleship.org.focus.R;
+
+import static movingbattleship.org.focus.R.id.startBlocking;
 
 /**
  * Created by Ruth on 10/14/17.
@@ -175,101 +178,109 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
-        fab_start = (Button) findViewById(R.id.startBlocking);
+        fab_start = (Button) findViewById(startBlocking);
+        fab_start.setBackgroundColor(Color.GREEN);
         fab_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final View myView = view;
-                // pop up dialogue to create new schedule
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Set Blocking time");
-                ScrollView sv = new ScrollView(view.getContext());
-                LinearLayout layout = new LinearLayout(view.getContext());
-                layout.setOrientation(LinearLayout.VERTICAL);
+                System.out.println(fab_start.getText());
+                if (fab_start.getText().equals("Start Blocking these Applications")) {
+                    final View myView = view;
+                    // pop up dialogue to create new schedule
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setTitle("Set Blocking time");
+                    ScrollView sv = new ScrollView(view.getContext());
+                    LinearLayout layout = new LinearLayout(view.getContext());
+                    layout.setOrientation(LinearLayout.VERTICAL);
 
-                final EditText hoursBox = new EditText(view.getContext());
-                hoursBox.setHint("Hours");
-                hoursBox.setInputType(InputType.TYPE_CLASS_TEXT);
-                layout.addView(hoursBox);
+                    final EditText hoursBox = new EditText(view.getContext());
+                    hoursBox.setHint("Hours");
+                    hoursBox.setInputType(InputType.TYPE_CLASS_TEXT);
+                    layout.addView(hoursBox);
 
-                final EditText minutesBox = new EditText(view.getContext());
-                minutesBox.setHint("Minutes");
-                minutesBox.setInputType(InputType.TYPE_CLASS_TEXT);
-                layout.addView(minutesBox);
+                    final EditText minutesBox = new EditText(view.getContext());
+                    minutesBox.setHint("Minutes");
+                    minutesBox.setInputType(InputType.TYPE_CLASS_TEXT);
+                    layout.addView(minutesBox);
 
-                sv.addView(layout);
-                builder.setView(sv);
+                    sv.addView(layout);
+                    builder.setView(sv);
 
-                // Set up the buttons
-                builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    // Set up the buttons
+                    builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (minutesBox.getText().toString().length() == 0 && hoursBox.getText().toString().length() == 0) {
+                                showErrorMessage(myView);
+                            }
 
-                        if (minutesBox.getText().toString().length() == 0 || hoursBox.getText().toString().length() == 0) {
-                            showErrorMessage(myView);
+                            int minuteBoxNum = Integer.parseInt(minutesBox.getText().toString());
+
+                            int hourBoxNum = Integer.parseInt(hoursBox.getText().toString());
+
+                            if (minuteBoxNum < 10 && hourBoxNum == 0 || hourBoxNum > 10) {
+                                showErrorMessage(myView);
+                            }
+
+                            profile.addTime(minuteBoxNum, hourBoxNum);
+
+                            int currDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                            int currHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                            int currMinute = Calendar.getInstance().get(Calendar.MINUTE);
+                            String schedName = Integer.toString(Calendar.DAY_OF_WEEK) +
+                                    Integer.toString(Calendar.HOUR_OF_DAY) + Integer.toString(Calendar.MINUTE);
+                            ArrayList <String> days = new ArrayList<String> ();
+                            if (currDay == 1) {
+                                days.add("sunday");
+                            } else if (currDay == 2) {
+                                days.add("monday");
+                            } else if (currDay == 3) {
+                                days.add("tuesday");
+                            }else if (currDay == 4) {
+                                days.add("wednesday");
+                            }else if (currDay == 5) {
+                                days.add("thursday");
+                            }else if (currDay == 6) {
+                                days.add("friday");
+                            }else if (currDay == 7) {
+                                days.add("saturday");
+                            }
+                            int endHour = 0;
+                            int endMinute = currMinute + Integer.parseInt(minutesBox.getText().toString());
+                            if (endMinute >= 60) {
+                                endHour += 1;
+                            }
+                            endHour = currHour + Integer.parseInt(hoursBox.getText().toString());
+                            if (endHour > 23) {
+                                endHour = endHour - 24;
+                            }
+                            System.out.println("name is " + schedName + " days is " + days + " currHours is " +
+                                    currHour + " currMinute is " + currMinute + " endHours is " + endHour +
+                                    " endMinute is " + endMinute);
+                            //focusModel.createNewSchedule(schedName, days, currHour, currMinute,
+                            //endHour, endMinute, true);
+                            //Intent intent = new Intent(getApplicationContext(), EditProfile.class);
+                            //startActivity(intent);
+                            profile.activate();
+                            fab_start.setText("Stop Blocking these Applications");
+                            fab_start.setBackgroundColor(Color.RED);
                         }
-
-                        int minuteBoxNum = Integer.parseInt(minutesBox.getText().toString());
-
-                        int hourBoxNum = Integer.parseInt(hoursBox.getText().toString());
-
-                        if (minuteBoxNum < 10 && hourBoxNum == 0 || hourBoxNum > 10) {
-                            showErrorMessage(myView);
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
                         }
+                    });
+                    builder.show();
+                }
+                if(fab_start.getText().equals("Stop Blocking these Applications")){
+                    profile.unblockProfile();
+                    fab_start.setText("Start Blocking these Applications");
+                    fab_start.setBackgroundColor(Color.GREEN);
 
-                        profile.addTime(minuteBoxNum, hourBoxNum);
+                }
 
-                        int currDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-                        int currHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-                        int currMinute = Calendar.getInstance().get(Calendar.MINUTE);
-                        String schedName = Integer.toString(Calendar.DAY_OF_WEEK) +
-                                Integer.toString(Calendar.HOUR_OF_DAY) + Integer.toString(Calendar.MINUTE);
-                        ArrayList <String> days = new ArrayList<String> ();
-                        if (currDay == 1) {
-                            days.add("sunday");
-                        } else if (currDay == 2) {
-                            days.add("monday");
-                        } else if (currDay == 3) {
-                            days.add("tuesday");
-                        }else if (currDay == 4) {
-                            days.add("wednesday");
-                        }else if (currDay == 5) {
-                            days.add("thursday");
-                        }else if (currDay == 6) {
-                            days.add("friday");
-                        }else if (currDay == 7) {
-                            days.add("saturday");
-                        }
-                        int endHour = 0;
-                        int endMinute = currMinute + Integer.parseInt(minutesBox.getText().toString());
-                        if (endMinute >= 60) {
-                            endHour += 1;
-                        }
-                        endHour = currHour + Integer.parseInt(hoursBox.getText().toString());
-                        if (endHour > 23) {
-                            endHour = endHour - 24;
-                        }
-                        System.out.println("name is " + schedName + " days is " + days + " currHours is " +
-                                currHour + " currMinute is " + currMinute + " endHours is " + endHour +
-                                " endMinute is " + endMinute);
-                        //focusModel.createNewSchedule(schedName, days, currHour, currMinute,
-                        //endHour, endMinute, true);
-
-
-
-                        profile.activate();
-                        Intent intent = new Intent(getApplicationContext(), EditProfile.class);
-                        startActivity(intent);
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                builder.show();
 
             }
         });
