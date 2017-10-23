@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         String name = "ExampleProfile";
         fm.createNewProfile(name);
         fm.addAppToProfile(getApplicationContext(), "com.google.android.apps.maps", name);
-        fm.activateProfile(name);
+        //fm.activateProfile(name);
 
 //        fm.createNewSchedule("Test", new ArrayList<String>(), 15, 30, 18, 0);
 
