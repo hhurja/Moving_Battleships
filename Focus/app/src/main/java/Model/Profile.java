@@ -96,6 +96,7 @@ public class Profile {
     }
 
     public void deactivate() {
+        time = "";
         //only display notification if switched from active to nonactive
         if (activated == true) {
             createNotificationForDeactive();

@@ -87,7 +87,6 @@ public class EditProfile extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         focusModel = FocusModel.getInstance();
         profile = focusModel.getCurrentProfile();
         setContentView(R.layout.activity_edit_profile_view);
@@ -102,6 +101,7 @@ public class EditProfile extends AppCompatActivity {
         profileName.setText(profile.getProfileName());
 
         timerText = (TextView) findViewById(R.id.timer);
+
         //TODO: figure out if we call isOn(), isActive(), or both
         if (profile.isActivated()) {
             //ArrayList <Integer> endTime = focusModel.endOfTimer(profile.getProfileName());
@@ -179,7 +179,14 @@ public class EditProfile extends AppCompatActivity {
         });
 
         fab_start = (Button) findViewById(startBlocking);
-        fab_start.setBackgroundColor(Color.GREEN);
+        if (profile.isActivated()) {
+            fab_start.setBackgroundColor(Color.RED);
+            fab_start.setText("Stop Blocking these Applications");
+        }
+        else {
+            fab_start.setBackgroundColor(Color.GREEN);
+            fab_start.setText("Start Blocking these Applications");
+        }
         fab_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -212,6 +219,12 @@ public class EditProfile extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if (minutesBox.getText().toString().length() == 0 && hoursBox.getText().toString().length() == 0) {
                                 showErrorMessage(myView);
+                            }
+                            else if (minutesBox.getText().toString().length() == 0 && hoursBox.getText().toString().length() != 0) {
+                                minutesBox.setText("0");
+                            }
+                            else if (hoursBox.getText().toString().length() == 0 && minutesBox.getText().toString().length() != 0) {
+                                hoursBox.setText("0");
                             }
 
                             int minuteBoxNum = Integer.parseInt(minutesBox.getText().toString());
@@ -259,9 +272,9 @@ public class EditProfile extends AppCompatActivity {
                                     " endMinute is " + endMinute);
                             //focusModel.createNewSchedule(schedName, days, currHour, currMinute,
                             //endHour, endMinute, true);
-                            //Intent intent = new Intent(getApplicationContext(), EditProfile.class);
-                            //startActivity(intent);
                             profile.activate();
+                            timerText.setVisibility(TextView.VISIBLE);
+                            timerText.setText("Blocked until: " + profile.time);
                             fab_start.setText("Stop Blocking these Applications");
                             fab_start.setBackgroundColor(Color.RED);
                         }
@@ -275,7 +288,8 @@ public class EditProfile extends AppCompatActivity {
                     builder.show();
                 }
                 if(fab_start.getText().equals("Stop Blocking these Applications")){
-                    profile.unblockProfile();
+                    profile.deactivate();
+                    timerText.setVisibility(TextView.INVISIBLE);
                     fab_start.setText("Start Blocking these Applications");
                     fab_start.setBackgroundColor(Color.GREEN);
 
