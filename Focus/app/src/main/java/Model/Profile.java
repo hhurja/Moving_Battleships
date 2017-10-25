@@ -40,6 +40,7 @@ public class Profile {
     public Calendar finishBlocking;
     public Boolean blockedFromProfiles;
     public TextView textView;
+    public TextView listView;
     public Button button;
     /**
      * Constructors
@@ -207,6 +208,9 @@ public class Profile {
         textView = tw;
         button = b;
     }
+    public void getListView(TextView listV) {
+        listView = listV;
+    }
     public void updateActivation() {
         Calendar now = Calendar.getInstance();
         //if the profile should stop being actived
@@ -214,6 +218,7 @@ public class Profile {
             if (finishBlocking.equals(now) || finishBlocking.before(now)) {
                 deactivate();
                 textView.setVisibility(TextView.INVISIBLE);
+                listView.setVisibility(TextView.INVISIBLE);
                 button.setText("Start Blocking This Profile");
                 button.setBackgroundColor(Color.GREEN);
             }

@@ -46,8 +46,12 @@ public class profilesListAdapter extends ArrayAdapter<String>{
         profile = focusModel.getProfile(name);
 
         TextView timerText = (TextView) profilesView.findViewById(R.id.timer);
+        //sends the timerText to profile class so it can update automatically once a profile is blocked
+        profile.getListView(timerText);
+
         if (profile.isActivated()) {
             timerText.setText("Blocked until: " + profile.time);
+            timerText.setVisibility(TextView.VISIBLE);
         } else {
             timerText.setVisibility(TextView.INVISIBLE);
         }
