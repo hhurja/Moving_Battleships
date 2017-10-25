@@ -27,7 +27,6 @@ public class FocusModel extends Thread{
     private ArrayList<Schedule> schedules;
     private ArrayList<Profile> profiles;
     private ArrayList<App> apps;
-
     //Maps each each object to the others that hold it
     private HashMap<Integer, HashSet<Integer>> profiles_to_schedules; //scheduleID to list of profileIDs
     private HashMap<Integer, HashSet<Integer>> apps_to_profiles; //profileID to list of apps
@@ -90,12 +89,13 @@ public class FocusModel extends Thread{
     @Override
     public void run(){
         while (true){
+            instance.updateActivatedProfiles();
             instance.updateWithSchedules();
 //            System.out.println("CHECKING FOR NULL: "+apc+" "+instance);
             apc.blockApplication(instance.getBlockedApps());
             //sleeps this thread for 2 seconds on the loop
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 //Auto-generated catch block
                 e.printStackTrace();
@@ -809,13 +809,19 @@ public class FocusModel extends Thread{
         }
     }
 
+    private void updateActivatedProfiles() {
+        for (Profile p : instance.profiles) {
+            p.updateActivation();
+        }
+
+    }
     private void updateWithSchedules() {
         for (Schedule s : instance.schedules) {
             if (s.isInTimeRange()) {
-                System.out.println("BLOCKING FOR SCHEDULE: "+ s.getScheduleName());
+                System.out.println("BLOCKING FOR SCHEDULE: " + s.getScheduleName());
                 s.blockProfiles();
             } else {
-                System.out.println("NOT BLOCKING FOR SCHEDULE: "+ s.getScheduleName());
+                System.out.println("NOT BLOCKING FOR SCHEDULE: " + s.getScheduleName());
                 s.unblockProfiles();
             }
         }

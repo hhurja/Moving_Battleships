@@ -59,15 +59,7 @@
             android:id="@+id/startBlocking"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start Blocking these Applications" />
-
-        <Button
-            android:id="@+id/fab_toggle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="submit"
-            android:src="@drawable/schedule"
-            android:text="Toggle On" />
+            android:text="Start Blocking This Profile" />
 
         <Button
             android:id="@+id/fab_plus"

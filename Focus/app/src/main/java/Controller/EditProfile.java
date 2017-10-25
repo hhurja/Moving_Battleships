@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -31,6 +32,8 @@ import Model.Profile;
 import movingbattleship.org.focus.R;
 
 import static movingbattleship.org.focus.R.id.startBlocking;
+import static movingbattleship.org.focus.R.id.textView;
+import static movingbattleship.org.focus.R.id.time;
 
 /**
  * Created by Ruth on 10/14/17.
@@ -40,7 +43,6 @@ public class EditProfile extends AppCompatActivity {
     private Profile profile;
     private FocusModel focusModel;
     private ListView mListView;
-    private Button fab_toggle;
     private Button fab_plus;
     private TextView timerText;
     private Button fab_start;
@@ -158,40 +160,24 @@ public class EditProfile extends AppCompatActivity {
         ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), profileNames, nameToPackage);
         mListView.setAdapter(adapter);
 
-        fab_toggle = (Button) findViewById(R.id.fab_toggle);
-        // if profile is on, allow user to toggle off
-        if (profile.isOn()) {
-            fab_toggle.setText("Toggle Off");
-        } else {
-            fab_toggle.setText("Toggle On");
-        }
-        fab_toggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (profile.isOn()) {
-                    profile.turnOFF();
-                } else {
-                    profile.turnOn();
-                }
-                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
-                startActivity(intent);
-            }
-        });
-
         fab_start = (Button) findViewById(startBlocking);
+
+        //send timerText and fab_start to Profile class
+        profile.getView(timerText, fab_start);
+
         if (profile.isActivated()) {
             fab_start.setBackgroundColor(Color.RED);
-            fab_start.setText("Stop Blocking these Applications");
+            fab_start.setText("Stop Blocking This Profile");
         }
         else {
             fab_start.setBackgroundColor(Color.GREEN);
-            fab_start.setText("Start Blocking these Applications");
+            fab_start.setText("Start Blocking This Profile");
         }
         fab_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println(fab_start.getText());
-                if (fab_start.getText().equals("Start Blocking these Applications")) {
+                if (fab_start.getText().equals("Start Blocking This Profile")) {
                     final View myView = view;
                     // pop up dialogue to create new schedule
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -275,7 +261,7 @@ public class EditProfile extends AppCompatActivity {
                             profile.activate();
                             timerText.setVisibility(TextView.VISIBLE);
                             timerText.setText("Blocked until: " + profile.time);
-                            fab_start.setText("Stop Blocking these Applications");
+                            fab_start.setText("Stop Blocking This Profile");
                             fab_start.setBackgroundColor(Color.RED);
                         }
                     });
@@ -287,12 +273,11 @@ public class EditProfile extends AppCompatActivity {
                     });
                     builder.show();
                 }
-                if(fab_start.getText().equals("Stop Blocking these Applications")){
+                if(fab_start.getText().equals("Stop Blocking This Profile")){
                     profile.deactivate();
                     timerText.setVisibility(TextView.INVISIBLE);
-                    fab_start.setText("Start Blocking these Applications");
+                    fab_start.setText("Start Blocking This Profile");
                     fab_start.setBackgroundColor(Color.GREEN);
-
                 }
 
 

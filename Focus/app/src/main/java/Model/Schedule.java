@@ -173,7 +173,9 @@ public class Schedule {
     }
 
     public void unblockProfiles(){
-        for(Profile p: profiles) p.unblockProfile();
+        for(Profile p: profiles){
+            p.unblockProfile();
+        }
         blocked = false;
     }
 

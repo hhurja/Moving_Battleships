@@ -507,9 +507,11 @@ public class EditSchedule extends AppCompatActivity {
         });
     }
 
+    //the following lines cause the app the crash. It works without.
+    /*
     @Override
     public void onBackPressed() {
         Intent i = new Intent(getApplicationContext(), schedulesListViewController.class);
         startActivity(i);
-    }
+    }*/
 }
