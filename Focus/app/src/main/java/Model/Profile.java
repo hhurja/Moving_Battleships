@@ -35,11 +35,14 @@ public class Profile {
     private ArrayList<App> apps;
     private ArrayList<Integer> scheduleIDs; //TODO do we need this?
     private boolean activated;
+    private boolean activatedByProfile;
+    private boolean activatedBySchedule;
     private boolean onOffSwitch;
     public String time;
     public Calendar finishBlocking;
     public Boolean blockedFromProfiles;
     public TextView textView;
+    public TextView listView;
     public Button button;
     /**
      * Constructors
@@ -103,32 +106,35 @@ public class Profile {
      */
 
     public void activate() {
-        //only display notification if switched from nonactive to active
-        if (activated == false) {
-            createNotificationForActive();
-        }
         activated = true;
         blockProfile();
     }
 
     public void deactivate() {
         time = "";
+        activated = false;
+        unblockProfile();
+    }
+
+
+
+    public void blockProfile() {
+        //only display notification if switched from nonactive to active
+        if (activated == false) {
+            createNotificationForActive();
+        }
+        activated = true;
+        for (int i = 0; i < apps.size(); i++) {
+            apps.get(i).blockApp(profileID);
+        }
+    }
+
+    public void unblockProfile() {
         //only display notification if switched from active to nonactive
         if (activated == true) {
             createNotificationForDeactive();
         }
         activated = false;
-        unblockProfile();
-    }
-
-    public void blockProfile() {
-        for (int i = 0; i < apps.size(); i++) {
-            apps.get(i).blockApp(profileID);
-
-        }
-    }
-
-    public void unblockProfile() {
         for (int i = 0; i < apps.size(); i++) {
             apps.get(i).unblockApp(profileID);
         }
@@ -191,13 +197,24 @@ public class Profile {
         finishBlocking = Calendar.getInstance();
         int addMinutes = (hour*60) + min;
         finishBlocking.add(Calendar.MINUTE, addMinutes);
-        time = Integer.toString(finishBlocking.get(Calendar.HOUR)) + ":" + Integer.toString(finishBlocking.get(Calendar.MINUTE));
+        String HH = Integer.toString(finishBlocking.get(Calendar.HOUR));
+        String MM = "";
+        if (finishBlocking.get(Calendar.MINUTE) < 10) {
+            MM = "0" + Integer.toString(finishBlocking.get(Calendar.MINUTE));
+        }
+        else{
+            MM = Integer.toString(finishBlocking.get(Calendar.MINUTE));
+        }
+        time = HH + ":" + MM;
         System.out.println("Time blocking will finish: " + time);
     }
 
     public void getView(TextView tw, Button b) {
         textView = tw;
         button = b;
+    }
+    public void getListView(TextView listV) {
+        listView = listV;
     }
     public void updateActivation() {
         Calendar now = Calendar.getInstance();
@@ -206,6 +223,7 @@ public class Profile {
             if (finishBlocking.equals(now) || finishBlocking.before(now)) {
                 deactivate();
                 textView.setVisibility(TextView.INVISIBLE);
+                listView.setVisibility(TextView.INVISIBLE);
                 button.setText("Start Blocking This Profile");
                 button.setBackgroundColor(Color.GREEN);
             }
