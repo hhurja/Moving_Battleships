@@ -35,6 +35,8 @@ public class Profile {
     private ArrayList<App> apps;
     private ArrayList<Integer> scheduleIDs; //TODO do we need this?
     private boolean activated;
+    private boolean activatedByProfile;
+    private boolean activatedBySchedule;
     private boolean onOffSwitch;
     public String time;
     public Calendar finishBlocking;
@@ -104,32 +106,35 @@ public class Profile {
      */
 
     public void activate() {
-        //only display notification if switched from nonactive to active
-        if (activated == false) {
-            createNotificationForActive();
-        }
         activated = true;
         blockProfile();
     }
 
     public void deactivate() {
         time = "";
+        activated = false;
+        unblockProfile();
+    }
+
+
+
+    public void blockProfile() {
+        //only display notification if switched from nonactive to active
+        if (activated == false) {
+            createNotificationForActive();
+        }
+        activated = true;
+        for (int i = 0; i < apps.size(); i++) {
+            apps.get(i).blockApp(profileID);
+        }
+    }
+
+    public void unblockProfile() {
         //only display notification if switched from active to nonactive
         if (activated == true) {
             createNotificationForDeactive();
         }
         activated = false;
-        unblockProfile();
-    }
-
-    public void blockProfile() {
-        for (int i = 0; i < apps.size(); i++) {
-            apps.get(i).blockApp(profileID);
-
-        }
-    }
-
-    public void unblockProfile() {
         for (int i = 0; i < apps.size(); i++) {
             apps.get(i).unblockApp(profileID);
         }
