@@ -191,7 +191,15 @@ public class Profile {
         finishBlocking = Calendar.getInstance();
         int addMinutes = (hour*60) + min;
         finishBlocking.add(Calendar.MINUTE, addMinutes);
-        time = Integer.toString(finishBlocking.get(Calendar.HOUR)) + ":" + Integer.toString(finishBlocking.get(Calendar.MINUTE));
+        String HH = Integer.toString(finishBlocking.get(Calendar.HOUR));
+        String MM = "";
+        if (finishBlocking.get(Calendar.MINUTE) < 10) {
+            MM = "0" + Integer.toString(finishBlocking.get(Calendar.MINUTE));
+        }
+        else{
+            MM = Integer.toString(finishBlocking.get(Calendar.MINUTE));
+        }
+        time = HH + ":" + MM;
         System.out.println("Time blocking will finish: " + time);
     }
 
