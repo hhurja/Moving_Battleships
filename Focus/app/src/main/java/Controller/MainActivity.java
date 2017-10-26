@@ -94,9 +94,10 @@ public class MainActivity extends AppCompatActivity {
         AppProcessChecker apc = new AppProcessChecker(c, pm, usm, m);
         FocusModel fm = FocusModel.getInstance(apc, hm);
 
+        /*
         String name = "ExampleProfile";
         fm.createNewProfile(name);
-        fm.addAppToProfile(getApplicationContext(), "com.google.android.apps.maps", name);
+        fm.addAppToProfile(getApplicationContext(), "com.google.android.apps.maps", name);*/
         //fm.activateProfile(name);
 
 //        fm.createNewSchedule("Test", new ArrayList<String>(), 15, 30, 18, 0);
