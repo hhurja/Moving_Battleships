@@ -145,6 +145,7 @@ public class schedulesListViewController extends Fragment {
         ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
     }
 
+    @SuppressWarnings("ResourceType")
     void getName(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Enter new schedule name:");
@@ -152,6 +153,7 @@ public class schedulesListViewController extends Fragment {
         myView = v;
         // Set up the input
         final EditText input = new EditText(v.getContext());
+        input.setId(12345);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
