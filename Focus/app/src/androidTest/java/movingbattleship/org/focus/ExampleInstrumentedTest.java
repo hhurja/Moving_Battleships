@@ -7,6 +7,11 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static movingbattleship.org.focus.R.id.profilesTab;
+import static movingbattleship.org.focus.R.id.schedulesTab;
 import static org.junit.Assert.*;
 
 /**
@@ -18,9 +23,12 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
+        System.out.println("running tests!");
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("movingbattleship.org.focus", appContext.getPackageName());
+        onView(withId(profilesTab)).perform(click());
+        onView(withId(schedulesTab)).perform(click());
     }
 }
