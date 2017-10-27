@@ -34,13 +34,16 @@ public class ExampleBlackBoxTest {
 
     @Before
     public void initValidString() {
-        // Specify a valid string.
-        mStringToBetyped = "Espresso";
+        //Do Nothing for this test
     }
 
     @Test
     public void changeText_sameActivity() throws InterruptedException {
+
+        //Click on add profile button
         Espresso.onView(withId(R.id.addProfileButton)).perform(click());
+
+        //pause
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
