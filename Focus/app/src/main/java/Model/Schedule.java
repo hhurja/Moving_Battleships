@@ -230,7 +230,9 @@ public class Schedule {
         timeRanges.clear();
     }
 
-
+    public boolean isVisible(){
+        return !invisible;
+    }
 
 //    public void addTimeRangeToProfile(Profile p, TimeRange tr){
 ////    	System.out.println(p+ " "+ profileSchedule.get(p.getProfileID()));
