@@ -519,6 +519,7 @@ public class FocusModel extends Thread{
             for (Schedule s : schedules) {
                 if (s.getScheduleID() == scheduleID) {
                     schedules.remove(s);
+                    s.scheduleDeleted();
                     break;
                 }
             }

@@ -99,7 +99,8 @@ public class Schedule {
 //    }
 
     public void addProfile(Profile p){
-    	/*	Adds a profile to this schedule
+    	System.out.println("THIS SCHEDULE IS: " + getScheduleName() + " AND THE ID IS " + id);
+        /*	Adds a profile to this schedule
     	    * checks if this profile has already been added
     	 	* adds given profile to the arraylist of profiles
     	 */
@@ -144,6 +145,9 @@ public class Schedule {
         return null;
     }
 
+    public void scheduleDeleted() {
+        unblockProfiles();
+    }
     public HashSet<Integer> getProfileIDs(){
         HashSet<Integer> returnSet = new HashSet<Integer>();
         for(Profile p: profiles){
@@ -161,6 +165,7 @@ public class Schedule {
             if (p.isOn()){
                 System.out.println("BLOCKING FOR PROFILE: "+ p.getProfileName());
                 p.blockProfile();
+                p.addScheduleID(id);
             }else{
                 System.out.println("NOT BLOCKING FOR PROFILE: "+ p.getProfileName());
             }
@@ -174,6 +179,7 @@ public class Schedule {
 
     public void unblockProfiles(){
         for(Profile p: profiles){
+            p.removeScheduleID(id);
             p.unblockProfile();
         }
         blocked = false;
