@@ -404,18 +404,37 @@ public class EditSchedule extends AppCompatActivity {
 
                 Boolean wantToCloseDialog = true;
                 //Do stuff, possibly set wantToCloseDialog to true then...
-
-                int start = tpStart.getHour() * 60 + tpStart.getMinute();
-                int end = tpEnd.getHour() * 60 + tpEnd.getMinute();
-
-                if ( end - start > 600) {
+                if (tpStart.getHour()>tpEnd.getHour()){
+                    if ((24-tpStart.getHour())+tpEnd.getHour() > 10) {
+                        wantToCloseDialog = false;
+                    }
+                }
+                else if(tpEnd.getHour()-tpStart.getHour() > 10) {
                     wantToCloseDialog = false;
                 }
-                if (end < start) {
-                    wantToCloseDialog = false;
+                else if (tpEnd.getHour()-tpStart.getHour() == 10) {
+                    if (tpEnd.getMinute()-tpStart.getMinute() > 0) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
                 }
-                if (end - start < 10) {
-                    wantToCloseDialog = false;
+                else if (tpEnd.getHour()-tpStart.getHour() == 0) {
+                    if (tpEnd.getMinute()-tpStart.getMinute() < 10) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
+                }
+                else if (tpEnd.getHour()-tpStart.getHour() == 1) {
+                    if (((60-tpStart.getMinute())+tpEnd.getMinute()) < 10) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
                 }
 
                 if (wantToCloseDialog) {
@@ -442,17 +461,37 @@ public class EditSchedule extends AppCompatActivity {
                 Boolean wantToCloseDialog = true;
                 //Do stuff, possibly set wantToCloseDialog to true then...
 
-                int start = tpStart.getHour() * 60 + tpStart.getMinute();
-                int end = tpEnd.getHour() * 60 + tpEnd.getMinute();
-
-                if ( end - start > 600) {
+                if (tpStart.getHour()>tpEnd.getHour()){
+                    if ((24-tpStart.getHour())+tpEnd.getHour() > 10) {
+                        wantToCloseDialog = false;
+                    }
+                }
+                else if(tpEnd.getHour()-tpStart.getHour() > 10) {
                     wantToCloseDialog = false;
                 }
-                if (end < start) {
-                    wantToCloseDialog = false;
+                else if (tpEnd.getHour()-tpStart.getHour() == 10) {
+                    if (tpEnd.getMinute()-tpStart.getMinute() > 0) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
                 }
-                if (end - start < 10) {
-                    wantToCloseDialog = false;
+                else if (tpEnd.getHour()-tpStart.getHour() == 0) {
+                    if (tpEnd.getMinute()-tpStart.getMinute() < 10) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
+                }
+                else if (tpEnd.getHour()-tpStart.getHour() == 1) {
+                    if (((60-tpStart.getMinute())+tpEnd.getMinute()) < 10) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
                 }
 
                 if (wantToCloseDialog) {

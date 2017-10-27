@@ -89,10 +89,14 @@ public class FocusModel extends Thread{
     @Override
     public void run(){
         while (true){
-            instance.updateActivatedProfiles();
-            instance.updateWithSchedules();
+            if (instance != null) {
+                instance.updateActivatedProfiles();
+                instance.updateWithSchedules();
+            }
 //            System.out.println("CHECKING FOR NULL: "+apc+" "+instance);
-            apc.blockApplication(instance.getBlockedApps());
+            if(apc != null) {
+                apc.blockApplication(instance.getBlockedApps());
+            }
             //sleeps this thread for 2 seconds on the loop
             try {
                 Thread.sleep(1500);
@@ -519,6 +523,7 @@ public class FocusModel extends Thread{
             for (Schedule s : schedules) {
                 if (s.getScheduleID() == scheduleID) {
                     schedules.remove(s);
+                    s.scheduleDeleted();
                     break;
                 }
             }
