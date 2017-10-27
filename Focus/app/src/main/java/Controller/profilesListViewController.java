@@ -41,6 +41,7 @@ public class profilesListViewController extends Fragment {
     private static Bundle savedInstanceState;
     private static Activity activity;
     private static Context context;
+    FloatingActionButton fb;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context, HashMap<String, Bitmap> hm, Context c) {
         System.out.println("in on create view");
@@ -50,6 +51,7 @@ public class profilesListViewController extends Fragment {
         this.activity = activity;
         this.context = context;
 
+
         focusModel = FocusModel.getInstance();
         System.out.println("profiles size in create view is " + focusModel.getAllProfiles().size());
         icons = hm;
@@ -57,6 +59,9 @@ public class profilesListViewController extends Fragment {
         //System.out.println("List view iz..." );
         mContext = c;
         rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);
+
+        this.fb = (FloatingActionButton) rootView.findViewById(R.id.addProfileButton);
+        fb.show();
         //System.out.println(this.getContext());
         //System.out.println("here 2");
         //  RUTH TODO: replace with actual names of profiles
@@ -106,7 +111,7 @@ public class profilesListViewController extends Fragment {
             );
         }
 
-        FloatingActionButton fb = (FloatingActionButton) rootView.findViewById(R.id.addProfileButton);
+
         fb.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
