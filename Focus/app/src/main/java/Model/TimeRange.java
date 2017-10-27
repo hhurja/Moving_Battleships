@@ -190,8 +190,8 @@ public class TimeRange {
     public String getTime() {
         String s = "";
 
-        s += startHour%12 + ":" + (startMinute > 9 ? startMinute : "0"+startMinute)
-                + "-" + endHour%12 + ":" + (endMinute > 9 ? endMinute : "0"+endMinute) + (endHour>11 ? "PM" : "AM");
+        s += (startHour == 0 || startHour == 12 ? "12" : startHour%12) + ":" + (startMinute > 9 ? startMinute : "0"+startMinute)
+                + "-" + (endHour == 0 || endHour == 12 ? "12" : endHour%12) + ":" + (endMinute > 9 ? endMinute : "0"+endMinute) + (endHour>11 ? "PM" : "AM");
 
         return s;
     }

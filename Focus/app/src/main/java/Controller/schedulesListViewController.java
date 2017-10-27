@@ -145,6 +145,7 @@ public class schedulesListViewController extends Fragment {
         ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
     }
 
+    @SuppressWarnings("ResourceType")
     void getName(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Enter new schedule name:");
@@ -152,6 +153,7 @@ public class schedulesListViewController extends Fragment {
         myView = v;
         // Set up the input
         final EditText input = new EditText(v.getContext());
+        input.setId(12345);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
@@ -401,18 +403,37 @@ public class schedulesListViewController extends Fragment {
 
                 Boolean wantToCloseDialog = true;
                 //Do stuff, possibly set wantToCloseDialog to true then...
-
-                int start = tpStart.getHour() * 60 + tpStart.getMinute();
-                int end = tpEnd.getHour() * 60 + tpEnd.getMinute();
-
-                if ( end - start > 600) {
+                if (tpStart.getHour()>tpEnd.getHour()){
+                    if ((24-tpStart.getHour())+tpEnd.getHour() > 10) {
+                        wantToCloseDialog = false;
+                    }
+                }
+                else if(tpEnd.getHour()-tpStart.getHour() > 10) {
                     wantToCloseDialog = false;
                 }
-                if (end < start) {
-                    wantToCloseDialog = false;
+                else if (tpEnd.getHour()-tpStart.getHour() == 10) {
+                    if (tpEnd.getMinute()-tpStart.getMinute() > 0) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
                 }
-                if (end - start < 10) {
-                    wantToCloseDialog = false;
+                else if (tpEnd.getHour()-tpStart.getHour() == 0) {
+                    if (tpEnd.getMinute()-tpStart.getMinute() < 10) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
+                }
+                else if (tpEnd.getHour()-tpStart.getHour() == 1) {
+                    if (((60-tpStart.getMinute())+tpEnd.getMinute()) < 10) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
                 }
 
                 if (wantToCloseDialog) {
@@ -442,23 +463,46 @@ public class schedulesListViewController extends Fragment {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println(tpStart.getHour());
+                System.out.println(tpEnd.getHour());
+                System.out.println(tpStart.getMinute());
+                System.out.println(tpStart.getMinute());
 
                 Boolean wantToCloseDialog = true;
                 //Do stuff, possibly set wantToCloseDialog to true then...
 
-                int start = tpStart.getHour() * 60 + tpStart.getMinute();
-                int end = tpEnd.getHour() * 60 + tpEnd.getMinute();
-
-                if ( end - start > 600) {
+                if (tpStart.getHour()>tpEnd.getHour()){
+                    if ((24-tpStart.getHour())+tpEnd.getHour() > 10) {
+                        wantToCloseDialog = false;
+                    }
+                }
+                else if(tpEnd.getHour()-tpStart.getHour() > 10) {
                     wantToCloseDialog = false;
                 }
-                if (end < start) {
-                    wantToCloseDialog = false;
+                else if (tpEnd.getHour()-tpStart.getHour() == 10) {
+                    if (tpEnd.getMinute()-tpStart.getMinute() > 0) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
                 }
-                if (end - start < 10) {
-                    wantToCloseDialog = false;
+                else if (tpEnd.getHour()-tpStart.getHour() == 0) {
+                    if (tpEnd.getMinute()-tpStart.getMinute() < 10) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
                 }
-
+                else if (tpEnd.getHour()-tpStart.getHour() == 1) {
+                    if (((60-tpStart.getMinute())+tpEnd.getMinute()) < 10) {
+                        wantToCloseDialog = false;
+                    }
+                    else {
+                        wantToCloseDialog = true;
+                    }
+                }
                 if (wantToCloseDialog) {
 
                     focusModel.createNewSchedule(name);

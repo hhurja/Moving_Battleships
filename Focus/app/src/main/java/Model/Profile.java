@@ -33,7 +33,7 @@ public class Profile {
     private Integer profileID;
     private String profileName;
     private ArrayList<App> apps;
-    private ArrayList<Integer> scheduleIDs; //TODO do we need this?
+    private HashSet<Integer> scheduleIDs; //TODO do we need this?
     private boolean activated;
     private boolean activatedByProfile;
     private boolean activatedBySchedule;
@@ -55,12 +55,19 @@ public class Profile {
         onOffSwitch = true;
         time = "";
         blockedFromProfiles = false;
+        scheduleIDs = new HashSet<Integer>();
     }
 
     /**
      * Getters and Setters
      */
 
+    public void addScheduleID(int id) {
+        scheduleIDs.add(id);
+    }
+    public void removeScheduleID(int id) {
+        scheduleIDs.remove(Integer.valueOf(id));
+    }
     public Integer getProfileID() {
         return profileID;
     }
@@ -120,7 +127,7 @@ public class Profile {
 
     public void blockProfile() {
         //only display notification if switched from nonactive to active
-        if (activated == false) {
+        if (activated == false && scheduleIDs.isEmpty()) {
             createNotificationForActive();
         }
         activated = true;
@@ -130,13 +137,17 @@ public class Profile {
     }
 
     public void unblockProfile() {
-        //only display notification if switched from active to nonactive
-        if (activated == true) {
-            createNotificationForDeactive();
+        System.out.println(scheduleIDs.size());
+        for (Integer i : scheduleIDs) {
+            System.out.println(i);
         }
-        activated = false;
-        for (int i = 0; i < apps.size(); i++) {
-            apps.get(i).unblockApp(profileID);
+        //only display notification if switched from active to nonactive
+        if (activated == true && scheduleIDs.isEmpty()) {
+            createNotificationForDeactive();
+            activated = false;
+            for (int i = 0; i < apps.size(); i++) {
+                apps.get(i).unblockApp(profileID);
+            }
         }
     }
 
