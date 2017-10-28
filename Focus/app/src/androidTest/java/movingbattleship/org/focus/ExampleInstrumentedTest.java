@@ -7,16 +7,10 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-<<<<<<< HEAD
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static movingbattleship.org.focus.R.id.profilesTab;
-import static movingbattleship.org.focus.R.id.schedulesTab;
-import static org.junit.Assert.*;
-=======
 import static org.junit.Assert.assertEquals;
->>>>>>> 9ffedf89e3fff68b08b770682e0352a0328ed9a1
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -32,7 +26,7 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("movingbattleship.org.focus", appContext.getPackageName());
-        onView(withId(profilesTab)).perform(click());
-        onView(withId(schedulesTab)).perform(click());
+        onView(withId(R.id.profilesTab)).perform(click());
+        onView(withId(R.id.schedulesTab)).perform(click());
     }
 }
