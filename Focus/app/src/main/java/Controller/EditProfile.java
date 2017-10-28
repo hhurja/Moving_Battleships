@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -32,8 +31,6 @@ import Model.Profile;
 import movingbattleship.org.focus.R;
 
 import static movingbattleship.org.focus.R.id.startBlocking;
-import static movingbattleship.org.focus.R.id.textView;
-import static movingbattleship.org.focus.R.id.time;
 
 /**
  * Created by Ruth on 10/14/17.
@@ -68,12 +65,10 @@ public class EditProfile extends AppCompatActivity {
         builder.setPositiveButton("Change", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Add profile with that name to schedule
-                //focusModel.getSchedule(scheduleName).setScheduleName(input.getText().toString());
-                //scheduleName = input.getText().toString();
-                //TextView scheduleNameTextView = (TextView) findViewById(R.id.name);
-                //scheduleNameTextView.setText(scheduleName);
+                // change name of profile and refresh page
                 profile.setProfileName(input.getText().toString());
+                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
+                startActivity(intent);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
