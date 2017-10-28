@@ -3,7 +3,6 @@ package Controller;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -58,19 +57,23 @@ public class EditSchedule extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             scheduleName = extras.getString("scheduleName");
+            System.out.println(scheduleName);
             schedule = focusModel.getSchedule(scheduleName);
-            isActive = schedule.isActive();
+            if ( schedule != null ) {
+                isActive = schedule.isActive();
+            }
         }
 
-        for ( Profile p : focusModel.getSchedule(scheduleName).getProfiles() ) {
-            if(p!=null) {
-                if (!names.contains(p.getProfileName())){
-                    names.add(p.getProfileName());
+        if (focusModel.getSchedule(scheduleName) != null) {
+            for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
+                if (p != null) {
+                    if (!names.contains(p.getProfileName())) {
+                        names.add(p.getProfileName());
+                    }
                 }
             }
         }
 
-        System.out.println("Schedule: " + schedule.getScheduleName());
         String name = ( schedule != null ) ? schedule.getScheduleName() : "Awesome Study Session";
 
         TextView scheduleNameTextView = (TextView) findViewById(R.id.name);
@@ -105,10 +108,13 @@ public class EditSchedule extends AppCompatActivity {
                                 //focusModel.getSchedule(scheduleName).removeProfile(focusModel.getSchedule(scheduleName).getScheduleID());
                                 focusModel.removeProfileFromSchedule(name, scheduleName);
                                 ArrayList<String> namesList = new ArrayList<>();
-                                for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
-                                    if ( p!= null ) {
-                                        if(!namesList.contains(p.getProfileName())) {
-                                            namesList.add(p.getProfileName());
+
+                                if (focusModel.getSchedule(scheduleName) != null) {
+                                    for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
+                                        if (p != null) {
+                                            if (!namesList.contains(p.getProfileName())) {
+                                                namesList.add(p.getProfileName());
+                                            }
                                         }
                                     }
                                 }
@@ -147,7 +153,7 @@ public class EditSchedule extends AppCompatActivity {
                         }
                         builder.setView(layout);
                         // Set up the buttons
-                        builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ArrayList<String> profiles = new ArrayList<String>();
@@ -186,8 +192,10 @@ public class EditSchedule extends AppCompatActivity {
                         //TODO: Turn schedule on or off
                         isActive = !isActive;
                         Switch toggleOnOff = (Switch) findViewById(R.id.simple_switch);
-                        focusModel.getSchedule(scheduleName).setActivated(isActive);
-                        toggleOnOff.setChecked(isActive);
+                        if (focusModel.getSchedule(scheduleName) != null ) {
+                            focusModel.getSchedule(scheduleName).setActivated(isActive);
+                            toggleOnOff.setChecked(isActive);
+                        }
                     }
                 }
         );
@@ -200,6 +208,7 @@ public class EditSchedule extends AppCompatActivity {
 
         // Set up the input
         final EditText input = new EditText(v.getContext());
+        input.setId(R.id.editScheduleNameId);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
@@ -209,7 +218,9 @@ public class EditSchedule extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Add profile with that name to schedule
-                focusModel.getSchedule(scheduleName).setScheduleName(input.getText().toString());
+                if (focusModel.getSchedule(scheduleName) != null ) {
+                    focusModel.getSchedule(scheduleName).setScheduleName(input.getText().toString());
+                }
                 scheduleName = input.getText().toString();
                 TextView scheduleNameTextView = (TextView) findViewById(R.id.name);
                 scheduleNameTextView.setText(scheduleName);
@@ -513,26 +524,28 @@ public class EditSchedule extends AppCompatActivity {
 
     void setDateAndTimeTable() {
         TableLayout daysAndTimesTable = (TableLayout) findViewById(R.id.datesAndTimesTableLayout);
-        for (TimeRange t : schedule.getTimeRanges()) {
-            System.out.println(schedule.getTimeRanges());
-            String days = getDaysString(t.getDays());
-            String times = t.getTime();
-            System.out.println(days + " " + times);
+        if (schedule != null) {
+            for (TimeRange t : schedule.getTimeRanges()) {
+                System.out.println(schedule.getTimeRanges());
+                String days = getDaysString(t.getDays());
+                String times = t.getTime();
+                System.out.println(days + " " + times);
 
-            TextView daysTextView = new TextView(getApplicationContext());
-            daysTextView.setText(days);
-            daysTextView.setPadding(10, 10, 10, 10);
-            TextView timesTextView = new TextView(getApplicationContext());
-            timesTextView.setText(times);
-            timesTextView.setPadding(10, 10, 10, 10);
-            timesTextView.setGravity(Gravity.RIGHT);
-            timesTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
-            TableRow dtRow = new TableRow(getApplicationContext());
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-            dtRow.setLayoutParams(lp);
-            dtRow.addView(daysTextView);
-            dtRow.addView(timesTextView);
-            daysAndTimesTable.addView(dtRow);
+                TextView daysTextView = new TextView(getApplicationContext());
+                daysTextView.setText(days);
+                daysTextView.setPadding(10, 10, 10, 10);
+                TextView timesTextView = new TextView(getApplicationContext());
+                timesTextView.setText(times);
+                timesTextView.setPadding(10, 10, 10, 10);
+                timesTextView.setGravity(Gravity.RIGHT);
+                timesTextView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+                TableRow dtRow = new TableRow(getApplicationContext());
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                dtRow.setLayoutParams(lp);
+                dtRow.addView(daysTextView);
+                dtRow.addView(timesTextView);
+                daysAndTimesTable.addView(dtRow);
+            }
         }
         daysAndTimesTable.setOnClickListener(new View.OnClickListener()
         {
