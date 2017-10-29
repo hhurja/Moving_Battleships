@@ -2,15 +2,22 @@ package movingbattleship.org.focus;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import Model.AppIconGenerator;
 import Model.AppProcessChecker;
 import Model.DatabaseHelper;
 import Model.FocusModel;
 import Model.Profile;
 import Model.Schedule;
+import Model.TimeRange;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by HunterHurja on 10/26/17.
@@ -22,6 +29,7 @@ public class ScheduleUnitTest {
     private FocusModel fm;
     private Schedule s0;
     private Profile p0;
+    private ArrayList<String> al;
 
     public void setUp(){
         s0 = new Schedule(-1, "test_sched_0", true);
@@ -31,6 +39,18 @@ public class ScheduleUnitTest {
         fm.createNewSchedule("test_sched_1");
         fm.createNewProfile("test_prof_1");
 
+    }
+
+    private void setUpTimeRanges(){
+        setUp();
+        al = new ArrayList<>();
+        al.add("sunday");
+        al.add("monday");
+        al.add("tuesday");
+        al.add("wednesday");
+        al.add("thursday");
+        al.add("friday");
+        al.add("saturday");
     }
 
     public void cleanup(){
@@ -44,6 +64,9 @@ public class ScheduleUnitTest {
         while(fm.getAllProfiles().size() > 0){
             fm.removeApp(fm.getAllApps().get(0).getAppID());
         }
+        s0 = null;
+        p0 = null;
+        al = null;
     }
 
     @Test
@@ -83,14 +106,98 @@ public class ScheduleUnitTest {
     @Test
     public void addProfileToScheduleTest(){
         setUp();
+        //To make sure that profiles arent added incorrectly
+        fm.addProfileToSchedule("fake_profile", "test_sched_1");
+        assertEquals(0, fm.getAllSchedules().get(0).getProfiles().size());
+
         s0.addProfile(p0);
-        fm.addProfileToSchedule(p0.getProfileName(), s0.getScheduleName());
+        fm.addProfileToSchedule("test_prof_1", "test_sched_1");
         assertEquals(p0.getProfileName(), s0.getProfiles().get(0).getProfileName());
         assertEquals(1, fm.getAllSchedules().size());
+        assertEquals(1, fm.getAllSchedules().get(0).getProfiles().size());
         assertEquals("test_prof_1", fm.getAllProfiles().get(0).getProfileName());
+        assertSame(fm.getAllProfiles().get(0), fm.getAllSchedules().get(0).getProfiles().get(0));
+        cleanup();
+    }
+
+    @Test
+    public void removeProfileFromScheduleTest(){
+        setUp();
+        s0.addProfile(p0);
+        assertEquals(1, s0.getProfiles().size());
+        s0.removeProfile(p0.getProfileID());
+        assertEquals(0, s0.getProfiles().size());
+
+        fm.addProfileToSchedule("test_prof_1", "test_sched_1");
+        fm.removeProfileFromSchedule("test_prof_1", "test_sched_1");
+        assertEquals(0, fm.getSchedule("test_sched_1").getProfiles().size());
 
         cleanup();
     }
+
+    @Test
+    public void addTimeRangeTest(){
+        setUpTimeRanges();
+
+        s0.addTimeRange(al, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.HOUR_OF_DAY, Calendar.MINUTE+1);
+        assertEquals(1, s0.getTimeRanges().size());
+        cleanup();
+    }
+
+    @Test
+    public void setTimeRangeTest(){
+        setUpTimeRanges();
+
+        s0.addTimeRange(al, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.HOUR_OF_DAY, Calendar.MINUTE+1);
+
+        assertTrue(s0.isInTimeRange());
+        try {
+            Thread.sleep(600);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertFalse(s0.isInTimeRange());
+
+        cleanup();
+    }
+
+    @Test
+    public void deleteTimeRangeTest(){
+        //TODO Im not sure how to remove a timerange
+        setUpTimeRanges();
+
+        s0.addTimeRange(al, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.HOUR_OF_DAY, Calendar.MINUTE+1);
+
+        cleanup();
+    }
+
+    @Test
+    public void editTimeRangeTest(){
+        //TODO
+        assertTrue(false);
+    }
+
+    @Test
+    public void repeatingTest(){
+        //TODO how do we show that schedules are repeating?
+        assertTrue(false);
+    }
+
+    @Test
+    public void deleteScheduleTest(){
+        setUp();
+        assertEquals(1, fm.getAllSchedules().size());
+        fm.removeSchedule(fm.getIdFromName("Schedule", "test_sched_1"));
+        assertEquals(0, fm.getAllSchedules().size());
+
+
+        cleanup();
+    }
+
+
+
+
+
 
 
 //    - [ ] Constructor
