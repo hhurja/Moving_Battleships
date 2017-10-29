@@ -52,7 +52,9 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
 
         ImageView appImage1 = (ImageView) applicationsView.findViewById(R.id.image1);
         // populate image icon with actual application image
-        appImage1.setImageBitmap((focusModel.getIconMap()).get(nameToPackage.get(name)));
+        if (focusModel != null && focusModel.getIconMap() != null) {
+            appImage1.setImageBitmap((focusModel.getIconMap()).get(nameToPackage.get(name)));
+        }
 
         profileNameTextView.setText(name);
 
