@@ -3,3 +3,5 @@
 */.gradle/*
 */build/*
 Focus/app/app.iml
+config.bat
+node_modules

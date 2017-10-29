@@ -62,15 +62,15 @@ public class profilesListAdapter extends ArrayAdapter<String>{
 
         profileNameTextView.setText(name);
         profile = focusModel.getProfile(name);
-        if (profile.getApps().size() > 0) {
+        if (profile.getApps().size() > 0 && focusModel.getIconMap() != null) {
             String appName = profile.getApps().get(0).getPackageName();
             appImage1.setImageBitmap(focusModel.getIconMap().get(appName));
         }
-        if (profile.getApps().size() > 1) {
+        if (profile.getApps().size() > 1 && focusModel.getIconMap() != null) {
             String appName = profile.getApps().get(1).getPackageName();
             appImage2.setImageBitmap(focusModel.getIconMap().get(appName));
         }
-        if (profile.getApps().size() > 2) {
+        if (profile.getApps().size() > 2 && focusModel.getIconMap() != null) {
             String appName = profile.getApps().get(2).getPackageName();
             appImage3.setImageBitmap(focusModel.getIconMap().get(appName));
         }
