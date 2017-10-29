@@ -152,6 +152,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         deleteAllTables(db);
         createTables(db);
 
+        System.out.println("WRITING OUT ALL DATA RN");
+
         boolean idQuery = makeIdQuery(db, fm.getNumProfilesCreated(), fm.getNumAppsCreated(), fm.getNumSchedulesCreated());
         boolean profQuery = makeProfileQuery(db, fm.getAllProfiles());
         boolean appQuery = makeAppQuery(db, fm.getAllApps());

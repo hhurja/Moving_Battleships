@@ -820,6 +820,7 @@ public class FocusModel extends Thread{
         }
 
     }
+
     private void updateWithSchedules() {
         for (Schedule s : instance.schedules) {
             if (s.isInTimeRange()) {
