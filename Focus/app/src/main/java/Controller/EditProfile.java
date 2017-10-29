@@ -95,17 +95,23 @@ public class EditProfile extends AppCompatActivity {
         }
 
         TextView profileName = (TextView) findViewById(R.id.name);
-        profileName.setText(profile.getProfileName());
+        String profname = ( profile != null ) ? profile.getProfileName() : "Sample Profile";
+        profileName.setText(profname);
 
         timerText = (TextView) findViewById(R.id.timer);
 
         //TODO: figure out if we call isOn(), isActive(), or both
-        if (profile.isActivated()) {
-            //ArrayList <Integer> endTime = focusModel.endOfTimer(profile.getProfileName());
-            timerText.setText("Blocked until: " + profile.time);
+        if (profile != null) {
+            if (profile.isActivated()) {
+                //ArrayList <Integer> endTime = focusModel.endOfTimer(profile.getProfileName());
+                timerText.setText("Blocked until: " + profile.time);
+            } else {
+                timerText.setVisibility(TextView.INVISIBLE);
+            }
         } else {
             timerText.setVisibility(TextView.INVISIBLE);
         }
+
 
         mListView = (ListView) findViewById(R.id.AppListView);
 
@@ -147,27 +153,33 @@ public class EditProfile extends AppCompatActivity {
                 }
         );
 
-        ArrayList<App> apps = profile.getApps();
-        String[] profileNames = new String[apps.size()];
-        for (int i = 0; i < apps.size(); i++) {
-            profileNames[i] = apps.get(i).getAppName();
+        if (profile != null) {
+            ArrayList<App> apps = profile.getApps();
+            String[] profileNames = new String[apps.size()];
+            for (int i = 0; i < apps.size(); i++) {
+                profileNames[i] = apps.get(i).getAppName();
+            }
+            ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), profileNames, nameToPackage);
+            mListView.setAdapter(adapter);
         }
-        ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), profileNames, nameToPackage);
-        mListView.setAdapter(adapter);
+
 
         fab_start = (Button) findViewById(startBlocking);
 
         //send timerText and fab_start to Profile class
-        profile.getView(timerText, fab_start);
 
-        if (profile.isActivated()) {
-            fab_start.setBackgroundColor(Color.RED);
-            fab_start.setText("Stop Blocking This Profile");
+        if (profile != null) {
+            profile.getView(timerText, fab_start);
+            if (profile.isActivated()) {
+                fab_start.setBackgroundColor(Color.RED);
+                fab_start.setText("Stop Blocking This Profile");
+            }
+            else {
+                fab_start.setBackgroundColor(Color.GREEN);
+                fab_start.setText("Start Blocking This Profile");
+            }
         }
-        else {
-            fab_start.setBackgroundColor(Color.GREEN);
-            fab_start.setText("Start Blocking This Profile");
-        }
+
         fab_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

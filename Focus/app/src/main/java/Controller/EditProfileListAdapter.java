@@ -47,7 +47,9 @@ public class EditProfileListAdapter extends ArrayAdapter<String>{
 
         ImageView appImage1 = (ImageView) applicationsView.findViewById(R.id.image1);
         // set image corresponding to application
-        appImage1.setImageBitmap((focusModel.getIconMap()).get(nameToPackage.get(name)));
+        if (focusModel != null && focusModel.getIconMap() != null) {
+            appImage1.setImageBitmap((focusModel.getIconMap()).get(nameToPackage.get(name)));
+        }
 
         return applicationsView;
     }
