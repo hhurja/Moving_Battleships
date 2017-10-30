@@ -234,7 +234,11 @@ public class FocusModel extends Thread{
         if (alreadyExists("Profile", profileName)) {
             System.out.println("Attempted to create a profile that already exists. "
                     + "Do something about this -- " + profileName);
-        } else {
+        }
+        else if (profileName.equals("")) {
+            //
+        }
+        else {
             profiles.add(new Profile(numProfilesCreated, profileName));
             apps_to_profiles.put(numProfilesCreated, new HashSet<Integer>());
             numProfilesCreated++;
