@@ -166,7 +166,7 @@ public class profilesAndScheduleCreation {
     @Test
     public void test5_createScheduleWithIncorrectTimeRange() {
         onView(withText("Schedules")).perform(click());
-
+        onView(withId(R.id.addScheduleButton)).perform(click());
         Espresso.onView(allOf(withClassName(containsString("EditText")))).perform(replaceText("Random Schedule!"));
         Espresso.onView(withText("Next")).perform(click());
         pause();
@@ -194,27 +194,13 @@ public class profilesAndScheduleCreation {
         onView(withText("Schedules")).perform(click());
         Espresso.onView(withText("Random Schedule!")).perform(click());
         pause();
-        Espresso.onView(allOf(withClassName(containsString("EditText")))).perform(replaceText("Random Schedule!"));
+        Espresso.onView(withId(R.id.datesAndTimesTableLayout)).perform(ViewActions.click());
+        Espresso.onView(withText("Sunday")).perform(click());
         Espresso.onView(withText("Next")).perform(click());
         pause();
-        Espresso.onView(withText("Next")).perform(click());
-        pause();
-        Espresso.onView(withText("Random apps")).perform(click());
-        Espresso.onView(withText("Next")).perform(click());
-        Espresso.onView(withText("Thursday")).perform(click());
-        Espresso.onView(withText("Next")).perform(click());
-        pause();
-        onView(withIndex(withClassName(containsString("TimePicker")), 0)).perform(setTime(00, 00));
-        onView(withIndex(withClassName(containsString("TimePicker")), 1)).perform(setTime(11, 00));
-        pause();
+        onView(withIndex(withClassName(containsString("TimePicker")), 0)).perform(setTime(5, 12));
+        onView(withIndex(withClassName(containsString("TimePicker")), 1)).perform(setTime(9, 34));
         Espresso.onView(withText("Create Schedule!")).perform(click());
-        pause();
-        onView(withIndex(withClassName(containsString("TimePicker")), 0)).perform(setTime(00, 00));
-        onView(withIndex(withClassName(containsString("TimePicker")), 1)).perform(setTime(9, 00));
-        pause();
-        Espresso.onView(withText("Create Schedule!")).perform(click());
-        pause();
-        Espresso.onView(withIndex(withId(R.id.name),2)).check(matches(withText("Random Schedule!")));
     }
 
     public void pause() {
