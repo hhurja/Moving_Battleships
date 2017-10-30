@@ -93,6 +93,7 @@ public class ScheduleUnitTest {
         s0.setScheduleName("new_name");
         assertEquals("new_name", s0.getScheduleName());
         fm.changeScheduleName("test_sched_1", "test_sched_2");
+        assertEquals("test_sched_2", fm.getAllSchedules().get(0).getScheduleName());
         cleanup();
 
     }
@@ -102,6 +103,8 @@ public class ScheduleUnitTest {
         setUp();
         s0.setScheduleName("");
         assertNotEquals("", s0.getScheduleName());
+        fm.changeScheduleName("test_sched_1", "");
+        assertNotEquals("", fm.getAllSchedules().get(0).getScheduleName());
         cleanup();
     }
 
