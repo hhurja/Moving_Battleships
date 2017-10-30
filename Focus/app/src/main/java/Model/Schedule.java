@@ -91,7 +91,7 @@ public class Schedule {
     }
 
     public void setScheduleName(String name){
-        this.name = name;
+        if(!name.equals("")) this.name = name;
     }
 
 //    public HashMap<Integer, ArrayList<TimeRange>> getProfileSchedule(){
