@@ -1,4 +1,4 @@
-package movingbattleship.org.focus.schedulesTests;
+package movingbattleship.org.focus;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -7,6 +7,8 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -35,7 +37,7 @@ import static org.hamcrest.Matchers.allOf;
  * Created by shabina on 10/27/17.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class addSchedulesTest {
+public class profilesAndScheduleCreation {
     public static Matcher<View> withIndex(final Matcher<View> matcher, final int index) {
         return new TypeSafeMatcher<View>() {
             int currentIndex = 0;
@@ -71,6 +73,7 @@ public class addSchedulesTest {
                 .onChildView(withId(R.id.checkBox3)).perform(click());
         Espresso.onView(withText("Add Applications")).perform(click());
         onView(isRoot()).perform(ViewActions.pressBack());
+        Espresso.onView(withId(R.id.profileName)).check(matches(withText("Distracting Videos")));
 
     }
     @Test
@@ -92,6 +95,7 @@ public class addSchedulesTest {
         onView(withIndex(withClassName(containsString("TimePicker")), 1)).perform(setTime(11, 36));
         pause();
         Espresso.onView(withText("Create Schedule!")).perform(click());
+        Espresso.onView(withId(R.id.name)).check(matches(withText("Schedule w/ 1 Profile")));
         pause();
         pause();
         pause();
@@ -110,6 +114,8 @@ public class addSchedulesTest {
         pause();
         Espresso.onView(withText("Add Applications")).perform(click());
         onView(isRoot()).perform(ViewActions.pressBack());
+        Espresso.onView(withIndex(withId(R.id.profileName),1)).check(matches(withText("Distracting Wallpaper")));
+
     }
     @Test
     public void test4_createScheduleWithTwoProfiles() {
@@ -131,6 +137,7 @@ public class addSchedulesTest {
         onView(withIndex(withClassName(containsString("TimePicker")), 1)).perform(setTime(19, 36));
         pause();
         Espresso.onView(withText("Create Schedule!")).perform(click());
+        Espresso.onView(withIndex(withId(R.id.name),1)).check(matches(withText("Schedule w/ 2 Profiles")));
         pause();
         pause();
     }
@@ -150,6 +157,9 @@ public class addSchedulesTest {
                 .onChildView(withId(R.id.checkBox3)).perform(click());
         Espresso.onView(withText("Add Applications")).perform(click());
         onView(isRoot()).perform(ViewActions.pressBack());
+        Espresso.onView(withIndex(withId(R.id.profileName),2)).check(matches(withText("Random apps")));
+
+
     }
     @Test
     public void test6_createScheduleWithIncorrectTimeRange() {
@@ -177,6 +187,7 @@ public class addSchedulesTest {
         pause();
         Espresso.onView(withText("Create Schedule!")).perform(click());
         pause();
+        Espresso.onView(withIndex(withId(R.id.name),2)).check(matches(withText("Random Schedule!")));
     }
 
     public void pause() {
