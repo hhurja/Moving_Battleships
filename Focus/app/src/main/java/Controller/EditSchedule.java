@@ -36,9 +36,10 @@ public class EditSchedule extends AppCompatActivity {
 
     private FocusModel focusModel;
     private Schedule schedule;
-    private boolean isActive;
+    private boolean isRepeat;
     private String scheduleName;
     private static View myView;
+    private ArrayAdapter<String> listAdapter;
 
     public static ArrayList<String> names = new ArrayList<String>();
 
@@ -50,7 +51,7 @@ public class EditSchedule extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_schedules);
-        isActive = false;
+        isRepeat = false;
         focusModel = FocusModel.getInstance();
 
         // get the contact info from the contact activity so the user can see the selected contact info
@@ -60,7 +61,7 @@ public class EditSchedule extends AppCompatActivity {
             System.out.println(scheduleName);
             schedule = focusModel.getSchedule(scheduleName);
             if ( schedule != null ) {
-                isActive = schedule.isActive();
+                isRepeat = schedule.getRepeat();
             }
         }
 
@@ -86,9 +87,9 @@ public class EditSchedule extends AppCompatActivity {
 
         Button addProfileButton = (Button) findViewById(R.id.addProfileButton);
         Switch toggleOnOff = (Switch) findViewById(R.id.simple_switch);
-        toggleOnOff.setChecked(isActive);
+        toggleOnOff.setChecked(schedule.getRepeat());
 
-        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+        listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
         ListView lv = (ListView)findViewById(R.id.profilesListView);
         lv.setAdapter(listAdapter);
 
@@ -108,23 +109,13 @@ public class EditSchedule extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                focusModel.removeProfileFromSchedule(name, scheduleName);
-                                ArrayList<String> namesList = new ArrayList<>();
-
-                                if (focusModel.getSchedule(scheduleName) != null) {
-                                    if( focusModel.getSchedule(scheduleName).getProfiles() != null ) {
-                                        System.out.println("B: " + focusModel.getSchedule(scheduleName).getProfiles().size());
-                                    }
-                                    for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
-                                        if (p != null) {
-                                            if (!namesList.contains(p.getProfileName())) {
-                                                namesList.add(p.getProfileName());
-                                            }
-                                        }
-                                    }
-                                }
-                                ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, namesList);
+                                System.out.println("Names pre: " + name);
+                                names.remove(name);
+                                System.out.println("Names: " + names.toString());
                                 ListView lv = (ListView)findViewById(R.id.profilesListView);
+                                listAdapter.notifyDataSetChanged();
                                 lv.setAdapter(listAdapter);
+                                lv.refreshDrawableState();
                             }
                         });
                         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -194,11 +185,10 @@ public class EditSchedule extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //TODO: Turn schedule on or off
-                        isActive = !isActive;
+                        isRepeat = !isRepeat;
                         Switch toggleOnOff = (Switch) findViewById(R.id.simple_switch);
                         if (focusModel.getSchedule(scheduleName) != null ) {
-                            focusModel.getSchedule(scheduleName).setActivated(isActive);
-                            toggleOnOff.setChecked(isActive);
+                            focusModel.getSchedule(scheduleName).setRepeat(isRepeat);
                         }
                     }
                 }
@@ -528,6 +518,7 @@ public class EditSchedule extends AppCompatActivity {
 
     void setDateAndTimeTable() {
         TableLayout daysAndTimesTable = (TableLayout) findViewById(R.id.datesAndTimesTableLayout);
+        daysAndTimesTable.removeAllViews();
         if (schedule != null) {
             for (TimeRange t : schedule.getTimeRanges()) {
                 System.out.println(schedule.getTimeRanges());

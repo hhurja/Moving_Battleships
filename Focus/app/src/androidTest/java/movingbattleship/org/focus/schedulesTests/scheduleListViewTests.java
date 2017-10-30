@@ -34,7 +34,7 @@ public class scheduleListViewTests {
     public void init(){
         mActivityRule.getActivity()
                 .getSupportFragmentManager().beginTransaction();
-        //onView(withId(R.id.schedulesTab)).perform(click());
+        onView(withId(R.id.schedulesTab)).perform(click());
     }
 
     // 7.1. A user can create new schedules
