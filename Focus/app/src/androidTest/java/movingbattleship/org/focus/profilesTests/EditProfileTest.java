@@ -257,7 +257,6 @@ public class EditProfileTest {
         FocusModel focusModel = FocusModel.getInstance();
         focusModel.createNewProfile("Profile will be deleted :(");
         focusModel.setCurrentProfile("Profile will be deleted :(");
-        focusModel.getCurrentProfile().activate();
 
 
         Intent i = new Intent();

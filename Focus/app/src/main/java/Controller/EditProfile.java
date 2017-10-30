@@ -31,6 +31,7 @@ import Model.Profile;
 import movingbattleship.org.focus.R;
 
 import static movingbattleship.org.focus.R.id.startBlocking;
+import static movingbattleship.org.focus.R.id.timer;
 
 /**
  * Created by Ruth on 10/14/17.
@@ -48,6 +49,29 @@ public class EditProfile extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
+
+    /*public class TimerClass extends CountDownTimer {
+
+        public TimerClass(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            String timerStr = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                            - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
+            );
+            timerText.setText("Blocked for: " + timerStr);
+        }
+
+        @Override
+        public void onFinish() {
+
+        }
+    } */
 
     public void onClick(View v) {
         // CITED: https://stackoverflow.com/questions/10903754/input-text-dialog-android
@@ -98,13 +122,16 @@ public class EditProfile extends AppCompatActivity {
         String profname = ( profile != null ) ? profile.getProfileName() : "Sample Profile";
         profileName.setText(profname);
 
-        timerText = (TextView) findViewById(R.id.timer);
+        timerText = (TextView) findViewById(timer);
+
+        //final TimerClass timerInstance = new TimerClass(180000, 1000);
 
         //TODO: figure out if we call isOn(), isActive(), or both
         if (profile != null) {
             if (profile.isActivated()) {
                 //ArrayList <Integer> endTime = focusModel.endOfTimer(profile.getProfileName());
-                timerText.setText("Blocked until: " + profile.time);
+                timerText.setText("Blocked for: " + "00:03:00");
+                //timerInstance.start();
             } else {
                 timerText.setVisibility(TextView.INVISIBLE);
             }
@@ -226,6 +253,7 @@ public class EditProfile extends AppCompatActivity {
 
                             if (minuteBoxNum < 10 && hourBoxNum == 0 || hourBoxNum > 10) {
                                 showErrorMessage(myView);
+                                return;
                             }
 
                             profile.addTime(minuteBoxNum, hourBoxNum);
