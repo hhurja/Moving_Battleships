@@ -24,7 +24,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 /**
- * Created by adammoffitt on 10/25/17.
+ *
+ *
+ *
+ *
  */
 @RunWith(AndroidJUnit4.class)
 public class editSchedulesTests {
@@ -152,8 +155,6 @@ public class editSchedulesTests {
             // make sure profile name test1 now not displayed in list of profiles for schedule
             // and is not in list of profiles
             onView(withText("Test1")).check(doesNotExist());
-
-
         }
 
 }

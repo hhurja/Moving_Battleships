@@ -104,9 +104,7 @@ public class EditSchedule extends AppCompatActivity {
                         builder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // Add profile with that name to schedule
-                                //focusModel.getSchedule(scheduleName).removeProfile(focusModel.getSchedule(scheduleName).getScheduleID());
-                                focusModel.removeProfileFromSchedule(name, scheduleName);
+                               focusModel.removeProfileFromSchedule(name, scheduleName);
                                 ArrayList<String> namesList = new ArrayList<>();
 
                                 if (focusModel.getSchedule(scheduleName) != null) {
