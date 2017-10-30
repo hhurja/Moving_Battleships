@@ -113,13 +113,11 @@ public class Profile {
      */
 
     public void activate() {
-        activated = true;
         blockProfile();
     }
 
     public void deactivate() {
         time = "";
-        activated = false;
         unblockProfile();
     }
 
