@@ -35,6 +35,8 @@ import Model.Profile;
 import Model.Schedule;
 import movingbattleship.org.focus.R;
 
+import static android.R.attr.dial;
+
 @TargetApi(23)
 public class schedulesListViewController extends Fragment {
 
@@ -162,8 +164,14 @@ public class schedulesListViewController extends Fragment {
         builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Add profile with that name to schedule
-                getRepeat(schedulesListViewController.myView, input.getText().toString());
+                if (input.getText().length() == 0) {
+                    dialog.cancel();
+                }
+                else {
+                    // Add profile with that name to schedule
+                    getRepeat(schedulesListViewController.myView, input.getText().toString());
+                }
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -178,7 +186,6 @@ public class schedulesListViewController extends Fragment {
 
     void getRepeat(View v, String n){
         final String name = n;
-
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Repeat schedule?");
 
