@@ -35,8 +35,6 @@ import Model.Profile;
 import Model.Schedule;
 import movingbattleship.org.focus.R;
 
-import static android.R.attr.dial;
-
 @TargetApi(23)
 public class schedulesListViewController extends Fragment {
 
@@ -155,7 +153,7 @@ public class schedulesListViewController extends Fragment {
         myView = v;
         // Set up the input
         final EditText input = new EditText(v.getContext());
-        input.setId(12345);
+        input.setId(R.id.createScheduleNameId);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
@@ -190,7 +188,7 @@ public class schedulesListViewController extends Fragment {
         builder.setTitle("Repeat schedule?");
 
         final Switch mySwitch = new Switch(v.getContext());
-
+        mySwitch.setId(R.id.repeatSwitch);
         builder.setView(mySwitch);
 
         // Set up the buttons

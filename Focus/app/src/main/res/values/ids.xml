@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="editScheduleNameId" type="id" />
+    <item name="createScheduleNameId" type="id" />
+    <item name="repeatSwitch" type="id" />
 </resources>

@@ -49,6 +49,7 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.week_view);
 
+
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
 
@@ -71,7 +72,7 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
             public void onEmptyViewClicked(Calendar time) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(mWeekView.getContext());
-                builder.setTitle("Profiles Scheduled for " + time.get(Calendar.DATE));
+                builder.setTitle("Profiles Scheduled for " + time.get(Calendar.MONTH) +"/" + time.get(Calendar.DATE));
 
                 LinearLayout ll = new LinearLayout(mWeekView.getContext());
                 ArrayList<String> names = new ArrayList<>();

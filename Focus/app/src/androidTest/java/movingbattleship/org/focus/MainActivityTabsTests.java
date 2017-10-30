@@ -60,7 +60,7 @@ public class MainActivityTabsTests {
     @Test
     @UiThread
     public void checkTabSwitch() {
-        // I'd like to switch to a tab (test2) and check that the switch happened
+        // I'd like to switch to a tab (schedules) and check that the switch happened
         onView(allOf(withText("Schedules"), isDescendantOfA(withId(R.id.tabs))))
                 .perform(click())
                 .check(matches(isDisplayed()));

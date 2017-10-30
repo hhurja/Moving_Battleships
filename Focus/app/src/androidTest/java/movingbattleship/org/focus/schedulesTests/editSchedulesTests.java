@@ -12,6 +12,8 @@ import Controller.EditSchedule;
 import Model.FocusModel;
 import movingbattleship.org.focus.R;
 
+import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
+import static junit.framework.Assert.assertEquals;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -41,12 +43,16 @@ public class editSchedulesTests {
         @Test
         public void ensureScheduleName() {
 
+            FocusModel focusModel = FocusModel.getInstance();
+            focusModel.createNewSchedule("Awesome Study Session");
+
             Intent i = new Intent();
             i.putExtra("scheduleName", "Awesome Study Session");
             mActivityRule.launchActivity(i);
 
             onView(withId(R.id.name)).check(matches((isDisplayed())));
             onView(withId(R.id.name)).check(matches(withText("Awesome Study Session")));
+            assertEquals(focusModel.getSchedule("Awesome Study Session").getScheduleName(), "Awesome Study Session");
         }
 
 
@@ -72,17 +78,22 @@ public class editSchedulesTests {
 
         // 4.3. A Schedule should span a week
 
-        // 4.6. For each day of the week a schedule should have a list of profiles that will be activated during that day
 
         // 4.7. A schedule should have an On/Off option to repeat a schedule weekly or not
         @Test
         public void checkRepeatSchedules() {
 
+            FocusModel focusModel = FocusModel.getInstance();
+            focusModel.createNewSchedule("Awesome Study Session");
+            focusModel.getSchedule("Awesome Study Session").setRepeat(true);
             Intent i = new Intent();
             i.putExtra("scheduleName", "Awesome Study Session");
             mActivityRule.launchActivity(i);
 
             onView(withId(R.id.simple_switch)).check(matches(isDisplayed()));
+            onView(withId(R.id.simple_switch)).check(matches(isChecked()));
+            assertEquals((boolean)focusModel.getSchedule("Awesome Study Session").getRepeat(), true);
+
         }
 
         // 7.2 A user can edit the schedule name

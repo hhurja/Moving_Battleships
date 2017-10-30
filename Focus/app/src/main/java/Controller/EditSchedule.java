@@ -87,7 +87,9 @@ public class EditSchedule extends AppCompatActivity {
 
         Button addProfileButton = (Button) findViewById(R.id.addProfileButton);
         Switch toggleOnOff = (Switch) findViewById(R.id.simple_switch);
-        toggleOnOff.setChecked(schedule.getRepeat());
+        if ( schedule != null ) {
+            toggleOnOff.setChecked(schedule.getRepeat());
+        }
 
         listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
         ListView lv = (ListView)findViewById(R.id.profilesListView);
