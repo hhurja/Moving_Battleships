@@ -70,15 +70,16 @@ public class ScheduleUnitTest {
     }
 
     @Test
-    public void constructor_Test() throws Exception {
+    public void constructorTest() throws Exception {
         /**
-         * tests the two constructors for schedule which are used
+         * tests the two schedule constructors which are used
          * tests creating a schedule by calling the instantiation method from focusmodel
          */
         setUp();
-        assertEquals(s0.getScheduleName(), s0.getScheduleName());
+        assertEquals("test_sched_0", s0.getScheduleName());
         assertEquals("test_sched_1", fm.getSchedule("test_sched_1").getScheduleName());
         assertEquals(-1, s0.getScheduleID());
+        assertEquals(0, fm.getSchedule("test_sched_1").getScheduleID());
         assertEquals(false, s0.isVisible());
         cleanup();
     }
@@ -91,6 +92,8 @@ public class ScheduleUnitTest {
         setUp();
         s0.setScheduleName("new_name");
         assertEquals("new_name", s0.getScheduleName());
+        fm.changeScheduleName("test_sched_1", "test_sched_2");
+        assertEquals("test_sched_2", fm.getAllSchedules().get(0).getScheduleName());
         cleanup();
 
     }
@@ -100,6 +103,8 @@ public class ScheduleUnitTest {
         setUp();
         s0.setScheduleName("");
         assertNotEquals("", s0.getScheduleName());
+        fm.changeScheduleName("test_sched_1", "");
+        assertNotEquals("", fm.getAllSchedules().get(0).getScheduleName());
         cleanup();
     }
 
@@ -145,18 +150,25 @@ public class ScheduleUnitTest {
     }
 
     @Test
-    public void setTimeRangeTest(){
+    public void setActiveTimeRangeTest(){
         setUpTimeRanges();
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int min = Calendar.getInstance().get(Calendar.MINUTE);
 
-        s0.addTimeRange(al, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.HOUR_OF_DAY, Calendar.MINUTE+1);
+        fm.getAllSchedules().get(0).addTimeRange(al, hour, min, hour, min+15);
+        assertTrue(fm.getAllSchedules().get(0).isInTimeRange());
 
-        assertTrue(s0.isInTimeRange());
-        try {
-            Thread.sleep(600);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        assertFalse(s0.isInTimeRange());
+        cleanup();
+    }
+
+    @Test
+    public void setInactiveTimeRangeTest(){
+        setUpTimeRanges();
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int min = Calendar.getInstance().get(Calendar.MINUTE);
+
+        fm.getAllSchedules().get(0).addTimeRange(al, hour+1, min, hour+1, min+15);
+        assertFalse(fm.getAllSchedules().get(0).isInTimeRange());
 
         cleanup();
     }
@@ -172,15 +184,12 @@ public class ScheduleUnitTest {
     }
 
     @Test
-    public void editTimeRangeTest(){
-        //TODO
-        assertTrue(false);
-    }
-
-    @Test
     public void repeatingTest(){
         //TODO how do we show that schedules are repeating?
-        assertTrue(false);
+        setUpTimeRanges();
+        s0.setRepeat(true);
+        assertTrue(s0.getRepeat());
+        cleanup();
     }
 
     @Test

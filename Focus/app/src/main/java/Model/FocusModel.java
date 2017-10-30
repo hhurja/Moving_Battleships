@@ -922,4 +922,12 @@ public class FocusModel extends Thread{
         hm.add(lastMinute);
         return hm;
     }
+
+    public void changeScheduleName(String n1, String n2) {
+        for(Schedule s: schedules){
+            if(s.getScheduleName().equals(n1) && !n2.equals("")){
+                s.setScheduleName(n2);
+            }
+        }
+    }
 }

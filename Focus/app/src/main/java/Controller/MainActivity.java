@@ -102,10 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
 //        fm.createNewSchedule("Test", new ArrayList<String>(), 15, 30, 18, 0);
 
-        mDatabaseHelper = new DatabaseHelper(this);
+
         //SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
 
-        fm.createDatabase(mDatabaseHelper);
 
 //        ArrayList<String> blocked = new ArrayList<String>();
 //        blocked.add("com.google.android.apps.maps");
@@ -125,6 +124,13 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    protected void onStop(){
+        super.onStop();
+        mDatabaseHelper = new DatabaseHelper(this);
+        FocusModel fm = FocusModel.getInstance();
+        fm.createDatabase(mDatabaseHelper);
     }
 
     @Override

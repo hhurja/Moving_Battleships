@@ -65,6 +65,9 @@ public class profilesAndScheduleCreation {
     public void test1_createProfile() {
         Espresso.onView(withText("Profiles")).perform(ViewActions.click());
         Espresso.onView(withId(R.id.addProfileButton)).perform(ViewActions.click());
+        Espresso.onView(allOf(withClassName(containsString("EditText")))).perform(replaceText(""));
+        Espresso.onView(withText("Create")).perform(click());
+        Espresso.onView(withId(R.id.addProfileButton)).perform(ViewActions.click());
         Espresso.onView(allOf(withClassName(containsString("EditText")))).perform(replaceText("Distracting Videos"));
         Espresso.onView(withText("Create")).perform(click());
         Espresso.onView(withText("Distracting Videos")).perform(click());
@@ -79,9 +82,11 @@ public class profilesAndScheduleCreation {
     @Test
     public void test2_createScheduleWithOneProfile() {
         onView(withText("Schedules")).perform(click());
-        onView(withId(R.id.addScheduleButton))
-                .perform(click());
+        onView(withId(R.id.addScheduleButton)).perform(click());
         pause();
+        Espresso.onView(allOf(withClassName(containsString("EditText")))).perform(replaceText(""));
+        Espresso.onView(withText("Next")).perform(click());
+        onView(withId(R.id.addScheduleButton)).perform(click());
         Espresso.onView(allOf(withClassName(containsString("EditText")))).perform(replaceText("Schedule w/ 1 Profile"));
         Espresso.onView(withText("Next")).perform(click());
         pause();
@@ -101,7 +106,7 @@ public class profilesAndScheduleCreation {
         pause();
     }
     @Test
-    public void test3_createAdditionalProfile() {
+    public void test3_createScheduleWithMultipleProfiles() {
         Espresso.onView(withText("Profiles")).perform(ViewActions.click());
         Espresso.onView(withId(R.id.addProfileButton)).perform(ViewActions.click());
         Espresso.onView(allOf(withClassName(containsString("EditText")))).perform(replaceText("Distracting Wallpaper"));
@@ -116,9 +121,6 @@ public class profilesAndScheduleCreation {
         onView(isRoot()).perform(ViewActions.pressBack());
         Espresso.onView(withIndex(withId(R.id.profileName),1)).check(matches(withText("Distracting Wallpaper")));
 
-    }
-    @Test
-    public void test4_createScheduleWithTwoProfiles() {
         onView(withText("Schedules")).perform(click());
         onView(withId(R.id.addScheduleButton))
                 .perform(click());
@@ -142,7 +144,7 @@ public class profilesAndScheduleCreation {
         pause();
     }
     @Test
-    public void test5_createProfileWithMultipleApplications() {
+    public void test4_createProfileWithMultipleApplications() {
         Espresso.onView(withText("Profiles")).perform(ViewActions.click());
         Espresso.onView(withId(R.id.addProfileButton)).perform(ViewActions.click());
         Espresso.onView(allOf(withClassName(containsString("EditText")))).perform(replaceText("Random apps"));
@@ -162,11 +164,9 @@ public class profilesAndScheduleCreation {
 
     }
     @Test
-    public void test6_createScheduleWithIncorrectTimeRange() {
+    public void test5_createScheduleWithIncorrectTimeRange() {
         onView(withText("Schedules")).perform(click());
-        onView(withId(R.id.addScheduleButton))
-                .perform(click());
-        pause();
+        onView(withId(R.id.addScheduleButton)).perform(click());
         Espresso.onView(allOf(withClassName(containsString("EditText")))).perform(replaceText("Random Schedule!"));
         Espresso.onView(withText("Next")).perform(click());
         pause();
@@ -177,17 +177,30 @@ public class profilesAndScheduleCreation {
         Espresso.onView(withText("Thursday")).perform(click());
         Espresso.onView(withText("Next")).perform(click());
         pause();
-        onView(withIndex(withClassName(containsString("TimePicker")), 0)).perform(setTime(11, 36));
-        onView(withIndex(withClassName(containsString("TimePicker")), 1)).perform(setTime(11, 40));
+        onView(withIndex(withClassName(containsString("TimePicker")), 0)).perform(setTime(00, 00));
+        onView(withIndex(withClassName(containsString("TimePicker")), 1)).perform(setTime(11, 00));
         pause();
         Espresso.onView(withText("Create Schedule!")).perform(click());
         pause();
-        onView(withIndex(withClassName(containsString("TimePicker")), 0)).perform(setTime(11, 36));
-        onView(withIndex(withClassName(containsString("TimePicker")), 1)).perform(setTime(11, 47));
+        onView(withIndex(withClassName(containsString("TimePicker")), 0)).perform(setTime(00, 00));
+        onView(withIndex(withClassName(containsString("TimePicker")), 1)).perform(setTime(9, 00));
         pause();
         Espresso.onView(withText("Create Schedule!")).perform(click());
         pause();
         Espresso.onView(withIndex(withId(R.id.name),2)).check(matches(withText("Random Schedule!")));
+    }
+    @Test
+    public void test6_editScheduleWithNewTimeRange() {
+        onView(withText("Schedules")).perform(click());
+        Espresso.onView(withText("Random Schedule!")).perform(click());
+        pause();
+        Espresso.onView(withId(R.id.datesAndTimesTableLayout)).perform(ViewActions.click());
+        Espresso.onView(withText("Sunday")).perform(click());
+        Espresso.onView(withText("Next")).perform(click());
+        pause();
+        onView(withIndex(withClassName(containsString("TimePicker")), 0)).perform(setTime(5, 12));
+        onView(withIndex(withClassName(containsString("TimePicker")), 1)).perform(setTime(9, 34));
+        Espresso.onView(withText("Create Schedule!")).perform(click());
     }
 
     public void pause() {
