@@ -65,6 +65,9 @@ public class EditSchedule extends AppCompatActivity {
         }
 
         if (focusModel.getSchedule(scheduleName) != null) {
+            if( focusModel.getSchedule(scheduleName).getProfiles() != null ) {
+                System.out.println("A: " + focusModel.getSchedule(scheduleName).getProfiles().size());
+            }
             for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
                 if (p != null) {
                     if (!names.contains(p.getProfileName())) {
@@ -108,6 +111,9 @@ public class EditSchedule extends AppCompatActivity {
                                 ArrayList<String> namesList = new ArrayList<>();
 
                                 if (focusModel.getSchedule(scheduleName) != null) {
+                                    if( focusModel.getSchedule(scheduleName).getProfiles() != null ) {
+                                        System.out.println("B: " + focusModel.getSchedule(scheduleName).getProfiles().size());
+                                    }
                                     for (Profile p : focusModel.getSchedule(scheduleName).getProfiles()) {
                                         if (p != null) {
                                             if (!namesList.contains(p.getProfileName())) {
