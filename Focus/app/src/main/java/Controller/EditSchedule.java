@@ -143,10 +143,12 @@ public class EditSchedule extends AppCompatActivity {
                         final ArrayList<CheckBox> profilesCheckBoxes = new ArrayList<>();
                         final View view = v;
                         for (Profile p : focusModel.getAllProfiles()) {
-                            CheckBox cb = new CheckBox(v.getContext());
-                            cb.setText(p.getProfileName());
-                            profilesCheckBoxes.add(cb);
-                            layout.addView(cb);
+                            if ( focusModel.getSchedule(scheduleName) != null && !focusModel.getSchedule(scheduleName).getProfiles().contains(p) ) {
+                                CheckBox cb = new CheckBox(v.getContext());
+                                cb.setText(p.getProfileName());
+                                profilesCheckBoxes.add(cb);
+                                layout.addView(cb);
+                            }
                         }
                         builder.setView(layout);
                         // Set up the buttons
