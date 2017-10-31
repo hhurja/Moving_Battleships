@@ -14,10 +14,6 @@ import java.util.HashSet;
 
 import Controller.MainActivity;
 
-import static android.R.attr.button;
-import static android.R.attr.x;
-import static movingbattleship.org.focus.R.id.textView;
-
 /**
  * Created by aaronrschrock on 10/6/17.
  */
@@ -93,6 +89,13 @@ public class Profile {
         if (activated == true) {
             app.blockApp(profileID);
         }
+    }
+
+    public long getTimeRemaining() {
+        if (finishBlocking == null) {
+            return 0;
+        }
+        return finishBlocking.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
     }
 
     public void removeApp(int appID) {

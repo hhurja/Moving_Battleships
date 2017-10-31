@@ -6,13 +6,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-
-import static movingbattleship.org.focus.R.drawable.schedule;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -893,7 +891,8 @@ public class FocusModel extends Thread{
 
     }
 
-    public ArrayList<Integer> endOfTimer(String profName){
+    public long remainingTime(String profName){
+        System.out.println("in remaining time function");
         //Returns a pair of integers
         //first is the latest hour that this profile will be engaged
         //second is the latest minute of that hour
@@ -932,7 +931,32 @@ public class FocusModel extends Thread{
         hm.clear();
         hm.add(lastHour);
         hm.add(lastMinute);
-        return hm;
+
+        int hours = hm.get(0);
+        int minutes = hm.get(1);
+
+        if (hours == -1 && minutes == -1) {
+            return getProfile(profileID).getTimeRemaining();
+        }
+
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR, hours);
+        c.set(Calendar.MINUTE, minutes);
+
+        long rt = c.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
+
+        long prt = getProfile(profileID).getTimeRemaining();
+
+
+
+        System.out.println("REMAINING TIME IS ..." + rt);
+
+        if (rt > prt) {
+            return rt;
+        }
+        return prt;
+
+
     }
 
     public void changeScheduleName(String n1, String n2) {
