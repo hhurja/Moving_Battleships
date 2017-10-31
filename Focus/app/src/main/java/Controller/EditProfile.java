@@ -48,6 +48,7 @@ public class EditProfile extends AppCompatActivity {
     private Button fab_start;
     List<ApplicationInfo> packages = new ArrayList<>();
     private HashMap<String, String> nameToPackage = new HashMap <String, String> ();
+    TimerClass timerInstance;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -126,13 +127,14 @@ public class EditProfile extends AppCompatActivity {
 
         timerText = (TextView) findViewById(timer);
 
-        final TimerClass timerInstance = new TimerClass(180000, 1000);
+        //final TimerClass timerInstance = new TimerClass(180000, 1000);
 
         //TODO: figure out if we call isOn(), isActive(), or both
         if (profile != null) {
             if (profile.isActivated()) {
                 //ArrayList <Integer> endTime = focusModel.endOfTimer(profile.getProfileName());
-                timerText.setText("Blocked for: " + "00:03:00");
+                //timerText.setText("Blocked for: " + "00:03:00");
+                timerInstance = new TimerClass(focusModel.remainingTime(profile.getProfileName()), 1000);
                 timerInstance.start();
             } else {
                 timerText.setVisibility(TextView.INVISIBLE);
@@ -297,7 +299,8 @@ public class EditProfile extends AppCompatActivity {
                             //endHour, endMinute, true);
                             profile.activate();
                             timerText.setVisibility(TextView.VISIBLE);
-                            timerText.setText("Blocked for: " + "00:03:00");
+                            System.out.println("remaining time in editprofile is " + focusModel.remainingTime(profile.getProfileName()));
+                            timerInstance = new TimerClass(focusModel.remainingTime(profile.getProfileName()), 1000);
                             timerInstance.start();
                             fab_start.setText("Stop Blocking This Profile");
                             fab_start.setBackgroundColor(Color.RED);
@@ -313,6 +316,7 @@ public class EditProfile extends AppCompatActivity {
                 }
                 if(fab_start.getText().equals("Stop Blocking This Profile")){
                     profile.deactivate();
+                    timerInstance = null;
                     timerText.setVisibility(TextView.INVISIBLE);
                     fab_start.setText("Start Blocking This Profile");
                     fab_start.setBackgroundColor(Color.GREEN);
