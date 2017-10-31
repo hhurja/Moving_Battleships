@@ -41,7 +41,7 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
-    private WeekView mWeekView;
+    public WeekView mWeekView;
 
 
     @Override

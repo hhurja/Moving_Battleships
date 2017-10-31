@@ -129,10 +129,14 @@ public class scheduleListViewTests {
         onView(withId(R.id.calendarActionButton)).perform(ViewActions.click());
         onView(withId(R.id.action_week_view)).perform(ViewActions.click());
         onView(withId(R.id.action_week_view)).check(matches(isDisplayed()));
+        pause();
+
+        //errors here: how to find day??
         onView(withText("testingWeekView")).check(matches(isDisplayed()));
         onView(withId(R.layout.week_view)).perform(ViewActions.click());
         onView(withText("testProfile1")).check(matches(isDisplayed()));
         onView(withText("testProfile2")).check(matches(isDisplayed()));
+
 
     }
 
@@ -148,6 +152,11 @@ public class scheduleListViewTests {
         //focusModel.createNewSchedule("testingDayView", days, 13, 0, 16, 30);
     }
 
-    // 4.2. A schedule can include any of the existing profiles
-
+    public void pause() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
