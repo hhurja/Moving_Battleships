@@ -26,10 +26,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.Matchers.allOf;
 
 /**
  * Created by aaronrschrock on 10/27/17.
@@ -50,7 +51,6 @@ public class EditProfileTest {
         mActivityRule.getActivity()
                 .getSupportFragmentManager().beginTransaction();
     }
-
 
     // 6.2. Users can edit an existing profile to change the name, add applications to the
     //blocked list or remove applications from the blocked list
@@ -73,13 +73,6 @@ public class EditProfileTest {
         Espresso.onView(withId(R.id.name)).check(matches(withText("Fun Profile")));
 
 
-
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test
@@ -98,6 +91,8 @@ public class EditProfileTest {
         Espresso.onView(withText("Cancel")).perform(click());
         // make sure name was not changed
         Espresso.onView(withId(R.id.name)).check(matches(withText("Awesome Profile")));
+
+
     }
 
     // 6.2. Users can edit an existing profile to change the name, add applications to the
@@ -114,19 +109,19 @@ public class EditProfileTest {
         mActivityRule.launchActivity(i);
 
         // add applications
-        Espresso.onView(withId(R.id.fab_plus)).perform(click());
+        onView(withId(R.id.fab_plus)).perform(click());
         Espresso.onData(anything()).inAdapterView(withId(R.id.InstalledAppsListView)).atPosition(0)
                 .onChildView(withId(R.id.checkBox3)).perform(click());
         Espresso.onData(anything()).inAdapterView(withId(R.id.InstalledAppsListView)).atPosition(1)
                 .onChildView(withId(R.id.checkBox3)).perform(click());
-        Espresso.onView(withId(R.id.add_applications)).perform(click());
+        onView(withId(R.id.add_applications)).perform(click());
         onView(withText("YouTube")).check(matches(isDisplayed()));
 
         // remove an application
         Espresso.onData(anything()).inAdapterView(withId(R.id.AppListView)).atPosition(1).perform(click());
-        Espresso.onView(withText("Cancel")).perform(click());
+        onView(withText("Cancel")).perform(click());
         Espresso.onData(anything()).inAdapterView(withId(R.id.AppListView)).atPosition(0).perform(click());
-        Espresso.onView(withText("Remove")).perform(click());
+        onView(withText("Remove")).perform(click());
 
     }
 
@@ -142,15 +137,18 @@ public class EditProfileTest {
         mActivityRule.launchActivity(i);
 
         // start blocking apps
-        Espresso.onView(withText("Start Blocking This Profile")).check(matches(isDisplayed())).perform(click());
+        onView(withText("Start Blocking This Profile")).check(matches(isDisplayed())).perform(click());
 
-        Espresso.onView(withHint("Minutes")).perform(replaceText("15"));
+        onView(withHint("Minutes")).perform(replaceText("15"));
+
         onView(withText("Create")).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
 
         // stop blocking apps
-        Espresso.onView(withText("Stop Blocking This Profile")).check(matches(isDisplayed())).perform(click());
+        onView(withText("Stop Blocking This Profile")).check(matches(isDisplayed())).perform(click());
+
+
 
     }
 
@@ -168,10 +166,10 @@ public class EditProfileTest {
         mActivityRule.launchActivity(i);
 
         // start blocking apps
-        Espresso.onView(withText("Start Blocking This Profile")).check(matches(isDisplayed())).perform(click());
+        onView(withText("Start Blocking This Profile")).check(matches(isDisplayed())).perform(click());
 
-        Espresso.onView(withHint("Hours")).perform(replaceText("1"));
-        Espresso.onView(withHint("Minutes")).perform(replaceText("15"));
+        onView(withHint("Hours")).perform(replaceText("1"));
+        onView(withHint("Minutes")).perform(replaceText("15"));
         onView(withText("Create")).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -189,17 +187,17 @@ public class EditProfileTest {
         mActivityRule.launchActivity(i);
 
         // start blocking apps
-        Espresso.onView(withId(R.id.startBlocking)).perform(click());
+        onView(withId(R.id.startBlocking)).perform(click());
 
         // set time less than 10 minutes
-        Espresso.onView(withHint("Minutes")).perform(replaceText("8"));
+        onView(withHint("Minutes")).perform(replaceText("8"));
         onView(withText("Create")).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
-
         onView(withText("Okay")).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
+
     }
 
     // 3.3. Maximum amount of time allowed to set is 10 hours
@@ -214,17 +212,17 @@ public class EditProfileTest {
         mActivityRule.launchActivity(i);
 
         // start blocking apps
-        Espresso.onView(withId(R.id.startBlocking)).perform(click());
+        onView(withId(R.id.startBlocking)).perform(click());
 
         // set time less than 10 minutes
-        Espresso.onView(withHint("Hours")).perform(replaceText("12"));
+        onView(withHint("Hours")).perform(replaceText("12"));
         onView(withText("Create")).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
-
         onView(withText("Okay")).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
+
     }
 
     // 2.7. It should be possible to deactivate an active profile at any moment(the system
@@ -242,10 +240,10 @@ public class EditProfileTest {
         mActivityRule.launchActivity(i);
 
         // stop blocking apps
-        Espresso.onView(withText("Stop Blocking This Profile")).check(matches(isDisplayed())).perform(click());
+        onView(withText("Stop Blocking This Profile")).check(matches(isDisplayed())).perform(click());
 
         // make sure profile is inactive
-        Espresso.onView(withText("Start Blocking This Profile")).check(matches(isDisplayed()));
+        onView(withText("Start Blocking This Profile")).check(matches(isDisplayed()));
 
     }
 
@@ -263,7 +261,8 @@ public class EditProfileTest {
         mActivityRule.launchActivity(i);
 
         // delete profile
-        Espresso.onView(withId(R.id.deleteProfile)).check(matches(isDisplayed())).perform(click());
-    }
+        onView(withId(R.id.deleteProfile)).check(matches(isDisplayed())).perform(click());
 
+
+    }
 }
