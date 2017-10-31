@@ -846,6 +846,10 @@ public class FocusModel extends Thread{
     }
 
     public static String getAppNameFromPackage(Context context, String packageName){
+        //Check if context is null, if so simply return the packageName
+        if (context == null) {
+            return packageName;
+        }
 
         //Get App Name
         PackageManager packageManager = context.getPackageManager();
