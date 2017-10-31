@@ -176,30 +176,38 @@ public class Profile {
     @TargetApi(Build.VERSION_CODES.O)
     private void createNotificationForActive() {
 
-        NotificationManager notificationManager = (NotificationManager) MainActivity.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        //If context is non null then send notification
+        if (MainActivity.mContext != null) {
+            NotificationManager notificationManager = (NotificationManager) MainActivity.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        android.app.Notification notification = new android.app.Notification.Builder(MainActivity.mContext)
-                .setSmallIcon(android.R.drawable.ic_dialog_alert)
-                .setContentTitle(profileName + " blocked!")
-                .setContentText("Time to Focus! " + profileName + " is now blocked!")
-                .setChannelId(MainActivity.CHANNEL_ID).build();
+            android.app.Notification notification = new android.app.Notification.Builder(MainActivity.mContext)
+                    .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                    .setContentTitle(profileName + " blocked!")
+                    .setContentText("Time to Focus! " + profileName + " is now blocked!")
+                    .setChannelId(MainActivity.CHANNEL_ID).build();
 
-        notificationManager.notify(MainActivity.NotificationID++, notification);
-        System.out.println("Notification should be sent");
+            notificationManager.notify(MainActivity.NotificationID++, notification);
+            System.out.println("Notification should be sent");
+        }
+
     }
 
     @TargetApi(Build.VERSION_CODES.O)
     public void createNotificationForDeactive() {
-        NotificationManager notificationManager = (NotificationManager) MainActivity.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        android.app.Notification notification = new android.app.Notification.Builder(MainActivity.mContext)
-                .setSmallIcon(android.R.drawable.ic_dialog_alert)
-                .setContentTitle(profileName + " unblocked!")
-                .setContentText("Time to relax! " + profileName + " is NO longer blocked!")
-                .setChannelId(MainActivity.CHANNEL_ID).build();
+        //If context is non null then send notification
+        if (MainActivity.mContext != null) {
+            NotificationManager notificationManager = (NotificationManager) MainActivity.mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(MainActivity.NotificationID++, notification);
-        System.out.println("Notification should be sent");
+            android.app.Notification notification = new android.app.Notification.Builder(MainActivity.mContext)
+                    .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                    .setContentTitle(profileName + " unblocked!")
+                    .setContentText("Time to relax! " + profileName + " is NO longer blocked!")
+                    .setChannelId(MainActivity.CHANNEL_ID).build();
+
+            notificationManager.notify(MainActivity.NotificationID++, notification);
+            System.out.println("Notification should be sent");
+        }
     }
 
     public void addTime(int min, int hour) {
