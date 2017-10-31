@@ -195,13 +195,44 @@ public class ScheduleUnitTest {
     }
 
     @Test
+    public void deleteTimeRangeTest() {
+        //TODO Im not sure how to remove a timerange
+        setUpTimeRanges();
+
+        s0.addTimeRange(al, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.HOUR_OF_DAY, Calendar.MINUTE + 1);
+        s0.clearTimeRanges();
+        assertEquals(0, s0.getTimeRanges().size());
+
+        cleanup();
+    }
+
+    @Test
     public void setActiveTimeRangeTest() {
         setUpTimeRanges();
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int min = Calendar.getInstance().get(Calendar.MINUTE);
 
-        fm.getAllSchedules().get(0).addTimeRange(al, hour, min, hour, min + 15);
+        fm.addProfileToSchedule("test_prof_1", "test_sched_1");
+        fm.getAllSchedules().get(0).addTimeRange(al, hour, min-10, hour, min + 1);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         assertTrue(fm.getAllSchedules().get(0).isInTimeRange());
+        assertTrue(fm.getProfile("test_prof_1").isActivated());
+
+//        try {
+//            Thread.sleep(60000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        assertFalse(fm.getAllSchedules().get(0).isInTimeRange());
+//        assertFalse(fm.getProfile("test_prof_1").isActivated());
+
 
         cleanup();
     }
@@ -211,19 +242,10 @@ public class ScheduleUnitTest {
         setUpTimeRanges();
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int min = Calendar.getInstance().get(Calendar.MINUTE);
-
+        fm.addProfileToSchedule("test_prof_1", "test_sched_1");
         fm.getAllSchedules().get(0).addTimeRange(al, hour + 1, min, hour + 1, min + 15);
         assertFalse(fm.getAllSchedules().get(0).isInTimeRange());
-
-        cleanup();
-    }
-
-    @Test
-    public void deleteTimeRangeTest() {
-        //TODO Im not sure how to remove a timerange
-        setUpTimeRanges();
-
-        s0.addTimeRange(al, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.HOUR_OF_DAY, Calendar.MINUTE + 1);
+        assertFalse(fm.getProfile("test_prof_1").isActivated());
 
         cleanup();
     }
@@ -243,6 +265,7 @@ public class ScheduleUnitTest {
         assertEquals(1, fm.getAllSchedules().size());
         fm.removeSchedule(fm.getIdFromName("Schedule", "test_sched_1"));
         assertEquals(0, fm.getAllSchedules().size());
+        assertFalse(fm.getProfile("test_prof_1").isActivated());
 
 
         cleanup();
