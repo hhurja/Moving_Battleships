@@ -142,6 +142,7 @@ public class EditSchedule extends AppCompatActivity {
                         layout.setOrientation(LinearLayout.VERTICAL);
                         final ArrayList<CheckBox> profilesCheckBoxes = new ArrayList<>();
                         final View view = v;
+                        System.out.println(profilesCheckBoxes);
                         for (Profile p : focusModel.getAllProfiles()) {
                             if ( focusModel.getSchedule(scheduleName) != null && !focusModel.getSchedule(scheduleName).getProfiles().contains(p) ) {
                                 CheckBox cb = new CheckBox(v.getContext());
@@ -166,6 +167,7 @@ public class EditSchedule extends AppCompatActivity {
                                     if (!names.contains(profiles.get(i))) {
                                         names.add(profiles.get(i));
                                     }
+                                    focusModel.addProfileToSchedule(profiles.get(i), scheduleName);
                                 }
                                 ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, names);
                                 ListView lv = (ListView)findViewById(R.id.profilesListView);
