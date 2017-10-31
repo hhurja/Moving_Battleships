@@ -473,7 +473,11 @@ public class FocusModel extends Thread{
         if (alreadyExists("Schedule", scheduleName)) {
             System.out.println("Attempted to create a Schedule that already exists. "
                     + "Do something about this -- " + scheduleName);
-        } else {
+        } else if(scheduleName.equals("")){
+            System.out.println("Attempted to create a Schedule with a blank name. "
+                    + "Do something about this");
+        }
+        else {
             schedules.add(new Schedule(numSchedulesCreated, scheduleName));
             profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
             numSchedulesCreated++;
@@ -925,9 +929,15 @@ public class FocusModel extends Thread{
 
     public void changeScheduleName(String n1, String n2) {
         for(Schedule s: schedules){
-            if(s.getScheduleName().equals(n1) && !n2.equals("")){
+            if(s.getScheduleName().equals(n1) && !n2.equals("") && !alreadyExists("Schedule", n2)){
                 s.setScheduleName(n2);
             }
         }
+    }
+
+    public void resetAllCreated() {
+        numSchedulesCreated = 0;
+        numAppsCreated = 0;
+        numProfilesCreated = 0;
     }
 }
