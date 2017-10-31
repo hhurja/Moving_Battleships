@@ -175,7 +175,6 @@ public class EditProfileTest {
         onView(withText("Create")).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
-
     }
 
     // 3.2. Minimum amount of time allowed to set is 10 minutes
