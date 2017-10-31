@@ -18,3 +18,6 @@ Schedules:
 - You turn a schedule on or off by clicking "Turn Schedule On" or "Turn Schedule Off" depending on the current state of your schedule. 
 - You can delete a schedule by clicking on the trash can icon
 - Also, within "Schedules", you can can see a calendar view of when blocking happens by clicking "Calendar View".
+
+For Testing:
+- The instructions for testing our application can be find in the Assignment #4 document.
