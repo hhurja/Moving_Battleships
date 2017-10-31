@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import Model.App;
 import Model.FocusModel;
@@ -50,7 +52,7 @@ public class EditProfile extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
 
-    /*public class TimerClass extends CountDownTimer {
+    public class TimerClass extends CountDownTimer {
 
         public TimerClass(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
@@ -71,7 +73,7 @@ public class EditProfile extends AppCompatActivity {
         public void onFinish() {
 
         }
-    } */
+    }
 
     public void onClick(View v) {
         // CITED: https://stackoverflow.com/questions/10903754/input-text-dialog-android
@@ -124,14 +126,14 @@ public class EditProfile extends AppCompatActivity {
 
         timerText = (TextView) findViewById(timer);
 
-        //final TimerClass timerInstance = new TimerClass(180000, 1000);
+        final TimerClass timerInstance = new TimerClass(180000, 1000);
 
         //TODO: figure out if we call isOn(), isActive(), or both
         if (profile != null) {
             if (profile.isActivated()) {
                 //ArrayList <Integer> endTime = focusModel.endOfTimer(profile.getProfileName());
                 timerText.setText("Blocked for: " + "00:03:00");
-                //timerInstance.start();
+                timerInstance.start();
             } else {
                 timerText.setVisibility(TextView.INVISIBLE);
             }
@@ -295,7 +297,8 @@ public class EditProfile extends AppCompatActivity {
                             //endHour, endMinute, true);
                             profile.activate();
                             timerText.setVisibility(TextView.VISIBLE);
-                            timerText.setText("Blocked until: " + profile.time);
+                            timerText.setText("Blocked for: " + "00:03:00");
+                            timerInstance.start();
                             fab_start.setText("Stop Blocking This Profile");
                             fab_start.setBackgroundColor(Color.RED);
                         }
