@@ -88,7 +88,7 @@ public class TimeRange {
 
     public void addDays(ArrayList<String> days){
         for(String S: days){
-            System.out.println("PRINTING DAYS: " + S);
+//            System.out.println("PRINTING DAYS: " + S);
             if(S.toLowerCase().equals("sunday")) sunday = true;
             if(S.toLowerCase().equals("monday")) monday = true;
             if(S.toLowerCase().equals("tuesday")) tuesday = true;
