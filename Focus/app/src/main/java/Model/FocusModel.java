@@ -255,6 +255,10 @@ public class FocusModel extends Thread{
          	* remove it from the app-profile map
          	* if it does not exists, outputs an error
 		*/
+
+        if(getProfile(profileID).isActivated()){
+            getProfile(profileID).deactivate();
+        }
         if (alreadyExists("Profile", Integer.toString(profileID))) {
             //remove profile from arraylist in focusmodel
             for (Profile p : profiles) {
