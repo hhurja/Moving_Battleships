@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -42,6 +43,42 @@ public class profilesListViewController extends Fragment {
     private static Activity activity;
     private static Context context;
     FloatingActionButton fb;
+    private String [] profileNames;
+
+    public TimerClass timerInstance;
+
+    public class TimerClass extends CountDownTimer {
+
+        public TimerClass(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+//            String timerStr = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+//                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+//                            - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+//                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+//                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
+//            );
+            //synchronized(profilesAdapter.this) {
+                System.out.println("updating this");
+            ArrayList<Profile> profiles = focusModel.getAllProfiles();
+            profileNames = new String[profiles.size()];
+            for (int i = 0; i < profiles.size(); i++) {
+                profileNames[i] = profiles.get(i).getProfileName();
+            }
+                profilesAdapter = new profilesListAdapter(profilesListViewController.context, profileNames, focusModel.getIconMap());
+            if (profilesListView != null && profilesAdapter != null)
+                profilesListView.setAdapter(profilesAdapter);
+            //}
+        }
+
+        @Override
+        public void onFinish() {
+
+        }
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context, HashMap<String, Bitmap> hm, Context c) {
         System.out.println("in on create view");
@@ -67,11 +104,16 @@ public class profilesListViewController extends Fragment {
         //  RUTH TODO: replace with actual names of profiles
         // need access to FocusModel, which can access list of profiles
 
+
+
         ArrayList<Profile> profiles = focusModel.getAllProfiles();
-        String[] profileNames = new String[profiles.size()];
+        profileNames = new String[profiles.size()];
         for (int i = 0; i < profiles.size(); i++) {
             profileNames[i] = profiles.get(i).getProfileName();
         }
+
+
+
 
         // pass profileNames into profileListAdapter constructor
 
@@ -87,12 +129,15 @@ public class profilesListViewController extends Fragment {
             profilesListView.setAdapter(listViewAdapter);
          } */
 
-        //System.out.println("here 4");
+
 
         //System.out.println("here 5");
 
         if (profilesListView != null) {
             profilesListView.setAdapter(profilesAdapter);
+            timerInstance = new TimerClass(1000000, 1000);
+            timerInstance.start();
+            System.out.println("made timer");
             profilesListView.setOnItemClickListener(
 
                     new AdapterView.OnItemClickListener() {
