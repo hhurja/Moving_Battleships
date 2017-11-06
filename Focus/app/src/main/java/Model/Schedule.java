@@ -15,7 +15,7 @@ import java.util.StringTokenizer;
 public class Schedule {
     private int id;
     private String name;
-    private HashMap<TimeRange, ArrayList<Profile>> profileSchedule;
+//    private HashMap<TimeRange, ArrayList<Profile>> profileSchedule;
     ArrayList<TimeRange> timeRanges;
 //    TimeRange timeRange;
     ArrayList<Profile> profiles;
@@ -34,8 +34,8 @@ public class Schedule {
         blocked = false;
         invisible = false;
         isInRange = false;
-
-        profileSchedule = new HashMap<>();
+//
+//        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
         timeRanges = new ArrayList<>();
     }
@@ -48,7 +48,7 @@ public class Schedule {
         invisible = false;
         isInRange = false;
 
-        profileSchedule = new HashMap<>();
+//        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
         timeRanges = new ArrayList<>();
     }
@@ -61,7 +61,7 @@ public class Schedule {
         invisible = invis;
         isInRange = false;
 
-        profileSchedule = new HashMap<>();
+//        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
         timeRanges = new ArrayList<>();
     }
@@ -122,6 +122,11 @@ public class Schedule {
                 break;
             }
         }
+        for(TimeRange tr: timeRanges){
+            if(tr.hasProfile(profileID)){
+                tr.removeProfile(profileID);
+            }
+        }
     }
 
     public ArrayList<Profile> getProfiles(){
@@ -155,14 +160,16 @@ public class Schedule {
         return timeRanges;
     }
 
-    public void blockProfiles(){
-        for(Profile p: profiles) {
+    private void blockProfiles(ArrayList<Profile> profilesToBlock, ArrayList<Profile> profilesNotBlocked){
+        for(Profile p: profilesToBlock) {
             if (p.isOn()){
                 System.out.println("BLOCKING FOR PROFILE: "+ p.getProfileName());
                 p.blockProfile();
                 p.addScheduleID(id);
             }else{
                 System.out.println("NOT BLOCKING FOR PROFILE: "+ p.getProfileName());
+                p.unblockProfile();
+                p.removeScheduleID(id);
             }
             if (!isInRange){
                 p.turnOn();
@@ -199,6 +206,15 @@ public class Schedule {
         timeRanges.add(new TimeRange(days, startHour, startMinute, endHour, endMinute));
     }
 
+    public void addTimeRange(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute, ArrayList<Profile> profiles){
+        timeRanges.add(new TimeRange(days, startHour, startMinute, endHour, endMinute, profiles));
+    }
+
+    public void addTimeRange(TimeRange tr, ArrayList<Profile> p){
+        tr.addProfiles(p);
+        timeRanges.add(tr);
+    }
+
     public ArrayList<Integer> getLatestHM(){
         //returns an arraylist that will be 2 integers long every time
         //the first int is the latest hour that this schedule will be engaged until
@@ -230,4 +246,32 @@ public class Schedule {
         return !invisible;
     }
 
+    public boolean blockRanges() {
+        boolean hasBlocked = false;
+        ArrayList<Profile> profilesToBlock = new ArrayList<>();
+        ArrayList<Profile> profilesNotBlocked = new ArrayList<>();
+        for(TimeRange tr: timeRanges){
+            if (tr.inRange()){
+                hasBlocked = true;
+                for(Profile p: tr.getProfiles()){
+                    if(!profilesToBlock.contains(p)){
+                        profilesToBlock.add(p);
+                    }
+                }
+            }else{
+                for(Profile p: tr.getProfiles()){
+                    if(!profilesNotBlocked.contains(p)){
+                        profilesNotBlocked.add(p);
+                    }
+                }
+            }
+        }
+        if (hasBlocked){
+            blockProfiles(profilesToBlock, profilesNotBlocked);
+            isInRange = true;
+            return true;
+        }
+        isInRange = false;
+        return false;
+    }
 }

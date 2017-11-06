@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.prefs.PreferencesFactory;
 
 public class TimeRange {
 
@@ -82,6 +83,34 @@ public class TimeRange {
         dayMap.put(7, saturday);
 
         profiles = new ArrayList<>();
+    }
+
+    public TimeRange(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute, ArrayList<Profile> profiles) {
+        this.startHour = startHour;
+        this.startMinute = startMinute;
+        this.endHour = endHour;
+        this.endMinute = endMinute;
+        repeat = false;
+        sunday = false;
+        monday = false;
+        tuesday = false;
+        wednesday = false;
+        thursday = false;
+        friday = false;
+        saturday = false;
+
+        dayMap = new HashMap<>();
+
+        addDays(days);
+        dayMap.put(1, sunday);
+        dayMap.put(2, monday);
+        dayMap.put(3, tuesday);
+        dayMap.put(4, wednesday);
+        dayMap.put(5, thursday);
+        dayMap.put(6, friday);
+        dayMap.put(7, saturday);
+
+        this.profiles = profiles;
     }
 
 //    public Time getStartTime() {
@@ -220,9 +249,51 @@ public class TimeRange {
         }
     }
 
+    public void removeProfile(String profileName){
+        for(Profile p: profiles){
+            if (p.getProfileName().equals(profileName))
+                profiles.remove(p);
+            break;
+        }
+    }
+
     public ArrayList<Profile> getProfiles(){
         return profiles;
     }
+
+    public boolean hasProfile(int profileID) {
+        for(Profile p: profiles){
+            if(p.getProfileID() == profileID){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addProfiles(ArrayList<Profile> newProfiles){
+        for(Profile p: newProfiles){
+            if(!profiles.contains(p)){
+                profiles.add(p);
+            }
+        }
+    }
+
+//    public void blockProfiles(){
+//        for(Profile p: profiles) {
+//            if (p.isOn()){
+//                System.out.println("BLOCKING FOR PROFILE: "+ p.getProfileName());
+//                p.blockProfile();
+//                p.addScheduleID(id);
+//            }else{
+//                System.out.println("NOT BLOCKING FOR PROFILE: "+ p.getProfileName());
+//            }
+//            if (!isInRange){
+//                p.turnOn();
+//                isInRange = true;
+//            }
+//        }
+//        blocked = true;
+//    }
 //    public void printRanges(){
 //        System.out.println("Starts: "+ startTime + ", Ends: " + endTime);
 //        if(sunday) System.out.print("Sunday, ");
