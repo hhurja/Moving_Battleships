@@ -71,7 +71,7 @@ public class profilesListAdapter extends ArrayAdapter<String>{
             //timerInstance = new TimerClass(focusModel.remainingTime(profile.getProfileName()), 1000);
             //timerInstance.start();
         } else {
-            timerText.setVisibility(TextView.INVISIBLE);
+            timerText.setText("Profile inactive");
         }
 
         profile.getListView(timerText);
