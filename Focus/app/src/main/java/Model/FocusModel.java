@@ -834,14 +834,29 @@ public class FocusModel extends Thread{
 
     private void updateWithSchedules() {
         for (Schedule s : instance.schedules) {
-            if (s.isInTimeRange()) {
+            if (s.blockRanges()){
                 System.out.println("BLOCKING FOR SCHEDULE: " + s.getScheduleName());
-                s.blockProfiles();
-            } else {
-                System.out.println("NOT BLOCKING FOR SCHEDULE: " + s.getScheduleName());
-                s.unblockProfiles();
+            }
+//            if (s.isInTimeRange()) {
+//                System.out.println("BLOCKING FOR SCHEDULE: " + s.getScheduleName());
+//                s.blockProfiles();
+//            else {
+//                System.out.println("NOT BLOCKING FOR SCHEDULE: " + s.getScheduleName());
+//                s.unblockProfiles();
+//            }
+        }
+    }
+
+    public void addTimeRangeToSchedule(TimeRange tr, String scheduleName, ArrayList<Profile> p){
+        Schedule currSched = null;
+        for(Schedule s: schedules){
+            if (s.getScheduleName().equals(scheduleName)){
+                currSched = s;
+                break;
             }
         }
+        currSched.addTimeRange(tr, p);
+
     }
 
     public static String getAppNameFromPackage(Context context, String packageName){
