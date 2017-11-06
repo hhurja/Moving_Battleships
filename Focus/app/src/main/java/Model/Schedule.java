@@ -1,5 +1,6 @@
 package Model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,7 +15,7 @@ import java.util.StringTokenizer;
 public class Schedule {
     private int id;
     private String name;
-    //HashMap<Integer, ArrayList<TimeRange>> profileSchedule;
+    private HashMap<TimeRange, ArrayList<Profile>> profileSchedule;
     ArrayList<TimeRange> timeRanges;
 //    TimeRange timeRange;
     ArrayList<Profile> profiles;
@@ -34,9 +35,8 @@ public class Schedule {
         invisible = false;
         isInRange = false;
 
-//        profileSchedule = new HashMap<>();
-        profiles = new ArrayList<Profile>();
-        //timeRange = new TimeRange();
+        profileSchedule = new HashMap<>();
+        profiles = new ArrayList<>();
         timeRanges = new ArrayList<>();
     }
 
@@ -48,12 +48,11 @@ public class Schedule {
         invisible = false;
         isInRange = false;
 
-//        profileSchedule = new HashMap<>();
+        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
         timeRanges = new ArrayList<>();
-//        timeRange = new TimeRange(new Time(startHour, startMinute, 0), new Time(endHour, endMinute, 0));
-
     }
+
     public Schedule(int id, String scheduleName, boolean invis){
         this.id = id;
         this.name = scheduleName;
@@ -62,11 +61,9 @@ public class Schedule {
         invisible = invis;
         isInRange = false;
 
-//        profileSchedule = new HashMap<>();
+        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
         timeRanges = new ArrayList<>();
-//        timeRange = new TimeRange(new Time(startHour, startMinute, 0), new Time(endHour, endMinute, 0));
-
     }
 
     public void setRepeat(Boolean b) {
@@ -94,11 +91,7 @@ public class Schedule {
         if(!name.equals("")) this.name = name;
     }
 
-//    public HashMap<Integer, ArrayList<TimeRange>> getProfileSchedule(){
-//        return profileSchedule;
-//    }
-
-    public void addProfile(Profile p){
+    public void addProfile(Profile p, TimeRange tr){
     	System.out.println("THIS SCHEDULE IS: " + getScheduleName() + " AND THE ID IS " + id);
         /*	Adds a profile to this schedule
     	    * checks if this profile has already been added
@@ -108,8 +101,10 @@ public class Schedule {
         for(Profile prof: profiles){
             if(prof.getProfileName().equals(p.getProfileName())){
                 System.out.println("Error in AddProfile in Schedule.Java -- Profile already exists");
+                return;
             }
         }
+        tr.addProfile(p);
         profiles.add(p);
 //        profiles.add(p);
 //        if(profileSchedule.containsKey(p.getProfileID())){
@@ -133,10 +128,10 @@ public class Schedule {
         return profiles;
     }
 
-    // takes in id, returns profile associated with that id
-    // if no profile associated, return null
-    // returning null shouldn't happen, but yolo
     public Profile getProfileFromId(int id) {
+        // takes in id, returns profile associated with that id
+        // if no profile associated, return null
+        // returning null shouldn't happen, but yolo
         for (Profile profile : profiles) {
             if (profile.getProfileID() == id) {
                 return profile;
@@ -227,6 +222,7 @@ public class Schedule {
     }
 
     public void clearTimeRanges(){
+        //TODO update this
         timeRanges.clear();
     }
 
@@ -234,18 +230,4 @@ public class Schedule {
         return !invisible;
     }
 
-//    public void addTimeRangeToProfile(Profile p, TimeRange tr){
-////    	System.out.println(p+ " "+ profileSchedule.get(p.getProfileID()));
-////    	System.out.println(profileSchedule);
-//        profileSchedule.get(p.getProfileID()).add(tr);
-//    }
-
-//    public void printTimeRanges(){
-//        for(Profile p: profiles){
-//
-//            System.out.println(p.getProfileName()+ ":");
-//            for(TimeRange tr: profileSchedule.get(p.getProfileID()))
-//                tr.printRanges();
-//        }
-//    }
 }

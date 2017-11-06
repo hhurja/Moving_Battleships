@@ -143,7 +143,6 @@ public class ScheduleUnitTest {
         s0.addProfile(p0);
         fm.addProfileToSchedule("test_prof_1", "test_sched_1");
         assertEquals(p0.getProfileName(), s0.getProfiles().get(0).getProfileName());
-        assertEquals(1, fm.getAllSchedules().size());
         assertEquals(1, fm.getAllSchedules().get(0).getProfiles().size());
         assertEquals("test_prof_1", fm.getAllProfiles().get(0).getProfileName());
         assertSame(fm.getAllProfiles().get(0), fm.getAllSchedules().get(0).getProfiles().get(0));

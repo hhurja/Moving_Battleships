@@ -26,6 +26,8 @@ public class TimeRange {
     private boolean friday;
     private boolean saturday;
 
+    private ArrayList<Profile> profiles;
+
     private HashMap<Integer, Boolean> dayMap;
 
     public TimeRange(int startHour, int startMinute, int endHour, int endMinute) {
@@ -50,6 +52,8 @@ public class TimeRange {
         dayMap.put(5, thursday);
         dayMap.put(6, friday);
         dayMap.put(7, saturday);
+
+        profiles = new ArrayList<>();
     }
 
     public TimeRange(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute) {
@@ -76,6 +80,8 @@ public class TimeRange {
         dayMap.put(5, thursday);
         dayMap.put(6, friday);
         dayMap.put(7, saturday);
+
+        profiles = new ArrayList<>();
     }
 
 //    public Time getStartTime() {
@@ -194,6 +200,28 @@ public class TimeRange {
                 + "-" + (endHour == 0 || endHour == 12 ? "12" : endHour%12) + ":" + (endMinute > 9 ? endMinute : "0"+endMinute) + (endHour>11 ? "PM" : "AM");
 
         return s;
+    }
+
+    public void addProfile(Profile p){
+        if(!profiles.contains(p)) profiles.add(p);
+    }
+
+    public void removeProfile(Profile p){
+        if (profiles.contains(p)){
+            profiles.remove(p);
+        }
+    }
+
+    public void removeProfile(int profileID){
+        for(Profile p: profiles){
+            if (p.getProfileID() == profileID)
+                profiles.remove(p);
+                break;
+        }
+    }
+
+    public ArrayList<Profile> getProfiles(){
+        return profiles;
     }
 //    public void printRanges(){
 //        System.out.println("Starts: "+ startTime + ", Ends: " + endTime);
