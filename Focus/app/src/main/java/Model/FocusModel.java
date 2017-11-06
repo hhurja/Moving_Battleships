@@ -486,40 +486,41 @@ public class FocusModel extends Thread{
         }
     }
 
-    public void createNewSchedule (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
-                         int endHour, int endMinute){
 
-        if (alreadyExists("Schedule", scheduleName)) {
-            System.out.println("Attempted to create a Schedule that already exists. "
-                    + "Do something about this -- " + scheduleName);
-        } else {
-            Schedule newSched = new Schedule(numSchedulesCreated, Long.toString(System.currentTimeMillis()));
-            schedules.add(newSched);
-            newSched.addProfile(currProf);
-            newSched.addTimeRange(days, startHour, startMinute, endHour, endMinute);
-            System.out.println("ASDFASDFASDFAFF "+ newSched);
-            profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
-
-            numSchedulesCreated++;
-        }
-    }
-    public void createNewSchedule (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
-                                   int endHour, int endMinute, boolean invis){
-        System.out.println("CREATING A NEW SCHEDULE");
-        if (alreadyExists("Schedule", scheduleName)) {
-            System.out.println("Attempted to create a Schedule that already exists. "
-                    + "Do something about this -- " + scheduleName);
-        } else {
-            Schedule newSched = new Schedule(numSchedulesCreated, Long.toString(System.currentTimeMillis()), invis);
-            schedules.add(newSched);
-            newSched.addProfile(currProf);
-            newSched.addTimeRange(days, startHour, startMinute, endHour, endMinute);
-            System.out.println("ASDFASDFASDFAFF "+ newSched);
-            profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
-
-            numSchedulesCreated++;
-        }
-    }
+//    public void createNewSchedule (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
+//                         int endHour, int endMinute){
+//
+//        if (alreadyExists("Schedule", scheduleName)) {
+//            System.out.println("Attempted to create a Schedule that already exists. "
+//                    + "Do something about this -- " + scheduleName);
+//        } else {
+//            Schedule newSched = new Schedule(numSchedulesCreated, Long.toString(System.currentTimeMillis()));
+//            schedules.add(newSched);
+//            newSched.addProfile(currProf);
+//            newSched.addTimeRange(days, startHour, startMinute, endHour, endMinute);
+//            System.out.println("ASDFASDFASDFAFF "+ newSched);
+//            profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
+//
+//            numSchedulesCreated++;
+//        }
+//    }
+//    public void createNewSchedule (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
+//                                   int endHour, int endMinute, boolean invis){
+//        System.out.println("CREATING A NEW SCHEDULE");
+//        if (alreadyExists("Schedule", scheduleName)) {
+//            System.out.println("Attempted to create a Schedule that already exists. "
+//                    + "Do something about this -- " + scheduleName);
+//        } else {
+//            Schedule newSched = new Schedule(numSchedulesCreated, Long.toString(System.currentTimeMillis()), invis);
+//            schedules.add(newSched);
+//            newSched.addProfile(currProf);
+//            newSched.addTimeRange(days, startHour, startMinute, endHour, endMinute);
+//            System.out.println("ASDFASDFASDFAFF "+ newSched);
+//            profiles_to_schedules.put(numSchedulesCreated, new HashSet<Integer>());
+//
+//            numSchedulesCreated++;
+//        }
+//    }
 
     public void removeSchedule(int scheduleID) {
 	    /*	Remove schedule from FocusModel
@@ -574,7 +575,7 @@ public class FocusModel extends Thread{
 //        }
     }
 
-    public void addProfileToSchedule(String profileName, String scheduleName) {
+    public void addProfileToSchedule(String profileName, String scheduleName, TimeRange timeRange) {
         int profileID = getIdFromName("Profile", profileName);
         int scheduleID = getIdFromName("Schedule", scheduleName);
         Profile currProf = null;
@@ -598,7 +599,7 @@ public class FocusModel extends Thread{
         if (currProf != null && currSched != null) {
             //if the schedule does not already have this profile
             if (!currSched.getProfileIDs().contains(currProf.getProfileID())) {
-                currSched.addProfile(currProf);
+                currSched.addProfile(currProf, timeRange);
             } else {
                 System.out.println("found currprof in the set");
             }
