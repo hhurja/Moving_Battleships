@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import Model.FocusModel;
 import Model.Profile;
@@ -26,12 +27,16 @@ public class profilesListAdapter extends ArrayAdapter<String>{
     public HashMap<String, Bitmap> icons;
     private FocusModel focusModel;
     private Profile profile;
+    public TextView timerText;
+    private Context context;
 
     public profilesListAdapter(@NonNull Context context, String[] profileNames, HashMap<String, Bitmap> hm) {
         super(context, R.layout.profile_row, profileNames);
         icons = hm;
         focusModel = FocusModel.getInstance();
+        this.context = context;
     }
+
 
     @NonNull
     @Override
@@ -45,16 +50,31 @@ public class profilesListAdapter extends ArrayAdapter<String>{
 
         profile = focusModel.getProfile(name);
 
-        TextView timerText = (TextView) profilesView.findViewById(R.id.timer);
+        timerText = (TextView) profilesView.findViewById(R.id.timer);
         //sends the timerText to profile class so it can update automatically once a profile is blocked
-        profile.getListView(timerText);
+
 
         if (profile.isActivated()) {
-            timerText.setText("Blocked until: " + profile.time);
             timerText.setVisibility(TextView.VISIBLE);
+            //if (profile.isActivated()) {
+            long millisUntilFinished = focusModel.remainingTime(profile.getProfileName());
+                        String timerStr = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                            - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
+            );
+                timerText.setText(timerStr);
+            //}
+            //timerText.setText("not changed yet");
+            //System.out.println("remaining time in proflistadapter: " + focusModel.remainingTime(profile.getProfileName()));
+            //timerInstance = new TimerClass(focusModel.remainingTime(profile.getProfileName()), 1000);
+            //timerInstance.start();
         } else {
-            timerText.setVisibility(TextView.INVISIBLE);
+            timerText.setText("Profile inactive");
         }
+
+        profile.getListView(timerText);
 
         ImageView appImage1 = (ImageView) profilesView.findViewById(R.id.image1);
         ImageView appImage2 = (ImageView) profilesView.findViewById(R.id.image2);

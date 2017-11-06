@@ -88,6 +88,7 @@ application from the blocked list
         // make sure name matches up
         Espresso.onData(anything()).inAdapterView(withId(R.id.profilesListView)).atPosition(0)
                 .onChildView(withId(R.id.profileName)).check(matches(withText("Sample Profile")));
+
     }
 
 
