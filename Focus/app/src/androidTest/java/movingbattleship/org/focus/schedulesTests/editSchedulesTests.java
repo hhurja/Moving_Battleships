@@ -122,6 +122,7 @@ public class editSchedulesTests {
             FocusModel focusModel = FocusModel.getInstance();
             focusModel.createNewProfile("Test1");
             focusModel.createNewProfile("Test2");
+            focusModel.createNewProfile("Test3");
             focusModel.createNewSchedule("Awesome Study Session");
 
             Intent i = new Intent();

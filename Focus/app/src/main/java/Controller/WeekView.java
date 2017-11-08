@@ -28,6 +28,8 @@ public class WeekView extends BaseWeekView {
 
         for (Schedule s : focusModel.getSchedules()) {
             for (TimeRange t : s.getTimeRanges()) {
+                Random rnd = new Random();
+                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
                 for (Integer i : t.getDays()) {
                     Calendar startTime = Calendar.getInstance();
                     //if (startTime.get(Calendar.DAY_OF_WEEK) < i) {
@@ -49,17 +51,14 @@ public class WeekView extends BaseWeekView {
                     //if (endTime.get(Calendar.DAY_OF_WEEK) < i) {
                       //  endTime.set(Calendar.DAY_OF_MONTH, endTime.get(Calendar.DAY_OF_MONTH) +((7-endTime.get(Calendar.DAY_OF_WEEK))+i));
                     //} else {
-                    endTime.set(Calendar.DAY_OF_WEEK, i);
+                    //endTime.set(Calendar.DAY_OF_WEEK, i);
                     //}
                     endTime.set(Calendar.HOUR_OF_DAY,t.getEndHour());
                     endTime.set(Calendar.MINUTE,t.getEndMinute());
-                    endTime.set(Calendar.MONTH, newMonth-1);
-                    endTime.set(Calendar.YEAR, newYear);
                     System.out.println("End time: " + endTime);
                     System.out.println("Get End time: " + endTime.getTime());
                     WeekViewEvent event = new WeekViewEvent(1, s.getScheduleName(), startTime, endTime);
-                    Random rnd = new Random();
-                    event.setColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+                    event.setColor(color);
                     events.add(event);
                 }
             }

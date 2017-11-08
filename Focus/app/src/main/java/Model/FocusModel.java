@@ -486,7 +486,6 @@ public class FocusModel extends Thread{
         }
     }
 
-
 //    public void createNewSchedule (String scheduleName, ArrayList<String> days, int startHour, int startMinute,
 //                         int endHour, int endMinute){
 //

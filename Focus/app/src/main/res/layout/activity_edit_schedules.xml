@@ -14,70 +14,33 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
-        <android.support.constraint.ConstraintLayout
+        <TextView
+            android:id="@+id/name"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".35" >
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:gravity="center_horizontal"
-                android:onClick="onClick"
-                android:text="Monday Study Sesh"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TableLayout
-                android:id="@+id/datesAndTimesTableLayout"
-                android:layout_width="367dp"
-                android:layout_height="136dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </TableLayout>
-
-        </android.support.constraint.ConstraintLayout>
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:gravity="center_horizontal"
+            android:onClick="onClick"
+            android:text="Monday Study Sesh"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="35sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.05"
-            android:text="Profiles"
+            android:text="Time Ranges"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <ListView
@@ -91,24 +54,23 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_alignParentBottom="true"
-            android:layout_weight=".1"
-            android:text="Repeat"
             android:layout_alignParentEnd="true"
+            android:layout_marginBottom="1dp"
             android:layout_marginEnd="1dp"
+            android:layout_weight=".1"
             android:padding="17dp"
-            android:layout_marginBottom="1dp"/>
+            android:text="Repeat Schedule Weekly" />
 
         <Button
-            android:id="@+id/addProfileButton"
+            android:id="@+id/addTimeRangeButton"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".1"
+            android:layout_weight="0.07"
             android:backgroundTint="@android:color/holo_blue_dark"
-            android:text="Add Profile" />
+            android:text="Add Time Range" />
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

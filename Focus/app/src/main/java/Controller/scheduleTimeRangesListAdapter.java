@@ -59,13 +59,22 @@ public class scheduleTimeRangesListAdapter extends BaseAdapter {
             TextView text1 = twoLineListItem.getText1();
             TextView text2 = twoLineListItem.getText2();
 
-            text1.setText(getDaysString(timeRanges.get(position).getDays()));
+            String timeString = timeRanges.get(position).getTime();
+            text1.setText(getDaysString(timeRanges.get(position).getDays()) + " " + timeString);
             String profiles = "";
-            for (Profile p : timeRanges.get(position).getProfiles()) {
-                profiles += p.getProfileName();
+
+            ArrayList<Profile> tRProfiles = timeRanges.get(position).getProfiles();
+
+            for ( int i = 0; i < tRProfiles.size(); i++ ) {
+                Profile p = tRProfiles.get(i);
+                if ( i < (timeRanges.size())-1 ) {
+                    profiles += p.getProfileName() + ", ";
+                } else {
+                    profiles += p.getProfileName();
+                }
             }
 
-            text2.setText(profiles);
+            text2.setText("Profiles: " + profiles.substring(0,profiles.length()-3));
 
             return twoLineListItem;
         }
