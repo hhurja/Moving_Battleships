@@ -237,15 +237,19 @@ public class TimeRange {
 
     public void removeProfile(Profile p){
         if (profiles.contains(p)){
+            p.deactivate();
             profiles.remove(p);
         }
     }
 
     public void removeProfile(int profileID){
         for(Profile p: profiles){
-            if (p.getProfileID() == profileID)
+            if (p.getProfileID() == profileID) {
+                p.deactivate();
                 profiles.remove(p);
                 break;
+            }
+
         }
     }
 

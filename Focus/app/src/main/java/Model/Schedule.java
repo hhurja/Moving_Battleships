@@ -252,6 +252,7 @@ public class Schedule {
     }
 
     public boolean blockRanges() {
+        /*
         boolean hasBlocked = false;
         ArrayList<Profile> profilesToBlock = new ArrayList<>();
         ArrayList<Profile> profilesNotBlocked = new ArrayList<>();
@@ -278,6 +279,21 @@ public class Schedule {
         }
         isInRange = false;
         return false;
+        */
+        isInRange = false;
+        for(TimeRange tr: timeRanges){
+            if (tr.inRange()){
+                isInRange = true;
+                for(Profile p: tr.getProfiles()){
+                    p.blockProfile();
+                }
+            }else{
+                for(Profile p: tr.getProfiles()){
+                    p.unblockProfile();
+                }
+            }
+        }
+        return isInRange;
     }
 
     public int getColor() {
