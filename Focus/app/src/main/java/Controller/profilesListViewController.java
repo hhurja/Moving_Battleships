@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -62,15 +63,24 @@ public class profilesListViewController extends Fragment {
 //                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
 //            );
             //synchronized(profilesAdapter.this) {
-                System.out.println("updating this");
+            System.out.println("updating this");
+            //updating scroll position
+            // save index and top position
+            int index = profilesListView.getFirstVisiblePosition();
+            View v = profilesListView.getChildAt(0);
+            int top = (v == null) ? 0 : (v.getTop() - profilesListView.getPaddingTop());
+
             ArrayList<Profile> profiles = focusModel.getAllProfiles();
             profileNames = new String[profiles.size()];
             for (int i = 0; i < profiles.size(); i++) {
                 profileNames[i] = profiles.get(i).getProfileName();
             }
                 profilesAdapter = new profilesListAdapter(profilesListViewController.context, profileNames, focusModel.getIconMap());
-            if (profilesListView != null && profilesAdapter != null)
+            if (profilesListView != null && profilesAdapter != null) {
                 profilesListView.setAdapter(profilesAdapter);
+                profilesListView.setSelectionFromTop(index, top);
+            }
+
             //}
         }
 
