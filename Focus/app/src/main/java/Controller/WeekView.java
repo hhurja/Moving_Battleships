@@ -1,13 +1,10 @@
 package Controller;
 
-import android.graphics.Color;
-
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 import Model.FocusModel;
 import Model.Schedule;
@@ -27,9 +24,8 @@ public class WeekView extends BaseWeekView {
         focusModel = FocusModel.getInstance();
 
         for (Schedule s : focusModel.getSchedules()) {
+            int color = s.getColor();
             for (TimeRange t : s.getTimeRanges()) {
-                Random rnd = new Random();
-                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
                 for (Integer i : t.getDays()) {
                     Calendar startTime = Calendar.getInstance();
                     //if (startTime.get(Calendar.DAY_OF_WEEK) < i) {
@@ -57,7 +53,8 @@ public class WeekView extends BaseWeekView {
                     endTime.set(Calendar.MINUTE,t.getEndMinute());
                     System.out.println("End time: " + endTime);
                     System.out.println("Get End time: " + endTime.getTime());
-                    WeekViewEvent event = new WeekViewEvent(1, s.getScheduleName(), startTime, endTime);
+                    String profNames = (t.getProfiles().size() > 1 ? (t.getProfiles().get(0).getProfileName() + "...") : (t.getProfiles().get(0).getProfileName()));
+                    WeekViewEvent event = new WeekViewEvent(1, profNames, startTime, endTime);
                     event.setColor(color);
                     events.add(event);
                 }

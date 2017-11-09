@@ -74,9 +74,11 @@ public class EditSchedule extends AppCompatActivity {
         Switch repeatSwitch = (Switch) findViewById(R.id.simple_switch);
         repeatSwitch.setChecked(isRepeat);
 
-        listAdapter = new scheduleTimeRangesListAdapter(this, schedule.getTimeRanges());
         ListView lv = (ListView)findViewById(R.id.profilesListView);
-        lv.setAdapter(listAdapter);
+        if ( schedule != null ) {
+            listAdapter = new scheduleTimeRangesListAdapter(this, schedule.getTimeRanges());
+            lv.setAdapter(listAdapter);
+        }
 
         lv.setOnItemClickListener(
 
@@ -202,10 +204,12 @@ public class EditSchedule extends AppCompatActivity {
         System.out.println(profilesCheckBoxes);
         for (Profile p : focusModel.getAllProfiles()) {
             if ( focusModel.getSchedule(scheduleName) != null && !focusModel.getSchedule(scheduleName).getProfiles().contains(p) ) {
-                CheckBox cb = new CheckBox(v.getContext());
-                cb.setText(p.getProfileName());
-                profilesCheckBoxes.add(cb);
-                layout.addView(cb);
+                if ( !tr.getProfiles().contains(p) ) {
+                    CheckBox cb = new CheckBox(v.getContext());
+                    cb.setText(p.getProfileName());
+                    profilesCheckBoxes.add(cb);
+                    layout.addView(cb);
+                }
             }
         }
         builder.setView(layout);

@@ -1,12 +1,10 @@
 package Model;
 
-import java.lang.reflect.Array;
+import android.graphics.Color;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map.Entry;
-import java.sql.Time;
-import java.util.StringTokenizer;
+import java.util.Random;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -24,6 +22,7 @@ public class Schedule {
     Boolean blocked;
     Boolean invisible;
     Boolean isInRange;
+    int color;
 
 
     public Schedule(int id, String name){
@@ -34,6 +33,8 @@ public class Schedule {
         blocked = false;
         invisible = false;
         isInRange = false;
+        Random rnd = new Random();
+        color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
 //
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
@@ -47,6 +48,8 @@ public class Schedule {
         repeat = false;
         invisible = false;
         isInRange = false;
+        Random rnd = new Random();
+        color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
 
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
@@ -60,6 +63,8 @@ public class Schedule {
         repeat = false;
         invisible = invis;
         isInRange = false;
+        Random rnd = new Random();
+        color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
 
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
@@ -273,5 +278,9 @@ public class Schedule {
         }
         isInRange = false;
         return false;
+    }
+
+    public int getColor() {
+        return color;
     }
 }

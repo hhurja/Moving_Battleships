@@ -67,14 +67,14 @@ public class scheduleTimeRangesListAdapter extends BaseAdapter {
 
             for ( int i = 0; i < tRProfiles.size(); i++ ) {
                 Profile p = tRProfiles.get(i);
-                if ( i < (timeRanges.size())-1 ) {
+                if ( i < (tRProfiles.size())-1 ) {
                     profiles += p.getProfileName() + ", ";
                 } else {
                     profiles += p.getProfileName();
                 }
             }
 
-            text2.setText("Profiles: " + profiles.substring(0,profiles.length()-3));
+            text2.setText("Profiles: " + profiles);
 
             return twoLineListItem;
         }
