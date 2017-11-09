@@ -49,7 +49,6 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.week_view);
 
-
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
 
@@ -72,16 +71,19 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
             public void onEmptyViewClicked(Calendar time) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(mWeekView.getContext());
-                builder.setTitle("Profiles Scheduled for " + time.get(Calendar.MONTH) +"/" + time.get(Calendar.DATE));
+                builder.setTitle("Profiles Scheduled for " + (time.get(Calendar.MONTH)+1) +"/" + time.get(Calendar.DATE));
 
+                System.out.println("HERE IN SET EMPTY CLICK");
                 LinearLayout ll = new LinearLayout(mWeekView.getContext());
                 ArrayList<String> names = new ArrayList<>();
                 FocusModel focusModel = FocusModel.getInstance();
                 for (Schedule s : focusModel.getSchedules()) {
                     for (TimeRange t : s.getTimeRanges()) {
                         for(Integer i : t.getDays()) {
+                            System.out.println(i + " : " + t.getDays() + " : " + time.get(Calendar.DAY_OF_WEEK));
                             if ( i == time.get(Calendar.DAY_OF_WEEK) ) {
-                                for(Profile p : s.getProfiles()) {
+                                for(Profile p : t.getProfiles()) {
+                                    System.out.println("PName: " + p.getProfileName());
                                     if(!names.contains(p.getProfileName())) {
                                         names.add(p.getProfileName());
                                     }
