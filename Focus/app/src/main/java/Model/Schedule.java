@@ -13,9 +13,9 @@ import java.util.Random;
 public class Schedule {
     private int id;
     private String name;
-//    private HashMap<TimeRange, ArrayList<Profile>> profileSchedule;
+    //    private HashMap<TimeRange, ArrayList<Profile>> profileSchedule;
     ArrayList<TimeRange> timeRanges;
-//    TimeRange timeRange;
+    //    TimeRange timeRange;
     ArrayList<Profile> profiles;
     Boolean activated;
     Boolean repeat;
@@ -97,7 +97,7 @@ public class Schedule {
     }
 
     public void addProfile(Profile p, TimeRange tr){
-    	System.out.println("THIS SCHEDULE IS: " + getScheduleName() + " AND THE ID IS " + id);
+        System.out.println("THIS SCHEDULE IS: " + getScheduleName() + " AND THE ID IS " + id);
         /*	Adds a profile to this schedule
     	    * checks if this profile has already been added
     	 	* adds given profile to the arraylist of profiles
@@ -286,10 +286,12 @@ public class Schedule {
                 isInRange = true;
                 for(Profile p: tr.getProfiles()){
                     p.blockProfile();
+                    p.addScheduleID(id);
                 }
             }else{
                 for(Profile p: tr.getProfiles()){
                     p.unblockProfile();
+                    p.removeScheduleID(id);
                 }
             }
         }
