@@ -24,6 +24,8 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import Model.FocusModel;
@@ -44,6 +46,7 @@ public class profilesListViewController extends Fragment {
     private static Activity activity;
     private static Context context;
     FloatingActionButton fb;
+    public HashMap<Profile, Integer> profileUsage = new HashMap<Profile, Integer>();
     private String [] profileNames;
 
     public TimerClass timerInstance;
@@ -56,6 +59,7 @@ public class profilesListViewController extends Fragment {
 
         @Override
         public void onTick(long millisUntilFinished) {
+            profileUsage = focusModel.getProfileUsage();
 //            String timerStr = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
 //                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
 //                            - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
@@ -75,7 +79,39 @@ public class profilesListViewController extends Fragment {
             for (int i = 0; i < profiles.size(); i++) {
                 profileNames[i] = profiles.get(i).getProfileName();
             }
-                profilesAdapter = new profilesListAdapter(profilesListViewController.context, profileNames, focusModel.getIconMap());
+            Collections.sort(java.util.Arrays.asList(profileNames),new Comparator<String>()
+                    {
+                        @Override
+                        public int compare(String prof1,String prof2)
+                        {
+                            int p1Count = 0;
+                            int p2Count = 0;
+
+                            ArrayList<Profile> profiles = focusModel.getAllProfiles();
+                            for (int i = 0; i < profiles.size(); i++) {
+                                if (prof1 == profiles.get(i).getProfileName()) {
+                                    p1Count = profiles.get(i).getActivationCount();
+                                    break;
+                                }
+                            }
+                            for (int i = 0; i < profiles.size(); i++) {
+                                if (prof2 == profiles.get(i).getProfileName()) {
+                                    p2Count = profiles.get(i).getActivationCount();
+                                    break;
+                                }
+                            }
+                            if (p1Count > p2Count) {
+                                return -1;
+                            } else if (p1Count < p2Count){
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        }
+                    });
+
+
+            profilesAdapter = new profilesListAdapter(profilesListViewController.context, profileNames, focusModel.getIconMap());
             if (profilesListView != null && profilesAdapter != null) {
                 profilesListView.setAdapter(profilesAdapter);
                 profilesListView.setSelectionFromTop(index, top);
