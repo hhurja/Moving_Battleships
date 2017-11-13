@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-
+import java.util.Date;
 import Controller.MainActivity;
 
 /**
@@ -42,6 +42,11 @@ public class Profile {
     public Button button;
     //the integer that represents the # of times a profile gets activated
     public Integer activationCount = 0;
+    // the total amount of minutes a profile has been blocked for
+    public long activationTime = 0;
+    //used to calculate the amount of time
+    public Date startActivation;
+    public Date endActivation;
     /**
      * Constructors
      */
@@ -137,6 +142,9 @@ public class Profile {
         if (activated == false && scheduleIDs.isEmpty()) {
             createNotificationForActive();
             activationCount++;
+            //get the time that activation has started
+            startActivation = Calendar.getInstance().getTime();
+
         }
         activated = true;
         for (int i = 0; i < apps.size(); i++) {
@@ -152,6 +160,13 @@ public class Profile {
         //only display notification if switched from active to nonactive
         if (activated == true && scheduleIDs.isEmpty()) {
             createNotificationForDeactive();
+            //get the time that activation has ended
+            endActivation = Calendar.getInstance().getTime();
+            //calculate the amount of time that the profile has been blocked
+            activationTime = activationTime + ((endActivation.getTime()/1000) - (startActivation.getTime()/1000));
+            //reset start and end activation times
+            startActivation = null;
+            endActivation = null;
             activated = false;
             for (int i = 0; i < apps.size(); i++) {
                 apps.get(i).unblockApp(profileID);
