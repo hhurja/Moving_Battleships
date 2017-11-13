@@ -40,6 +40,8 @@ public class Profile {
     public TextView textView;
     public TextView listView;
     public Button button;
+    //the integer that represents the # of times a profile gets activated
+    public Integer activationCount = 0;
     /**
      * Constructors
      */
@@ -124,12 +126,17 @@ public class Profile {
         unblockProfile();
     }
 
+    //returns the amount of times a profile is activated
+    public Integer getActivationCount() {
+        return activationCount;
+    }
 
 
     public void blockProfile() {
         //only display notification if switched from nonactive to active
         if (activated == false && scheduleIDs.isEmpty()) {
             createNotificationForActive();
+            activationCount++;
         }
         activated = true;
         for (int i = 0; i < apps.size(); i++) {
