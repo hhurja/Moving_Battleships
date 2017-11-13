@@ -203,11 +203,11 @@ public class EditProfile extends AppCompatActivity {
             profile.getView(timerText, fab_start);
             if (profile.isActivated()) {
                 fab_start.setBackgroundColor(Color.RED);
-                fab_start.setText("Stop Blocking This Profile");
+                fab_start.setText("Deactivate This Profile");
             }
             else {
                 fab_start.setBackgroundColor(Color.GREEN);
-                fab_start.setText("Start Blocking This Profile");
+                fab_start.setText("Activate This Profile");
             }
         }
 
@@ -215,11 +215,11 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println(fab_start.getText());
-                if (fab_start.getText().equals("Start Blocking This Profile")) {
+                if (fab_start.getText().equals("Activate This Profile")) {
                     final View myView = view;
                     // pop up dialogue to create new schedule
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setTitle("Set Blocking time");
+                    builder.setTitle("Set time");
                     ScrollView sv = new ScrollView(view.getContext());
                     LinearLayout layout = new LinearLayout(view.getContext());
                     layout.setOrientation(LinearLayout.VERTICAL);
@@ -306,6 +306,12 @@ public class EditProfile extends AppCompatActivity {
                             fab_start.setBackgroundColor(Color.RED);
                         }
                     });
+                    builder.setNeutralButton("Ration", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -314,11 +320,11 @@ public class EditProfile extends AppCompatActivity {
                     });
                     builder.show();
                 }
-                if(fab_start.getText().equals("Stop Blocking This Profile")){
+                if(fab_start.getText().equals("Deactivate This Profile")){
                     profile.deactivate();
                     timerInstance = null;
                     timerText.setVisibility(TextView.INVISIBLE);
-                    fab_start.setText("Start Blocking This Profile");
+                    fab_start.setText("Activate This Profile");
                     fab_start.setBackgroundColor(Color.GREEN);
                 }
 

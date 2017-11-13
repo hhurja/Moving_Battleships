@@ -61,7 +61,13 @@
             android:id="@+id/startBlocking"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start Blocking This Profile" />
+            android:text="Activate This Profile" />
+
+        <Button
+            android:id="@+id/seeUsage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="See Usage" />
 
         <Button
             android:id="@+id/fab_plus"
