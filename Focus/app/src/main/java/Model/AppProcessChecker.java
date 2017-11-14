@@ -88,6 +88,22 @@ public class AppProcessChecker {
 
     }
 
+    public String getForegroundedApp() {
+        String packageName = "";
+        List<UsageStats> apps = statsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,  System.currentTimeMillis() - 1000*1000, System.currentTimeMillis());
+        SortedMap<Long, UsageStats> map = new TreeMap<Long, UsageStats>();
+        for (UsageStats usageStats : apps) {
+            map.put(usageStats.getLastTimeUsed(), usageStats);
+        }
+        if (map != null && !map.isEmpty()) {
+            UsageStats currentApp;
+            currentApp = map.get(map.lastKey());
+            packageName = currentApp.getPackageName();
+        }
+
+        return packageName;
+    }
+
     public boolean permissionGranted() {
         try {
             ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 0);

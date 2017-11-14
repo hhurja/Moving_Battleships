@@ -1,6 +1,7 @@
 package Model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -11,6 +12,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+
+import Controller.DialogActivity;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -97,6 +100,8 @@ public class FocusModel extends Thread{
 //            System.out.println("CHECKING FOR NULL: "+apc+" "+instance);
             if(apc != null) {
                 apc.blockApplication(instance.getBlockedApps());
+                //Updates the ration time for any apps currently set to be ration blocked
+                checkForRation(apc.getForegroundedApp());
             }
             //sleeps this thread for 2 seconds on the loop
             try {
@@ -995,5 +1000,35 @@ public class FocusModel extends Thread{
         numSchedulesCreated = 0;
         numAppsCreated = 0;
         numProfilesCreated = 0;
+    }
+
+    public void checkForRation(String packageName) {
+        for (int i = 0; i < profiles.size(); i++) {
+            //if a profile is set to be rationed check if it contains the current app
+            if (profiles.get(i).isRationed && profiles.get(i).rationTime > 0) {
+                //check if any of the apps in the profile is the current app open
+                for (int j = 0; j < profiles.get(i).getApps().size(); j++) {
+                    //if it is the current app and the profile is set to be rationed, then updated RationTime
+                    if (profiles.get(i).getApps().get(j).getPackageName().equalsIgnoreCase(packageName)) {
+                        profiles.get(i).rationTime -= 2;
+                        if (profiles.get(i).rationTime <= 0) {
+                            profiles.get(i).activate();
+                            Intent intent = new Intent(apc.mainActivity, DialogActivity.class);
+                            apc.mainActivity.startActivity(intent);
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public void rationProfile(String profileName, int hours, int minutes) {
+        for (Profile p : profiles) {
+            if (p.getProfileName().equals(profileName)) {
+                p.rationProfile(hours, minutes);
+                break;
+            }
+        }
     }
 }

@@ -47,6 +47,10 @@ public class Profile {
     //used to calculate the amount of time
     public Date startActivation = null;
     public Date endActivation = null;
+
+    public boolean isRationed;
+    public int rationTime;
+
     /**
      * Constructors
      */
@@ -59,6 +63,8 @@ public class Profile {
         time = "";
         blockedFromProfiles = false;
         scheduleIDs = new HashSet<Integer>();
+        isRationed = false;
+        rationTime = 0;
     }
 
     /**
@@ -180,6 +186,17 @@ public class Profile {
                 apps.get(i).unblockApp(profileID);
             }
         }
+    }
+
+    public void rationProfile(int hours, int minutes) {
+        isRationed = true;
+        rationTime += minutes * 60;
+        rationTime += hours * 60 * 60;
+
+    }
+
+    public void unRationProfile() {
+        isRationed = false;
     }
 
     public HashSet<Integer> getAppIDs(){
