@@ -28,14 +28,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import Model.AppIconGenerator;
 import Model.AppProcessChecker;
 import Model.DatabaseHelper;
 import Model.FocusModel;
-import Model.Profile;
 import movingbattleship.org.focus.R;
 
 import static android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS;
@@ -146,8 +144,17 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        switch (id) {
+            case R.id.share_facebook:
 
-        return super.onOptionsItemSelected(item);
+                // ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(Uri.parse("https://developers.facebook.com")).build();
+
+                // startActivity(new Intent(this, About.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        // return super.onOptionsItemSelected(item);
     }
 
     public static Context getAppContext(){

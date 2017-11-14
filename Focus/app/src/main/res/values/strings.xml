@@ -8,4 +8,6 @@
     <string name="action_day_view">Day View</string>
     <string name="action_three_day_view">3 Day View</string>
     <string name="action_week_view">Week View</string>
+    <string name="facebook_app_id">133523014083173</string>
+    <string name="share_facebook">"Share"</string>
 </resources>
