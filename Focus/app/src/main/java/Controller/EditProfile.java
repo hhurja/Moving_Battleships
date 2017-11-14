@@ -302,7 +302,7 @@ public class EditProfile extends AppCompatActivity {
                             System.out.println("remaining time in editprofile is " + focusModel.remainingTime(profile.getProfileName()));
                             timerInstance = new TimerClass(focusModel.remainingTime(profile.getProfileName()), 1000);
                             timerInstance.start();
-                            fab_start.setText("Stop Blocking This Profile");
+                            fab_start.setText("Deactivate This Profile");
                             fab_start.setBackgroundColor(Color.RED);
                         }
                     });
