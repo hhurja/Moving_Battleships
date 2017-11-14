@@ -37,6 +37,9 @@ public class FocusModel extends Thread{
     private Profile currProf;
     private HashMap<String, Bitmap> iconMap;
 
+    //this is a map that has profiles to the number of instances its been turned on
+    HashMap<Profile, Long> profileUsage = new HashMap<Profile, Long>();
+
     private DatabaseHelper mDatabaseHelper;
 
     //Instance for Singleton Class
@@ -827,8 +830,14 @@ public class FocusModel extends Thread{
     private void updateActivatedProfiles() {
         for (Profile p : instance.profiles) {
             p.updateActivation();
+            long activationTime = p.getActivationTime();
+            profileUsage.put(p, activationTime);
         }
 
+    }
+    //returns the profileUsage hashmap
+    public HashMap<Profile, Long> getProfileUsage() {
+        return profileUsage;
     }
 
     private void updateWithSchedules() {

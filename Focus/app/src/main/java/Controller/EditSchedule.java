@@ -174,7 +174,8 @@ public class EditSchedule extends AppCompatActivity {
                     }
                 }
                 for (int i = 0; i < profiles.size(); i++) {
-                    timerange.removeProfile(focusModel.getProfile(profiles.get(i)));
+                    timerange.removeProfile(focusModel.getProfile(profiles.get(i)), schedule);
+
                 }
 
                 ListView lv = (ListView)findViewById(R.id.profilesListView);

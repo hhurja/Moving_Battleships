@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-
+import java.util.Date;
 import Controller.MainActivity;
 
 /**
@@ -40,6 +40,13 @@ public class Profile {
     public TextView textView;
     public TextView listView;
     public Button button;
+    //the integer that represents the # of times a profile gets activated
+    public Integer activationCount = 0;
+    // the total amount of minutes a profile has been blocked for
+    public long activationTime = 0;
+    //used to calculate the amount of time
+    public Date startActivation = null;
+    public Date endActivation = null;
     /**
      * Constructors
      */
@@ -91,6 +98,13 @@ public class Profile {
         }
     }
 
+    public long getActivationTime() {
+        if (startActivation != null && endActivation == null) {
+            return ((Calendar.getInstance().getTimeInMillis()/1000) - (startActivation.getTime()/1000));
+        }
+        return activationTime;
+    }
+
     public long getTimeRemaining() {
         if (finishBlocking == null) {
             return 0;
@@ -124,12 +138,20 @@ public class Profile {
         unblockProfile();
     }
 
+    //returns the amount of times a profile is activated
+    public Integer getActivationCount() {
+        return activationCount;
+    }
 
 
     public void blockProfile() {
         //only display notification if switched from nonactive to active
         if (activated == false && scheduleIDs.isEmpty()) {
             createNotificationForActive();
+            activationCount++;
+            //get the time that activation has started
+            startActivation = Calendar.getInstance().getTime();
+
         }
         activated = true;
         for (int i = 0; i < apps.size(); i++) {
@@ -138,13 +160,21 @@ public class Profile {
     }
 
     public void unblockProfile() {
-        System.out.println(scheduleIDs.size());
+        System.out.println("unblock me please: " + scheduleIDs.size());
+
         for (Integer i : scheduleIDs) {
             System.out.println(i);
         }
         //only display notification if switched from active to nonactive
         if (activated == true && scheduleIDs.isEmpty()) {
             createNotificationForDeactive();
+            //get the time that activation has ended
+            endActivation = Calendar.getInstance().getTime();
+            //calculate the amount of time that the profile has been blocked
+            activationTime = activationTime + ((endActivation.getTime()/1000) - (startActivation.getTime()/1000));
+            //reset start and end activation times
+            startActivation = null;
+            endActivation = null;
             activated = false;
             for (int i = 0; i < apps.size(); i++) {
                 apps.get(i).unblockApp(profileID);

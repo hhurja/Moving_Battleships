@@ -46,6 +46,7 @@ public class EditProfile extends AppCompatActivity {
     private Button fab_plus;
     private TextView timerText;
     private Button fab_start;
+    private Button see_usage;
     List<ApplicationInfo> packages = new ArrayList<>();
     private HashMap<String, String> nameToPackage = new HashMap <String, String> ();
     TimerClass timerInstance;
@@ -203,11 +204,11 @@ public class EditProfile extends AppCompatActivity {
             profile.getView(timerText, fab_start);
             if (profile.isActivated()) {
                 fab_start.setBackgroundColor(Color.RED);
-                fab_start.setText("Stop Blocking This Profile");
+                fab_start.setText("Deactivate This Profile");
             }
             else {
                 fab_start.setBackgroundColor(Color.GREEN);
-                fab_start.setText("Start Blocking This Profile");
+                fab_start.setText("Activate This Profile");
             }
         }
 
@@ -215,11 +216,11 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println(fab_start.getText());
-                if (fab_start.getText().equals("Start Blocking This Profile")) {
+                if (fab_start.getText().equals("Activate This Profile")) {
                     final View myView = view;
                     // pop up dialogue to create new schedule
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setTitle("Set Blocking time");
+                    builder.setTitle("Set time");
                     ScrollView sv = new ScrollView(view.getContext());
                     LinearLayout layout = new LinearLayout(view.getContext());
                     layout.setOrientation(LinearLayout.VERTICAL);
@@ -302,8 +303,14 @@ public class EditProfile extends AppCompatActivity {
                             System.out.println("remaining time in editprofile is " + focusModel.remainingTime(profile.getProfileName()));
                             timerInstance = new TimerClass(focusModel.remainingTime(profile.getProfileName()), 1000);
                             timerInstance.start();
-                            fab_start.setText("Stop Blocking This Profile");
+                            fab_start.setText("Deactivate This Profile");
                             fab_start.setBackgroundColor(Color.RED);
+                        }
+                    });
+                    builder.setNeutralButton("Ration", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
                         }
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -314,17 +321,39 @@ public class EditProfile extends AppCompatActivity {
                     });
                     builder.show();
                 }
-                if(fab_start.getText().equals("Stop Blocking This Profile")){
+                if(fab_start.getText().equals("Deactivate This Profile")){
                     profile.deactivate();
                     timerInstance = null;
                     timerText.setVisibility(TextView.INVISIBLE);
-                    fab_start.setText("Start Blocking This Profile");
+                    fab_start.setText("Activate This Profile");
                     fab_start.setBackgroundColor(Color.GREEN);
                 }
 
 
             }
         });
+
+        see_usage = (Button) findViewById(R.id.seeUsage);
+        see_usage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Usage Information");
+                long activationTime = profile.getActivationTime();
+                int activationCount = profile.getActivationCount();
+                String msg = "Total time profile has been blocked: " + "\n" + "\n";
+                if (activationTime/60 > 0) {
+                    msg = msg + Long.toString(activationTime%60) + " minutes" + "\n" + "Total count of times profile has been activated: " + Integer.toString(activationCount);
+                }
+                else {
+                    msg = msg + Long.toString(activationTime) + " seconds" + "\n" + "Total count of times profile has been activated: " + Integer.toString(activationCount);
+                }
+                builder.setMessage(msg);
+                builder.setCancelable(true);
+                builder.show();
+            }
+        });
+
 
         fab_plus = (Button) findViewById(R.id.fab_plus);
         fab_plus.setOnClickListener(new View.OnClickListener() {

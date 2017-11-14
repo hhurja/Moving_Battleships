@@ -235,8 +235,9 @@ public class TimeRange {
         if(!profiles.contains(p)) profiles.add(p);
     }
 
-    public void removeProfile(Profile p){
+    public void removeProfile(Profile p, Schedule s){
         if (profiles.contains(p)){
+            p.removeScheduleID(s.getScheduleID());
             p.deactivate();
             profiles.remove(p);
         }
