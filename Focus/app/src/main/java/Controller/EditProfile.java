@@ -46,6 +46,7 @@ public class EditProfile extends AppCompatActivity {
     private Button fab_plus;
     private TextView timerText;
     private Button fab_start;
+    private Button see_usage;
     List<ApplicationInfo> packages = new ArrayList<>();
     private HashMap<String, String> nameToPackage = new HashMap <String, String> ();
     TimerClass timerInstance;
@@ -331,6 +332,28 @@ public class EditProfile extends AppCompatActivity {
 
             }
         });
+
+        see_usage = (Button) findViewById(R.id.seeUsage);
+        see_usage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Usage Information");
+                long activationTime = profile.getActivationTime();
+                int activationCount = profile.getActivationCount();
+                String msg = "Total time profile has been blocked: " + "\n" + "\n";
+                if (activationTime/60 > 0) {
+                    msg = msg + Long.toString(activationTime%60) + " minutes" + "\n" + "Total count of times profile has been activated: " + Integer.toString(activationCount);
+                }
+                else {
+                    msg = msg + Long.toString(activationTime) + " seconds" + "\n" + "Total count of times profile has been activated: " + Integer.toString(activationCount);
+                }
+                builder.setMessage(msg);
+                builder.setCancelable(true);
+                builder.show();
+            }
+        });
+
 
         fab_plus = (Button) findViewById(R.id.fab_plus);
         fab_plus.setOnClickListener(new View.OnClickListener() {

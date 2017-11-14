@@ -38,7 +38,7 @@ public class FocusModel extends Thread{
     private HashMap<String, Bitmap> iconMap;
 
     //this is a map that has profiles to the number of instances its been turned on
-    HashMap<Profile, Integer> profileUsage = new HashMap<Profile, Integer>();
+    HashMap<Profile, Long> profileUsage = new HashMap<Profile, Long>();
 
     private DatabaseHelper mDatabaseHelper;
 
@@ -830,13 +830,13 @@ public class FocusModel extends Thread{
     private void updateActivatedProfiles() {
         for (Profile p : instance.profiles) {
             p.updateActivation();
-            int count = p.getActivationCount();
-            profileUsage.put(p, count);
+            long activationTime = p.getActivationTime();
+            profileUsage.put(p, activationTime);
         }
 
     }
     //returns the profileUsage hashmap
-    public HashMap<Profile, Integer> getProfileUsage() {
+    public HashMap<Profile, Long> getProfileUsage() {
         return profileUsage;
     }
 

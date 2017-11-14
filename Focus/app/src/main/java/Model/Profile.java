@@ -45,8 +45,8 @@ public class Profile {
     // the total amount of minutes a profile has been blocked for
     public long activationTime = 0;
     //used to calculate the amount of time
-    public Date startActivation;
-    public Date endActivation;
+    public Date startActivation = null;
+    public Date endActivation = null;
     /**
      * Constructors
      */
@@ -96,6 +96,13 @@ public class Profile {
         if (activated == true) {
             app.blockApp(profileID);
         }
+    }
+
+    public long getActivationTime() {
+        if (startActivation != null && endActivation == null) {
+            return ((Calendar.getInstance().getTimeInMillis()/1000) - (startActivation.getTime()/1000));
+        }
+        return activationTime;
     }
 
     public long getTimeRemaining() {
