@@ -153,7 +153,8 @@ public class Profile {
     }
 
     public void unblockProfile() {
-        System.out.println(scheduleIDs.size());
+        System.out.println("unblock me please: " + scheduleIDs.size());
+
         for (Integer i : scheduleIDs) {
             System.out.println(i);
         }
