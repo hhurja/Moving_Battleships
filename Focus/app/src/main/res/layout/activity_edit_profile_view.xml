@@ -43,6 +43,15 @@
                 android:text=""
                 android:layout_weight="0.7"/>
 
+            <TextView
+                android:id="@+id/rationLeft"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Rationing"
+                android:layout_weight="0.7"/>
+
         </LinearLayout>
 
         <ListView

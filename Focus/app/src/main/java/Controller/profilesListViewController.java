@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -46,7 +45,7 @@ public class profilesListViewController extends Fragment {
     private static Activity activity;
     private static Context context;
     FloatingActionButton fb;
-    public HashMap<Profile, Integer> profileUsage = new HashMap<Profile, Integer>();
+    public HashMap<Profile, Long> profileUsage = new HashMap<Profile, Long>();
     private String [] profileNames;
 
     public TimerClass timerInstance;

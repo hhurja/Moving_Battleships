@@ -32,6 +32,7 @@ import Model.FocusModel;
 import Model.Profile;
 import movingbattleship.org.focus.R;
 
+import static movingbattleship.org.focus.R.id.rationLeft;
 import static movingbattleship.org.focus.R.id.startBlocking;
 import static movingbattleship.org.focus.R.id.timer;
 
@@ -45,6 +46,7 @@ public class EditProfile extends AppCompatActivity {
     private ListView mListView;
     private Button fab_plus;
     private TextView timerText;
+    private TextView rationText;
     private Button fab_start;
     private Button see_usage;
     List<ApplicationInfo> packages = new ArrayList<>();
@@ -128,10 +130,13 @@ public class EditProfile extends AppCompatActivity {
 
         timerText = (TextView) findViewById(timer);
 
+        rationText = (TextView) findViewById(rationLeft);
+
         //final TimerClass timerInstance = new TimerClass(180000, 1000);
 
         //TODO: figure out if we call isOn(), isActive(), or both
         if (profile != null) {
+            // set timer text
             if (profile.isActivated()) {
                 //ArrayList <Integer> endTime = focusModel.endOfTimer(profile.getProfileName());
                 //timerText.setText("Blocked for: " + "00:03:00");
@@ -140,6 +145,7 @@ public class EditProfile extends AppCompatActivity {
             } else {
                 timerText.setVisibility(TextView.INVISIBLE);
             }
+            // TODO: set ration text
         } else {
             timerText.setVisibility(TextView.INVISIBLE);
         }
@@ -239,7 +245,7 @@ public class EditProfile extends AppCompatActivity {
                     builder.setView(sv);
 
                     // Set up the buttons
-                    builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("Block", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (minutesBox.getText().toString().length() == 0 && hoursBox.getText().toString().length() == 0) {
