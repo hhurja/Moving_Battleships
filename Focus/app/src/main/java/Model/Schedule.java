@@ -1,10 +1,28 @@
 package Model;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.os.Environment;
+import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Scanner;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -22,10 +40,12 @@ public class Schedule {
     Boolean blocked;
     Boolean invisible;
     Boolean isInRange;
+    Boolean holiday_blocking;
+    HashMap<String, Long> holidays = new HashMap<String, Long> ();
     int color;
 
 
-    public Schedule(int id, String name){
+    public Schedule(int id, String name) {
         this.id = id;
         this.name = name;
         activated = true;
@@ -33,12 +53,16 @@ public class Schedule {
         blocked = false;
         invisible = false;
         isInRange = false;
+        holiday_blocking = false;
         Random rnd = new Random();
         color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-//
-//        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
         timeRanges = new ArrayList<>();
+        updateHolidays();
+    }
+
+    public void updateHolidays() {
+
     }
 
     public Schedule(int id, String scheduleName, ArrayList<String> days){
@@ -280,6 +304,8 @@ public class Schedule {
         isInRange = false;
         return false;
         */
+        Long today = Calendar.getInstance().getTimeInMillis();
+
         isInRange = false;
         for(TimeRange tr: timeRanges){
             if (tr.inRange()){
