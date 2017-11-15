@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
@@ -23,7 +22,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,7 +36,6 @@ import movingbattleship.org.focus.R;
 
 import static movingbattleship.org.focus.R.id.rationLeft;
 import static movingbattleship.org.focus.R.id.startBlocking;
-import static movingbattleship.org.focus.R.id.textView;
 import static movingbattleship.org.focus.R.id.timer;
 
 /**
@@ -56,14 +53,15 @@ public class EditProfile extends AppCompatActivity {
     private Button see_usage;
     List<ApplicationInfo> packages = new ArrayList<>();
     private HashMap<String, String> nameToPackage = new HashMap <String, String> ();
-    TimerClass timerInstance;
+    BlockTimerClass blockTimer;
+    RationTimerClass rationTimer;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
 
-    public class TimerClass extends CountDownTimer {
+    public class BlockTimerClass extends CountDownTimer {
 
-        public TimerClass(long millisInFuture, long countDownInterval) {
+        public BlockTimerClass(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
 
@@ -76,6 +74,30 @@ public class EditProfile extends AppCompatActivity {
                             - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
             );
             timerText.setText("Blocked for: " + timerStr);
+        }
+
+        @Override
+        public void onFinish() {
+
+        }
+    }
+
+    public class RationTimerClass extends CountDownTimer {
+
+        public RationTimerClass(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            String timerStr = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                            - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
+            );
+            // TODO: only decrement if app is being used
+            rationText.setText("Ration time left: " + timerStr);
         }
 
         @Override
@@ -145,14 +167,14 @@ public class EditProfile extends AppCompatActivity {
             if (profile.isActivated()) {
                 //ArrayList <Integer> endTime = focusModel.endOfTimer(profile.getProfileName());
                 //timerText.setText("Blocked for: " + "00:03:00");
-                timerInstance = new TimerClass(focusModel.remainingTime(profile.getProfileName()), 1000);
-                timerInstance.start();
+                blockTimer = new BlockTimerClass(focusModel.remainingTime(profile.getProfileName()), 1000);
+                blockTimer.start();
             } else {
                 timerText.setVisibility(TextView.INVISIBLE);
             }
             // TODO: set ration text
         } else {
-            timerText.setVisibility(TextView.INVISIBLE);
+//            rationText.setVisibility(TextView.INVISIBLE);
         }
 
 
@@ -312,8 +334,8 @@ public class EditProfile extends AppCompatActivity {
                             profile.activate();
                             timerText.setVisibility(TextView.VISIBLE);
                             System.out.println("remaining time in editprofile is " + focusModel.remainingTime(profile.getProfileName()));
-                            timerInstance = new TimerClass(focusModel.remainingTime(profile.getProfileName()), 1000);
-                            timerInstance.start();
+                            blockTimer = new BlockTimerClass(focusModel.remainingTime(profile.getProfileName()), 1000);
+                            blockTimer.start();
                             fab_start.setText("Deactivate This Profile");
                             fab_start.setBackgroundColor(Color.RED);
                         }
@@ -321,7 +343,28 @@ public class EditProfile extends AppCompatActivity {
                     builder.setNeutralButton("Ration", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
+                            if (minutesBox.getText().toString().length() == 0 && hoursBox.getText().toString().length() == 0) {
+                                showErrorMessage(myView);
+                            }
+                            else if (minutesBox.getText().toString().length() == 0 && hoursBox.getText().toString().length() != 0) {
+                                minutesBox.setText("0");
+                            }
+                            else if (hoursBox.getText().toString().length() == 0 && minutesBox.getText().toString().length() != 0) {
+                                hoursBox.setText("0");
+                            }
+
+                            int minuteBoxNum = Integer.parseInt(minutesBox.getText().toString());
+
+                            int hourBoxNum = Integer.parseInt(hoursBox.getText().toString());
+
+                            if (minuteBoxNum < 10 && hourBoxNum == 0 || hourBoxNum > 10) {
+                                showErrorMessage(myView);
+                                return;
+                            }
+                            rationTimer = new RationTimerClass((TimeUnit.HOURS.toMillis(hourBoxNum) + TimeUnit.MINUTES.toMillis(minuteBoxNum)), 1000);
+                            rationTimer.start();
+                            fab_start.setText("Deactivate This Profile");
+                            fab_start.setBackgroundColor(Color.RED);
                         }
                     });
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -334,8 +377,13 @@ public class EditProfile extends AppCompatActivity {
                 }
                 if(fab_start.getText().equals("Deactivate This Profile")){
                     profile.deactivate();
-                    timerInstance = null;
+                    blockTimer = null;
                     timerText.setVisibility(TextView.INVISIBLE);
+                    rationText.setText("No Rationing");
+                    if (rationTimer != null) {
+                        rationTimer.cancel();
+                    }
+                    rationTimer = null;
                     fab_start.setText("Activate This Profile");
                     fab_start.setBackgroundColor(Color.GREEN);
                 }
