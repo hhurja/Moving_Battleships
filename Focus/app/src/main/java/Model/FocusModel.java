@@ -1013,6 +1013,7 @@ public class FocusModel extends Thread{
                         profiles.get(i).rationTime -= 2;
                         if (profiles.get(i).rationTime <= 0) {
                             profiles.get(i).activate();
+                            profiles.get(i).addTimeToEndOfDay();
                             Intent intent = new Intent(apc.mainActivity, DialogActivity.class);
                             apc.mainActivity.startActivity(intent);
                         }
@@ -1027,6 +1028,15 @@ public class FocusModel extends Thread{
         for (Profile p : profiles) {
             if (p.getProfileName().equals(profileName)) {
                 p.rationProfile(hours, minutes);
+                break;
+            }
+        }
+    }
+
+    public void unRationProfile(String profileName) {
+        for (Profile p : profiles) {
+            if (p.getProfileName().equals(profileName)) {
+                p.unRationProfile();
                 break;
             }
         }

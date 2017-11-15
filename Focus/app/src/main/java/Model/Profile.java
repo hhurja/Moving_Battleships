@@ -49,7 +49,9 @@ public class Profile {
     public Date endActivation = null;
 
     public boolean isRationed;
+    public boolean isRationBlocked;
     public int rationTime;
+    public Calendar finishRationing;
 
     /**
      * Constructors
@@ -64,6 +66,7 @@ public class Profile {
         blockedFromProfiles = false;
         scheduleIDs = new HashSet<Integer>();
         isRationed = false;
+        isRationBlocked = false;
         rationTime = 0;
     }
 
@@ -121,6 +124,13 @@ public class Profile {
         return finishBlocking.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
     }
 
+    public long getTimeRationRemaining() {
+        if (finishRationing == null) {
+            return 0;
+        }
+        return finishRationing.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
+    }
+
     public void removeApp(int appID) {
         for(App a: apps){
             if(a.getAppID() == appID){
@@ -139,12 +149,21 @@ public class Profile {
      */
 
     public void activate() {
+        if (isRationed) {
+            isRationBlocked = true;
+        }
         blockProfile();
     }
 
     public void deactivate() {
         time = "";
-        unblockProfile();
+
+        if (isRationed) {
+            unRationProfile();
+        }
+        else {
+            unblockProfile();
+        }
     }
 
     //returns the amount of times a profile is activated
@@ -200,6 +219,11 @@ public class Profile {
 
     public void unRationProfile() {
         isRationed = false;
+
+        if (isRationBlocked) {
+            unblockProfile();
+            isRationBlocked = false;
+        }
     }
 
     public HashSet<Integer> getAppIDs(){
@@ -274,6 +298,46 @@ public class Profile {
         }
         else{
             MM = Integer.toString(finishBlocking.get(Calendar.MINUTE));
+        }
+        time = HH + ":" + MM;
+        System.out.println("Time blocking will finish: " + time);
+    }
+
+    public void addTimeToEndOfDay() {
+        finishBlocking = Calendar.getInstance();
+        int hour = 24 - Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int min = 60 - Calendar.getInstance().get(Calendar.MINUTE);
+        if (min == 60) {
+            min = 0;
+        }
+        else {
+            hour--;
+        }
+        int addMinutes = (hour*60) + min;
+        finishBlocking.add(Calendar.MINUTE, addMinutes);
+        String HH = Integer.toString(finishBlocking.get(Calendar.HOUR));
+        String MM = "";
+        if (finishBlocking.get(Calendar.MINUTE) < 10) {
+            MM = "0" + Integer.toString(finishBlocking.get(Calendar.MINUTE));
+        }
+        else{
+            MM = Integer.toString(finishBlocking.get(Calendar.MINUTE));
+        }
+        time = HH + ":" + MM;
+        System.out.println("Time blocking will finish: " + time);
+    }
+
+    public void addTimeToRation(int min, int hour) {
+        finishRationing = Calendar.getInstance();
+        int addMinutes = (hour*60) + min;
+        finishRationing.add(Calendar.MINUTE, addMinutes);
+        String HH = Integer.toString(finishRationing.get(Calendar.HOUR));
+        String MM = "";
+        if (finishRationing.get(Calendar.MINUTE) < 10) {
+            MM = "0" + Integer.toString(finishRationing.get(Calendar.MINUTE));
+        }
+        else{
+            MM = Integer.toString(finishRationing.get(Calendar.MINUTE));
         }
         time = HH + ":" + MM;
         System.out.println("Time blocking will finish: " + time);
