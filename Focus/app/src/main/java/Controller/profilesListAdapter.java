@@ -28,6 +28,7 @@ public class profilesListAdapter extends ArrayAdapter<String>{
     private FocusModel focusModel;
     private Profile profile;
     public TextView timerText;
+    public TextView rationText;
     private Context context;
 
     public profilesListAdapter(@NonNull Context context, String[] profileNames, HashMap<String, Bitmap> hm) {
@@ -51,6 +52,7 @@ public class profilesListAdapter extends ArrayAdapter<String>{
         profile = focusModel.getProfile(name);
 
         timerText = (TextView) profilesView.findViewById(R.id.timer);
+        rationText = (TextView) profilesView.findViewById(R.id.ration);
         //sends the timerText to profile class so it can update automatically once a profile is blocked
 
 
