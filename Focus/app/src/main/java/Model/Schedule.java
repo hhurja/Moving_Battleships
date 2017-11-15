@@ -1,11 +1,18 @@
 package Model;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -22,7 +29,12 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
+import Controller.EditProfileListAdapter;
+import Controller.MainActivity;
+import movingbattleship.org.focus.R;
+
 import static android.content.ContentValues.TAG;
+import static android.media.CamcorderProfile.get;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -41,9 +53,9 @@ public class Schedule {
     Boolean invisible;
     Boolean isInRange;
     Boolean holiday_blocking;
-    HashMap<String, Long> holidays = new HashMap<String, Long> ();
+    Boolean confirmed_holiday_blocking;
+    HashMap<Calendar, String> holidays = new HashMap<Calendar, String> ();
     int color;
-
 
     public Schedule(int id, String name) {
         this.id = id;
@@ -54,6 +66,7 @@ public class Schedule {
         invisible = false;
         isInRange = false;
         holiday_blocking = false;
+        confirmed_holiday_blocking = false;
         Random rnd = new Random();
         color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         profiles = new ArrayList<>();
@@ -62,7 +75,30 @@ public class Schedule {
     }
 
     public void updateHolidays() {
-
+        try {
+            Context c = MainActivity.mContext;
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(c.getAssets().open("holidays.txt")));
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":");
+                String holidayName = parts[1];
+                String holidayDate = parts[0];
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                    Date date = sdf.parse(holidayDate);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(date);
+                    holidays.put(cal, holidayName);
+                }
+                catch (ParseException pe) {
+                    System.out.println("Date conversion not working");
+                }
+            }
+        }
+        catch (IOException ioe) {
+            System.out.println("reading text file not working");
+        }
     }
 
     public Schedule(int id, String scheduleName, ArrayList<String> days){
@@ -276,6 +312,42 @@ public class Schedule {
     }
 
     public boolean blockRanges() {
+        //this will initially prompt the user and ask if they wanna keep a schedule that is on a public holiday
+        if (confirmed_holiday_blocking == false) {
+            Calendar now = Calendar.getInstance();
+            for (Calendar key : holidays.keySet()) {
+                
+            }
+            /*
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setTitle("");
+
+            // Set up the buttons
+            builder.setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // remove application from profile
+                    focusModel.removeAppFromProfile(getBaseContext(), nameToPackage.get(name), profile.getProfileName());
+                    mListView = (ListView) findViewById(R.id.AppListView);
+                    ArrayList<App> apps = profile.getApps();
+                    String[] profileNames = new String[apps.size()];
+                    for (int i = 0; i < apps.size(); i++) {
+                        profileNames[i] = apps.get(i).getAppName();
+                    }
+                    ListAdapter adapter = new EditProfileListAdapter(getBaseContext(), profileNames, nameToPackage);
+                    mListView.setAdapter(adapter);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+            */
+        }
         /*
         boolean hasBlocked = false;
         ArrayList<Profile> profilesToBlock = new ArrayList<>();
@@ -304,11 +376,10 @@ public class Schedule {
         isInRange = false;
         return false;
         */
-        Long today = Calendar.getInstance().getTimeInMillis();
 
         isInRange = false;
         for(TimeRange tr: timeRanges){
-            if (tr.inRange()){
+            if (tr.inRange() && holiday_blocking == false){
                 isInRange = true;
                 for(Profile p: tr.getProfiles()){
                     p.blockProfile();
