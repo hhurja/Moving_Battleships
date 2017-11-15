@@ -108,7 +108,10 @@ public class Profile {
         if (startActivation != null && endActivation == null) {
             return ((Calendar.getInstance().getTimeInMillis()/1000) - (startActivation.getTime()/1000));
         }
-        return activationTime;
+        else {
+            System.out.println("ooooer here");
+            return activationTime;
+        }
     }
 
     public long getTimeRemaining() {

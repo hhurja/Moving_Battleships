@@ -1,16 +1,19 @@
 package Controller;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -20,6 +23,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,6 +38,7 @@ import movingbattleship.org.focus.R;
 
 import static movingbattleship.org.focus.R.id.rationLeft;
 import static movingbattleship.org.focus.R.id.startBlocking;
+import static movingbattleship.org.focus.R.id.textView;
 import static movingbattleship.org.focus.R.id.timer;
 
 /**
@@ -343,19 +348,44 @@ public class EditProfile extends AppCompatActivity {
         see_usage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                final View v = view;
+                final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Usage Information");
-                long activationTime = profile.getActivationTime();
-                int activationCount = profile.getActivationCount();
-                String msg = "Total time profile has been blocked: " + "\n" + "\n";
-                if (activationTime/60 > 0) {
-                    msg = msg + Long.toString(activationTime%60) + " minutes" + "\n" + "Total count of times profile has been activated: " + Integer.toString(activationCount);
-                }
-                else {
-                    msg = msg + Long.toString(activationTime) + " seconds" + "\n" + "Total count of times profile has been activated: " + Integer.toString(activationCount);
-                }
-                builder.setMessage(msg);
-                builder.setCancelable(true);
+                builder.setIcon(R.drawable.analytics);
+                final String[] options = {
+                        "Usage per Day", "Usage per Week", "Usage per Month"
+                };
+                builder.setItems(options, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder option = new AlertDialog.Builder(v.getContext());
+                        option.setTitle("Usage Information");
+                        option.setIcon(R.drawable.analytics);
+                        long activationTime = profile.getActivationTime();
+                        int activationCount = profile.getActivationCount();
+                        String msg = "Total time profile has been blocked for: ";
+                        if (activationTime/60 > 0) {
+                            msg = msg + Long.toString(activationTime%60) + " minutes" + "\n" + "\n" + "Total count of times profile has been activated: " + Integer.toString(activationCount) + " times";
+                        }
+                        else {
+                            msg = msg + Long.toString(activationTime) + " seconds" + "\n" + "\n" + "Total count of times profile has been activated: " + Integer.toString(activationCount) + " times";
+                        }
+                        option.setMessage(msg);
+                        option.setCancelable(true);
+                        option.setOnKeyListener(new Dialog.OnKeyListener() {
+                            @Override
+                            public boolean onKey(DialogInterface arg0, int keyCode,
+                                                 KeyEvent event) {
+                                // TODO Auto-generated method stub
+                                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                    builder.show();
+                                }
+                                return true;
+                            }
+                        });
+                        option.show();
+                    }});
+
                 builder.show();
             }
         });
@@ -394,6 +424,9 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
+    private void openDialog() {
+
+    }
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
