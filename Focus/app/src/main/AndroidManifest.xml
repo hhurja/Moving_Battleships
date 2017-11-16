@@ -44,6 +44,9 @@
             android:name="Controller.DialogActivity"
             android:theme="@android:style/Theme.Holo.Light.Dialog" />
         <activity
+            android:name="Controller.HolidayBlocking"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" />
+        <activity
             android:name=".activity_edit_schedules"
             android:label="@string/title_activity_edit_schedules"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -13,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
     //private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
     private AlertDialog enableNotificationListenerAlertDialog;
-
+    public static boolean holiday_blocking = false;
     //Variables for sending notifications
     public static int NotificationID = 0;
     public static String CHANNEL_ID = "my_channel_id";
@@ -73,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = this.getApplicationContext();
-
         // If the user did not turn the notification listener service on we prompt him to do so
         if(!isNotificationServiceEnabled()){
             System.out.println("showing notification service dialogue");
@@ -90,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
         PackageManager pm = getPackageManager();
         UsageStatsManager usm = (UsageStatsManager)getSystemService(Context.USAGE_STATS_SERVICE);
         AppProcessChecker apc = new AppProcessChecker(c, pm, usm, m);
-        FocusModel fm = FocusModel.getInstance(apc, hm);
-
         /*
         String name = "ExampleProfile";
         fm.createNewProfile(name);
@@ -131,12 +130,18 @@ public class MainActivity extends AppCompatActivity {
         fm.createDatabase(mDatabaseHelper);
     }
 
+    public static void promptHolidayBlocking() {
+        Intent i = new Intent(MainActivity.mContext, HolidayBlocking.class);
+        MainActivity.mContext.startActivity(i);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -156,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // return super.onOptionsItemSelected(item);
     }
+
 
     public static Context getAppContext(){
         return mContext;

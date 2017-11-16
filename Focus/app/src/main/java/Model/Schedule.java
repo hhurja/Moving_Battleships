@@ -1,5 +1,6 @@
 package Model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.AssetManager;
@@ -8,8 +9,13 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.view.View;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -310,38 +316,7 @@ public class Schedule {
     public boolean isVisible(){
         return !invisible;
     }
-
     public boolean blockRanges() {
-        String holiday_name = "";
-        //this will initially prompt the user and ask if they wanna keep a schedule that is on a public holiday
-        Calendar now = Calendar.getInstance();
-        confirmed_holiday_blocking = true;
-        for (Calendar key : holidays.keySet()) {
-            boolean sameDay = now.get(Calendar.YEAR) == key.get(Calendar.YEAR) &&
-                    now.get(Calendar.DAY_OF_YEAR) == key.get(Calendar.DAY_OF_YEAR);
-            if (sameDay) {
-                if (confirmed_holiday_blocking == false) {
-                    confirmed_holiday_blocking = true;
-                    holiday_name = holidays.get(key);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.mContext.getApplicationContext());
-                    builder.setTitle("Today is " + holiday_name + "! Would you like to block this schedule today?");
-                    // Set up the buttons
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            holiday_blocking = false;
-                        }
-                    });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            holiday_blocking = true;
-                        }
-                    });
-                    builder.show();
-                }
-            }
-        }
         /*
         boolean hasBlocked = false;
         ArrayList<Profile> profilesToBlock = new ArrayList<>();
@@ -373,17 +348,28 @@ public class Schedule {
 
         isInRange = false;
         for(TimeRange tr: timeRanges){
-            if (tr.inRange() && holiday_blocking == false){
-
+            String holiday_name = "";
+            //this will initially prompt the user and ask if they wanna keep a schedule that is on a public holiday
+            Calendar now = Calendar.getInstance();
+            for (Calendar key : holidays.keySet()) {
+                boolean sameDay = now.get(Calendar.YEAR) == key.get(Calendar.YEAR) &&
+                        now.get(Calendar.DAY_OF_YEAR) == key.get(Calendar.DAY_OF_YEAR);
+                if (sameDay) {
+                    //dont block schedule
+                }
+            }
+            if (tr.inRange() && holiday_blocking == false) {
                 isInRange = true;
-                for(Profile p: tr.getProfiles()){
+                for (Profile p : tr.getProfiles()) {
                     p.blockProfile();
                     p.addScheduleID(id);
                 }
-            }else{
+            }
+            else{
                 for(Profile p: tr.getProfiles()){
                     p.unblockProfile();
                     p.removeScheduleID(id);
+                    MainActivity.holiday_blocking = false;
                 }
             }
         }
