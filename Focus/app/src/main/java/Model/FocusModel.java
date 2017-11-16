@@ -1017,7 +1017,6 @@ public class FocusModel extends Thread{
                             Intent intent = new Intent(apc.mainActivity, DialogActivity.class);
                             apc.mainActivity.startActivity(intent);
                         }
-                        return;
                     }
                 }
             }
