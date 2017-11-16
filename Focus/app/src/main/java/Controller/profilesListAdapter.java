@@ -55,6 +55,19 @@ public class profilesListAdapter extends ArrayAdapter<String>{
         rationText = (TextView) profilesView.findViewById(R.id.ration);
         //sends the timerText to profile class so it can update automatically once a profile is blocked
 
+        if (profile.getTimeRationRemaining() > 0) {
+            long millisUntilFinished = profile.getTimeRationRemaining();
+            String timerStr = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+                            - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
+            );
+            rationText.setText("Ration time left: " + timerStr);
+        } else {
+            rationText.setText("No Rationing");
+        }
+
 
         if (profile.isActivated()) {
             timerText.setVisibility(TextView.VISIBLE);

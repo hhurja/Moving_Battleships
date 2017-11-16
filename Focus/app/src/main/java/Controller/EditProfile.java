@@ -90,6 +90,7 @@ public class EditProfile extends AppCompatActivity {
 
         @Override
         public void onTick(long millisUntilFinished) {
+            millisUntilFinished = profile.getTimeRationRemaining();
             String timerStr = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
                     TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
                             - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
@@ -98,6 +99,9 @@ public class EditProfile extends AppCompatActivity {
             );
             // TODO: only decrement if app is being used
             rationText.setText("Ration time left: " + timerStr);
+            if (millisUntilFinished <= 0) {
+                rationText.setText("No Rationing");
+            }
         }
 
         @Override
@@ -235,13 +239,17 @@ public class EditProfile extends AppCompatActivity {
 
         if (profile != null) {
             profile.getView(timerText, fab_start);
-            if (profile.isActivated()) {
+            if (profile.isActivated() || profile.isRationed) {
                 fab_start.setBackgroundColor(Color.RED);
                 fab_start.setText("Deactivate This Profile");
             }
             else {
                 fab_start.setBackgroundColor(Color.GREEN);
                 fab_start.setText("Activate This Profile");
+            }
+            if (profile.getTimeRationRemaining() > 0) {
+                rationTimer = new RationTimerClass(profile.getTimeRationRemaining(), 1000);
+                rationTimer.start();
             }
         }
 
@@ -361,7 +369,8 @@ public class EditProfile extends AppCompatActivity {
                                 showErrorMessage(myView);
                                 return;
                             }
-                            rationTimer = new RationTimerClass((TimeUnit.HOURS.toMillis(hourBoxNum) + TimeUnit.MINUTES.toMillis(minuteBoxNum)), 1000);
+                            focusModel.rationProfile(profile.getProfileName(), hourBoxNum,  minuteBoxNum);
+                            rationTimer = new RationTimerClass(profile.getTimeRationRemaining(), 1000);
                             rationTimer.start();
                             fab_start.setText("Deactivate This Profile");
                             fab_start.setBackgroundColor(Color.RED);
@@ -377,6 +386,11 @@ public class EditProfile extends AppCompatActivity {
                 }
                 if(fab_start.getText().equals("Deactivate This Profile")){
                     profile.deactivate();
+                    // if profile is rationed, turn rationing off
+                    if (profile.isRationed) {
+                        focusModel.unRationProfile(profile.getProfileName());
+                        rationText.setText("No Rationing");
+                    }
                     blockTimer = null;
                     timerText.setVisibility(TextView.INVISIBLE);
                     rationText.setText("No Rationing");

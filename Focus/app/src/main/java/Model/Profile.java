@@ -220,6 +220,7 @@ public class Profile {
 
     public void unRationProfile() {
         isRationed = false;
+        rationTime = 0;
 
         if (isRationBlocked) {
             unblockProfile();
