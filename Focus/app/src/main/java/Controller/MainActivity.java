@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         PackageManager pm = getPackageManager();
         UsageStatsManager usm = (UsageStatsManager)getSystemService(Context.USAGE_STATS_SERVICE);
         AppProcessChecker apc = new AppProcessChecker(c, pm, usm, m);
+        FocusModel fm = FocusModel.getInstance(apc, hm);
         /*
         String name = "ExampleProfile";
         fm.createNewProfile(name);
