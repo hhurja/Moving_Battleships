@@ -51,7 +51,6 @@ public class Profile {
     public boolean isRationed;
     public boolean isRationBlocked;
     public int rationTime;
-    public Calendar finishRationing;
 
     /**
      * Constructors
@@ -124,11 +123,13 @@ public class Profile {
         return finishBlocking.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
     }
 
+    //return ration time remaining in milliseconds
     public long getTimeRationRemaining() {
-        if (finishRationing == null) {
+        if (rationTime <= 0) {
             return 0;
         }
-        return finishRationing.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
+        //ration time is in seconds so mulitply by 1000
+        return rationTime * 1000;
     }
 
     public void removeApp(int appID) {
@@ -322,22 +323,6 @@ public class Profile {
         }
         else{
             MM = Integer.toString(finishBlocking.get(Calendar.MINUTE));
-        }
-        time = HH + ":" + MM;
-        System.out.println("Time blocking will finish: " + time);
-    }
-
-    public void addTimeToRation(int min, int hour) {
-        finishRationing = Calendar.getInstance();
-        int addMinutes = (hour*60) + min;
-        finishRationing.add(Calendar.MINUTE, addMinutes);
-        String HH = Integer.toString(finishRationing.get(Calendar.HOUR));
-        String MM = "";
-        if (finishRationing.get(Calendar.MINUTE) < 10) {
-            MM = "0" + Integer.toString(finishRationing.get(Calendar.MINUTE));
-        }
-        else{
-            MM = Integer.toString(finishRationing.get(Calendar.MINUTE));
         }
         time = HH + ":" + MM;
         System.out.println("Time blocking will finish: " + time);
