@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.prefs.PreferencesFactory;
+import java.util.Date;
+
 
 public class TimeRange {
 
@@ -26,6 +28,7 @@ public class TimeRange {
     private boolean thursday;
     private boolean friday;
     private boolean saturday;
+    private HashMap<Date, Date> dates;
 
     private ArrayList<Profile> profiles;
 
@@ -70,6 +73,7 @@ public class TimeRange {
         thursday = false;
         friday = false;
         saturday = false;
+        dates = new HashMap<Date, Date>();
 
         dayMap = new HashMap<>();
 
@@ -98,6 +102,7 @@ public class TimeRange {
         thursday = false;
         friday = false;
         saturday = false;
+        dates = new HashMap<Date, Date>();
 
         dayMap = new HashMap<>();
 
@@ -132,6 +137,245 @@ public class TimeRange {
             if(S.toLowerCase().equals("friday")) friday = true;
             if(S.toLowerCase().equals("saturday")) saturday = true;
         }
+        //add to the dates hashmap
+        updateDateHM();
+    }
+    public void updateDateHM() {
+        Date now = Calendar.getInstance().getTime();
+        Calendar today = Calendar.getInstance();
+        int day = today.get(Calendar.DAY_OF_WEEK);
+        if (sunday == true) {
+            Calendar start = today;
+            Calendar end = today;
+            if (day == Calendar.SUNDAY) {
+                System.out.println("Start Hour" + startHour);
+                System.out.println("End Hour: " + endHour);
+                //set the startDate
+                start.set(Calendar.HOUR_OF_DAY, startHour);
+                start.set(Calendar.MINUTE, startMinute);
+                start.set(Calendar.SECOND, 0);
+                Date startDate = start.getTime();
+                //set the endDate
+                end.set(Calendar.HOUR_OF_DAY, endHour);
+                end.set(Calendar.MINUTE, endMinute);
+                end.set(Calendar.SECOND, 0);
+                Date endDate = end.getTime();
+                //add start date and end date to hashmap
+                System.out.println(startDate);
+                System.out.println(endDate);
+                dates.put(startDate, endDate);
+            }
+            else {
+                Date startDate = today.getTime();
+                Date endDate = today.getTime();
+                startDate.setDate(startDate.getDate() + (7 + 0 - startDate.getDay()) % 7);
+                startDate.setHours(startHour);
+                startDate.setMinutes(startMinute);
+                startDate.setSeconds(0);
+                endDate.setDate(startDate.getDate() + (7 + 0 - startDate.getDay()) % 7);
+                endDate.setHours(endHour);
+                endDate.setMinutes(endMinute);
+                System.out.println("Starting time: " + startDate);
+                System.out.println("Ending time: " + endDate);
+                dates.put(startDate, endDate);
+            }
+        }
+        if (monday == true) {
+            Calendar start = today;
+            Calendar end = today;
+            if (day == Calendar.MONDAY) {
+                //set the startDate
+                start.set(Calendar.HOUR_OF_DAY, startHour);
+                start.set(Calendar.MINUTE, startMinute);
+                start.set(Calendar.SECOND, 0);
+                Date startDate = start.getTime();
+                //set the endDate
+                end.set(Calendar.HOUR_OF_DAY, endHour);
+                end.set(Calendar.MINUTE, endMinute);
+                end.set(Calendar.SECOND, 0);
+                Date endDate = end.getTime();
+                //add start date and end date to hashmap
+                System.out.println(startDate);
+                System.out.println(endDate);
+                dates.put(startDate, endDate);
+            }
+            else {
+                Date startDate = today.getTime();
+                Date endDate = today.getTime();
+                startDate.setDate(startDate.getDate() + (7 + 1 - startDate.getDay()) % 7);
+                startDate.setHours(startHour);
+                startDate.setMinutes(startMinute);
+                startDate.setSeconds(0);
+                endDate.setDate(startDate.getDate() + (7 + 1 - startDate.getDay()) % 7);
+                endDate.setHours(endHour);
+                endDate.setMinutes(endMinute);
+                dates.put(startDate, endDate);
+            }
+        }
+        if (tuesday == true) {
+            Calendar start = today;
+            Calendar end = today;
+            if (day == Calendar.TUESDAY) {
+                //set the startDate
+                start.set(Calendar.HOUR_OF_DAY, startHour);
+                start.set(Calendar.MINUTE, startMinute);
+                start.set(Calendar.SECOND, 0);
+                Date startDate = start.getTime();
+                //set the endDate
+                end.set(Calendar.HOUR_OF_DAY, endHour);
+                end.set(Calendar.MINUTE, endMinute);
+                end.set(Calendar.SECOND, 0);
+                Date endDate = end.getTime();
+                //add start date and end date to hashmap
+                System.out.println(startDate);
+                System.out.println(endDate);
+                dates.put(startDate, endDate);
+            }
+            else {
+                Date startDate = today.getTime();
+                Date endDate = today.getTime();
+                startDate.setDate(startDate.getDate() + (7 + 2 - startDate.getDay()) % 7);
+                startDate.setHours(startHour);
+                startDate.setMinutes(startMinute);
+                startDate.setSeconds(0);
+                endDate.setDate(startDate.getDate() + (7 + 2 - startDate.getDay()) % 7);
+                endDate.setHours(endHour);
+                endDate.setMinutes(endMinute);
+                dates.put(startDate, endDate);
+            }
+        }
+        if (wednesday == true) {
+            Calendar start = today;
+            Calendar end = today;
+            if (day == Calendar.WEDNESDAY) {
+                //set the startDate
+                start.set(Calendar.HOUR_OF_DAY, startHour);
+                start.set(Calendar.MINUTE, startMinute);
+                start.set(Calendar.SECOND, 0);
+                Date startDate = start.getTime();
+                //set the endDate
+                end.set(Calendar.HOUR_OF_DAY, endHour);
+                end.set(Calendar.MINUTE, endMinute);
+                end.set(Calendar.SECOND, 0);
+                Date endDate = end.getTime();
+                //add start date and end date to hashmap
+                System.out.println(startDate);
+                System.out.println(endDate);
+                dates.put(startDate, endDate);
+            }
+            else {
+                Date startDate = today.getTime();
+                Date endDate = today.getTime();
+                startDate.setDate(startDate.getDate() + (7 + 3 - startDate.getDay()) % 7);
+                startDate.setHours(startHour);
+                startDate.setMinutes(startMinute);
+                startDate.setSeconds(0);
+                endDate.setDate(startDate.getDate() + (7 + 3 - startDate.getDay()) % 7);
+                endDate.setHours(endHour);
+                endDate.setMinutes(endMinute);
+                dates.put(startDate, endDate);
+            }
+        }
+        if (thursday == true) {
+            Calendar start = today;
+            Calendar end = today;
+            if (day == Calendar.THURSDAY) {
+                //set the startDate
+                start.set(Calendar.HOUR_OF_DAY, startHour);
+                start.set(Calendar.MINUTE, startMinute);
+                start.set(Calendar.SECOND, 0);
+                Date startDate = start.getTime();
+                //set the endDate
+                end.set(Calendar.HOUR_OF_DAY, endHour);
+                end.set(Calendar.MINUTE, endMinute);
+                end.set(Calendar.SECOND, 0);
+                Date endDate = end.getTime();
+                //add start date and end date to hashmap
+                System.out.println(startDate);
+                System.out.println(endDate);
+                dates.put(startDate, endDate);
+            }
+            else {
+                Date startDate = today.getTime();
+                Date endDate = today.getTime();
+                startDate.setDate(startDate.getDate() + (7 + 4 - startDate.getDay()) % 7);
+                startDate.setHours(startHour);
+                startDate.setMinutes(startMinute);
+                startDate.setSeconds(0);
+                endDate.setDate(startDate.getDate() + (7 + 4 - startDate.getDay()) % 7);
+                endDate.setHours(endHour);
+                endDate.setMinutes(endMinute);
+                dates.put(startDate, endDate);
+            }
+        }
+        if (friday == true) {
+            Calendar start = today;
+            Calendar end = today;
+            if (day == Calendar.FRIDAY) {
+                //set the startDate
+                start.set(Calendar.HOUR_OF_DAY, startHour);
+                start.set(Calendar.MINUTE, startMinute);
+                start.set(Calendar.SECOND, 0);
+                Date startDate = start.getTime();
+                //set the endDate
+                end.set(Calendar.HOUR_OF_DAY, endHour);
+                end.set(Calendar.MINUTE, endMinute);
+                end.set(Calendar.SECOND, 0);
+                Date endDate = end.getTime();
+                //add start date and end date to hashmap
+                System.out.println(startDate);
+                System.out.println(endDate);
+                dates.put(startDate, endDate);
+            }
+            else {
+                Date startDate = today.getTime();
+                Date endDate = today.getTime();
+                startDate.setDate(startDate.getDate() + (7 + 5 - startDate.getDay()) % 7);
+                startDate.setHours(startHour);
+                startDate.setMinutes(startMinute);
+                startDate.setSeconds(0);
+                endDate.setDate(startDate.getDate() + (7 + 5 - startDate.getDay()) % 7);
+                endDate.setHours(endHour);
+                endDate.setMinutes(endMinute);
+                dates.put(startDate, endDate);
+            }
+        }
+        if (saturday == true) {
+            Calendar start = today;
+            Calendar end = today;
+            if (day == Calendar.SATURDAY) {
+                //set the startDate
+                start.set(Calendar.HOUR_OF_DAY, startHour);
+                start.set(Calendar.MINUTE, startMinute);
+                start.set(Calendar.SECOND, 0);
+                Date startDate = start.getTime();
+                //set the endDate
+                end.set(Calendar.HOUR_OF_DAY, endHour);
+                end.set(Calendar.MINUTE, endMinute);
+                end.set(Calendar.SECOND, 0);
+                Date endDate = end.getTime();
+                //add start date and end date to hashmap
+                System.out.println(startDate);
+                System.out.println(endDate);
+                dates.put(startDate, endDate);
+            }
+            else {
+                Date startDate = today.getTime();
+                Date endDate = today.getTime();
+                startDate.setDate(startDate.getDate() + (7 + 6 - startDate.getDay()) % 7);
+                startDate.setHours(startHour);
+                startDate.setMinutes(startMinute);
+                startDate.setSeconds(0);
+                endDate.setDate(startDate.getDate() + (7 + 6 - startDate.getDay()) % 7);
+                endDate.setHours(endHour);
+                endDate.setMinutes(endMinute);
+                dates.put(startDate, endDate);
+            }
+        }
+    }
+
+    public HashMap<Date, Date> getDates() {
+        return dates;
     }
 
     public boolean isRepeating(){
