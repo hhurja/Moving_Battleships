@@ -2,13 +2,139 @@
 <items version="2" >
 
     <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client-android/1.23.0/b95521559faf49989ff036a5b15fd16476bdc955/google-api-client-android-1.23.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="b95521559faf49989ff036a5b15fd16476bdc955">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/google-api-client-android-1.23.0_aa7b66010e1ecf68d4b3a5d3a6556a10a44363cf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.android/build-cache/c46bc3e43288b0e14b3b28ecef481123e1202363/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="364364bf77b4a71afc5930fc3ae57b3f0eea637c">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/classes_585e00275040d95009a5b6f1e447f9c02462a949.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.android/build-cache/b69b0769328eaf4ca195903342b854ae85e3be19/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="2430e711762a749feb00b3d64858ca4768251b9d">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/classes_48b8ab03e2ffc457cfe3ddb99ceeec884db6452c.jar" />
+    </item>
+    <item
         is-multidex="true"
         jar="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
-        sha1="fa13c0f0ebf5160b66293861bb7a832bf5960c33">
+        sha1="5b17185c03feee2983e67544ceb72d45529e10b6">
         <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_90a3c8bc5c1abbe7e68efc0d0e6e174fc54307ef/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.23.0/e57ea1e2220bda5a2bd24ff17860212861f3c5cf/google-oauth-client-1.23.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="e57ea1e2220bda5a2bd24ff17860212861f3c5cf">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/google-oauth-client-1.23.0_c46191c50753694e5505397dbcbe4a3f61386d71.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-calendar/v3-rev265-1.23.0/bc06604f791d77508250c984a95046ecc94cfce7/google-api-services-calendar-v3-rev265-1.23.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="bc06604f791d77508250c984a95046ecc94cfce7">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/google-api-services-calendar-v3-rev265-1.23.0_4a472ec41708c3f6a669272309ad58f4e823f1a0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.android/build-cache/7cde6757d22b42fce01bb3da2a0099dbabc97d09/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="93b7d6ba3bb340e935bf7a36408eb3455264b759">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/classes_e227f2775954930cdd5c2841c5fdaf51a2733ad4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.23.0/522ea860eb48dee71dfe2c61a1fd09663539f556/google-api-client-1.23.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="522ea860eb48dee71dfe2c61a1fd09663539f556">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/google-api-client-1.23.0_8f33b04cb06db33c059bcc3d2641cd83e4742bdc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.android/build-cache/5ada7f7f98c4e2cde3e97ca6e19493dffde898f1/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="70ffe00aaf049893f59d1dad57bd82992faa38ef">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/classes_e5a39624ee7cc971e810e5f8c1cb1a2db9ca75a4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson2/1.23.0/fd6761f4046a8cb0455e6fa5f58e12b061e9826e/google-http-client-jackson2-1.23.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="fd6761f4046a8cb0455e6fa5f58e12b061e9826e">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/google-http-client-jackson2-1.23.0_c371416dc7a34f9e8456ebf4e1fdc907e5e3de5c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/jsr305-1.3.9_6fc02e7ef7b9541d8c7a6714d3ab648899f976a0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-oauth2/v2-rev131-1.23.0/86c9094a1d1b76d2e4e1ea98fd185ad45448989a/google-api-services-oauth2-v2-rev131-1.23.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="86c9094a1d1b76d2e4e1ea98fd185ad45448989a">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/google-api-services-oauth2-v2-rev131-1.23.0_96d353832634588470b611b79dc7256c4cb8080b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.android/build-cache/856807b2967ed1166d421f95aee0db086320faa9/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="0bffdc0bd4f7ca0e27c5bfeef39569f8da00aa26">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/classes_d3817891c6e802041d21605451b14da2ad1d352c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-android/1.23.0/1bbe77a8594d7892571266392b8a7dd0a5980664/google-http-client-android-1.23.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="1bbe77a8594d7892571266392b8a7dd0a5980664">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/google-http-client-android-1.23.0_7754fc6f48b7285f835a2dd3b7838ca87cd00a1e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.android/build-cache/2165572ec891e183a6384f35d1adbcc510f5e696/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="f5ff5e3811e8c9485fd27f9052ae4d4d23a22d9d">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/classes_0d38aa674fc3b96630dcfef0953ae1750efc0712.jar" />
     </item>
     <item
         is-multidex="true"
@@ -20,13 +146,31 @@
         <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_4b0f8641c12471f6d0a95668a126651602239c37/classes.dex" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/adammoffitt/.android/build-cache/2a201f50a7e52c5cd8d5761066a79b939075b591/output/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.google.guava/guava-jdk5/17.0/463f8378feba44df7ba7cd9272d01837dad62b36/guava-jdk5-17.0.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.2"
-        sha1="e918cb1180dbbd0a259a6da8356a762abc314f99">
-        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_244c07bc7ecfb0276cc4f974ae6a664cc5ef977b/classes.dex" />
+        sha1="463f8378feba44df7ba7cd9272d01837dad62b36">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/guava-jdk5-17.0_c972e7a9d7bf97f715377d24bd81912aa40ab066.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.23.0/8e86c84ff3c98eca6423e97780325b299133d858/google-http-client-1.23.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="8e86c84ff3c98eca6423e97780325b299133d858">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/google-http-client-1.23.0_6f1ed9400d9aaac96750df0c61b8d69e68cad3d5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/adammoffitt/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.1.3/f6c3aed1cdfa21b5c1737c915186ea93a95a58bd/jackson-core-2.1.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="f6c3aed1cdfa21b5c1737c915186ea93a95a58bd">
+        <dex dex="/Users/adammoffitt/Documents/USC Fall 2017/CS310/Moving_Battleships/Focus/app/build/intermediates/pre-dexed/debug/jackson-core-2.1.3_453dd4169c67c8d261d3a8c38cb110aebfa73202.jar" />
     </item>
 
 </items>

@@ -13,8 +13,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
-import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -156,6 +154,10 @@ public class MainActivity extends AppCompatActivity {
                 // ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(Uri.parse("https://developers.facebook.com")).build();
 
                 // startActivity(new Intent(this, About.class));
+                return true;
+            case R.id.google_calendar:
+                Intent intent = new Intent(MainActivity.mContext, GoogleCalendarActivity.class);
+                MainActivity.mContext.startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

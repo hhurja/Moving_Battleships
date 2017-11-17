@@ -36,6 +36,11 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
+            android:name="Controller.GoogleCalendarActivity"
+            android:label="GCalendar"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
             android:name="Controller.AppChooser"
             android:label="Profile"
             android:theme="@style/AppTheme">

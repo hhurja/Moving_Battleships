@@ -206,6 +206,7 @@ public class profilesListViewController extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         // CITED: https://stackoverflow.com/questions/10903754/input-text-dialog-android
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                         builder.setTitle("Create Profile");

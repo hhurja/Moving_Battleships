@@ -74,7 +74,12 @@ public class schedulesListViewController extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getName(v);
+
+//                        Intent intent = new Intent(schedulesListViewController.mContext, GoogleCalendarActivity.class);
+//                        //ep.setProfile(p);
+//                        schedulesListViewController.mContext.startActivity(intent);
+
+                         getName(v);
                     }
                 });
 

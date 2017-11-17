@@ -4,4 +4,6 @@
     tools:context="movingbattleship.org.focus.Controller.MainActivity" >
     <item android:id="@+id/share_facebook"
         android:title="@string/share_facebook"/>
+    <item android:id="@+id/google_calendar"
+        android:title="@string/google_calendar"/>
 </menu>

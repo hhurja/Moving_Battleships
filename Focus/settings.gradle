@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':facebook', ':google-api-services-oauth2-v2-rev131-1.23.0', ':google-api-client-java6-1.23.0'

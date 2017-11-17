@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('google-api-services-oauth2-v2-rev131-1.23.0.jar'))
