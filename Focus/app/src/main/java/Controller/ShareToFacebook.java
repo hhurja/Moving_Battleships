@@ -13,19 +13,12 @@ import Model.FocusModel;
 import Model.Schedule;
 import movingbattleship.org.focus.R;
 
-public class HolidayBlocking extends Activity implements View.OnClickListener {
-
-    Button block;
-    Button dont_block;
+public class ShareToFacebook extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.holiday_blocking);
-        block = (Button) findViewById(R.id.yes_block_id);
-        block.setOnClickListener(this);
-        dont_block = (Button) findViewById(R.id.no_block_id);
-        dont_block.setOnClickListener(this);
     }
 
     @Override

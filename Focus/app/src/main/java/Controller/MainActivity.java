@@ -37,6 +37,7 @@ import Model.FocusModel;
 import Model.Schedule;
 import movingbattleship.org.focus.R;
 
+import static android.R.attr.description;
 import static android.R.attr.id;
 import static android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS;
 
@@ -151,11 +152,26 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.share_facebook:
+                Intent i = this.getPackageManager().getLaunchIntentForPackage("com.facebook.katana");
+                if (i != null) {
+                    // The application exists
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.setPackage("com.facebook.katana");
 
+                    shareIntent.putExtra(android.content.Intent.EXTRA_TITLE, "Share");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, description);
+                    // Start the specific social application
+                    this.startActivity(shareIntent);
+                } else {
+                    // The application does not exist
+                    // Open GooglePlay or use the default system picker
+                }
+
+                return true;
                 // ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(Uri.parse("https://developers.facebook.com")).build();
 
                 // startActivity(new Intent(this, About.class));
-                return true;
             case R.id.google_calendar:
                 Intent intent = new Intent(MainActivity.mContext, GoogleCalendarActivity.class);
                 MainActivity.mContext.startActivity(intent);

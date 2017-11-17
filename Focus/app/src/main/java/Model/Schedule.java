@@ -62,7 +62,7 @@ public class Schedule {
     Boolean isInRange;
     HashMap<Calendar, String> holidays = new HashMap<Calendar, String> ();
     int color;
-
+    Boolean today_is_holiday = false;
     public Schedule(int id, String name) {
         this.id = id;
         this.name = name;
@@ -349,7 +349,6 @@ public class Schedule {
             String holiday_name = "";
             //if it is the same day and holiday blocking has not been prompted yet
             //then ask the user to choose if it should be blocked and block accordingly
-            boolean today_is_holiday = false;
             if (tr.inRange()) {
                 Calendar now = Calendar.getInstance();
                 for (Calendar key : holidays.keySet()) {
