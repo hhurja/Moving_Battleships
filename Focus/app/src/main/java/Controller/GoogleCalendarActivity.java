@@ -155,12 +155,16 @@ public class GoogleCalendarActivity extends Activity
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
                 this, Manifest.permission.GET_ACCOUNTS)) {
+            System.out.println("8");
             String accountName = getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
+                System.out.println("9");
                 mCredential.setSelectedAccountName(accountName);
                 getResultsFromApi();
+                System.out.println("10");
             } else {
+                System.out.println("11");
                 // Start a dialog from which the user can choose an account
                 startActivityForResult(
                         mCredential.newChooseAccountIntent(),
@@ -168,11 +172,13 @@ public class GoogleCalendarActivity extends Activity
             }
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
+            System.out.println("12");
             EasyPermissions.requestPermissions(
                     this,
                     "This app needs to access your Google account (via Contacts).",
                     REQUEST_PERMISSION_GET_ACCOUNTS,
-                    Manifest.permission.GET_ACCOUNTS);
+                    new String[]{Manifest.permission.GET_ACCOUNTS});
+            System.out.println("13");
         }
     }
 

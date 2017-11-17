@@ -24,11 +24,13 @@ import android.widget.TimePicker;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
+import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
@@ -64,6 +66,7 @@ public class EditSchedule extends AppCompatActivity {
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
+    GoogleAccountCredential mCredential;
     /** Application name. */
     private static final String APPLICATION_NAME =
             "Google Calendar API Focus!";
@@ -234,6 +237,11 @@ public class EditSchedule extends AppCompatActivity {
                     }
                 }
         );
+
+        // Initialize credentials and service object.
+        mCredential = GoogleAccountCredential.usingOAuth2(
+                getApplicationContext(), SCOPES)
+                .setBackOff(new ExponentialBackOff());
     }
 
     public void remove ( TimeRange tr, View v ) {
@@ -691,8 +699,11 @@ public class EditSchedule extends AppCompatActivity {
             event.setReminders(reminders);
             String calendarId = "primary";
             //event.send
-        if (mService != null)
-                mService.events().insert(calendarId, event).setSendNotifications(true).execute();
+        if (mService != null) {
+            System.out.println("inserting into calendar");
+            mService.events().insert(calendarId, event).setSendNotifications(true).execute();
+        }
+
             //TODO Event recurringEvent = service.events().insert("primary", event).execute();
         }
     }
