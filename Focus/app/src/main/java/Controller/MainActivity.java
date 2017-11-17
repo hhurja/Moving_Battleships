@@ -152,22 +152,16 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.share_facebook:
-                Intent i = this.getPackageManager().getLaunchIntentForPackage("com.facebook.katana");
-                if (i != null) {
-                    // The application exists
-                    Intent shareIntent = new Intent();
-                    shareIntent.setAction(Intent.ACTION_SEND);
-                    shareIntent.setPackage("com.facebook.katana");
-
-                    shareIntent.putExtra(android.content.Intent.EXTRA_TITLE, "Share");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, description);
-                    // Start the specific social application
-                    this.startActivity(shareIntent);
-                } else {
-                    // The application does not exist
-                    // Open GooglePlay or use the default system picker
+                try {
+                    final String appPackageName = this.getPackageName();
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Check out Focus! on Google Play: https://play.google.com/store/");
+                    sendIntent.setType("text/plain");
+                    this.startActivity(sendIntent);
+                } catch(Exception e) {
+                    //e.toString();
                 }
-
                 return true;
                 // ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(Uri.parse("https://developers.facebook.com")).build();
 
