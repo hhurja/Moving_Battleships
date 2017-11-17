@@ -3,6 +3,7 @@ package Model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -35,6 +36,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
+import Controller.DialogActivity;
 import Controller.EditProfileListAdapter;
 import Controller.MainActivity;
 import movingbattleship.org.focus.R;
@@ -58,8 +60,6 @@ public class Schedule {
     Boolean blocked;
     Boolean invisible;
     Boolean isInRange;
-    Boolean holiday_blocking;
-    Boolean confirmed_holiday_blocking;
     HashMap<Calendar, String> holidays = new HashMap<Calendar, String> ();
     int color;
 
@@ -71,8 +71,6 @@ public class Schedule {
         blocked = false;
         invisible = false;
         isInRange = false;
-        holiday_blocking = false;
-        confirmed_holiday_blocking = false;
         Random rnd = new Random();
         color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         profiles = new ArrayList<>();
@@ -349,29 +347,39 @@ public class Schedule {
         isInRange = false;
         for(TimeRange tr: timeRanges){
             String holiday_name = "";
-            //this will initially prompt the user and ask if they wanna keep a schedule that is on a public holiday
-            Calendar now = Calendar.getInstance();
-            for (Calendar key : holidays.keySet()) {
-                boolean sameDay = now.get(Calendar.YEAR) == key.get(Calendar.YEAR) &&
-                        now.get(Calendar.DAY_OF_YEAR) == key.get(Calendar.DAY_OF_YEAR);
-                if (sameDay) {
-                    //dont block schedule
+            //if it is the same day and holiday blocking has not been prompted yet
+            //then ask the user to choose if it should be blocked and block accordingly
+            boolean today_is_holiday = false;
+            if (tr.inRange()) {
+                Calendar now = Calendar.getInstance();
+                for (Calendar key : holidays.keySet()) {
+                    today_is_holiday = now.get(Calendar.YEAR) == key.get(Calendar.YEAR) &&
+                            now.get(Calendar.DAY_OF_YEAR) == key.get(Calendar.DAY_OF_YEAR);
+                    if (today_is_holiday) {
+                        break;
+                    }
                 }
-            }
-            if (tr.inRange() && holiday_blocking == false) {
-                isInRange = true;
-                for (Profile p : tr.getProfiles()) {
-                    p.blockProfile();
-                    p.addScheduleID(id);
+                if (today_is_holiday) {
+                    for(Profile p: tr.getProfiles()){
+                        p.unblockProfile();
+                        p.removeScheduleID(id);
+                    }
+                }
+                else {
+                    isInRange = true;
+                    for (Profile p : tr.getProfiles()) {
+                        p.blockProfile();
+                        p.addScheduleID(id);
+                    }
                 }
             }
             else{
                 for(Profile p: tr.getProfiles()){
                     p.unblockProfile();
                     p.removeScheduleID(id);
-                    MainActivity.holiday_blocking = false;
                 }
             }
+
         }
         return isInRange;
     }

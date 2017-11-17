@@ -34,8 +34,10 @@ import Model.AppIconGenerator;
 import Model.AppProcessChecker;
 import Model.DatabaseHelper;
 import Model.FocusModel;
+import Model.Schedule;
 import movingbattleship.org.focus.R;
 
+import static android.R.attr.id;
 import static android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,12 +52,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
     public static Context mContext;
-
     //Notification Listener Variables
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
     //private static final String ACTION_NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
     private AlertDialog enableNotificationListenerAlertDialog;
-    public static boolean holiday_blocking = false;
     //Variables for sending notifications
     public static int NotificationID = 0;
     public static String CHANNEL_ID = "my_channel_id";
@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     public static void promptHolidayBlocking() {
         Intent i = new Intent(MainActivity.mContext, HolidayBlocking.class);
         MainActivity.mContext.startActivity(i);
+
     }
 
     @Override

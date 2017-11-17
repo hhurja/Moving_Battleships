@@ -6,6 +6,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+
+import Model.FocusModel;
+import Model.Schedule;
 import movingbattleship.org.focus.R;
 
 public class HolidayBlocking extends Activity implements View.OnClickListener {
@@ -30,6 +35,10 @@ public class HolidayBlocking extends Activity implements View.OnClickListener {
                 this.finish();
                 break;
             case R.id.no_block_id:
+                ArrayList<Schedule> al =  FocusModel.getInstance().getAllSchedules();
+                for (int i = 0; i < al.size(); i++) {
+                    al.get(i).today_is_holiday = true;
+                }
                 this.finish();
                 break;
         }
