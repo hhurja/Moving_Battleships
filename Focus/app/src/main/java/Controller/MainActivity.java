@@ -153,12 +153,15 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.share_facebook:
                 try {
-                    final String appPackageName = this.getPackageName();
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, "Check out Focus! on Google Play: https://play.google.com/store/");
-                    sendIntent.setType("text/plain");
-                    this.startActivity(sendIntent);
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.setType("image/*");
+                    intent.putExtra(Intent.EXTRA_TEXT, "share to FB");
+                    intent.putExtra(Intent.EXTRA_TITLE, "share to FB");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "share to FB");
+
+                    Intent openInChooser = new Intent(intent);
+                    startActivity(openInChooser);
                 } catch(Exception e) {
                     //e.toString();
                 }
