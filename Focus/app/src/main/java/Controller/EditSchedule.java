@@ -545,11 +545,11 @@ public class EditSchedule extends AppCompatActivity {
                     }
                 }
                 focusModel.addTimeRangeToSchedule(timerange, scheduleName, profiles);
-                try {
-                    insertToGoogleCalendar(timerange, scheduleName, profiles);
+                /*  try {
+                    GoogleCalendarActivity.insertToGoogleCalendar(timerange, scheduleName, profiles);
                 } catch (IOException e) {
                     System.out.println(e);
-                }
+                } */
                 ((BaseAdapter)editSchedulesListView.getAdapter()).notifyDataSetChanged();
             }
         });
