@@ -153,14 +153,12 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.share_facebook:
                 try {
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.setType("image/*");
-                    intent.putExtra(Intent.EXTRA_TEXT, "share to FB");
-                    intent.putExtra(Intent.EXTRA_TITLE, "share to FB");
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "share to FB");
-
-                    Intent openInChooser = new Intent(intent);
+                    String message = "Text I want to share.";
+                    Intent share = new Intent(Intent.ACTION_SEND);
+                    share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    share.setType("text/plain");
+                    share.putExtra(Intent.EXTRA_TEXT, message);
+                    Intent openInChooser = new Intent(share);
                     startActivity(openInChooser);
                 } catch(Exception e) {
                     //e.toString();
