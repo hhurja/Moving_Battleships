@@ -285,6 +285,7 @@ public class EditProfile extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if (minutesBox.getText().toString().length() == 0 && hoursBox.getText().toString().length() == 0) {
                                 showErrorMessage(myView);
+                                return;
                             }
                             else if (minutesBox.getText().toString().length() == 0 && hoursBox.getText().toString().length() != 0) {
                                 minutesBox.setText("0");
@@ -353,6 +354,7 @@ public class EditProfile extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if (minutesBox.getText().toString().length() == 0 && hoursBox.getText().toString().length() == 0) {
                                 showErrorMessage(myView);
+                                return;
                             }
                             else if (minutesBox.getText().toString().length() == 0 && hoursBox.getText().toString().length() != 0) {
                                 minutesBox.setText("0");
