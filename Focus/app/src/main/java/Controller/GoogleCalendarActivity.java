@@ -94,7 +94,8 @@ public class GoogleCalendarActivity extends AppCompatActivity
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         mImageView = new ImageView(this);
-        mImageView.setMaxHeight(50);
+        mImageView.setMaxHeight(200);
+        mImageView.setAdjustViewBounds(true);
         mImageView.setImageResource(R.drawable.google_calendar);
         activityLayout.addView(mImageView);
 
@@ -104,7 +105,6 @@ public class GoogleCalendarActivity extends AppCompatActivity
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("export with Google Calendar");
                 mCallApiButton.setEnabled(false);
                 mOutputText.setText("");
                 operation = "EXPORT";
@@ -119,7 +119,6 @@ public class GoogleCalendarActivity extends AppCompatActivity
         mCallApiImportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("import with Google Calendar");
                 mCallApiImportButton.setEnabled(false);
                 mOutputText.setText("");
                 operation = "IMPORT";
@@ -132,6 +131,7 @@ public class GoogleCalendarActivity extends AppCompatActivity
         mOutputText = new TextView(this);
         mOutputText.setLayoutParams(tlp);
         mOutputText.setPadding(16, 16, 16, 16);
+        mOutputText.setMinHeight(20);
         mOutputText.setVerticalScrollBarEnabled(true);
         mOutputText.setMovementMethod(new ScrollingMovementMethod());
         mOutputText.setText(
@@ -139,7 +139,7 @@ public class GoogleCalendarActivity extends AppCompatActivity
         activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Calling Google Calendar API ...");
+        mProgress.setMessage("Connecting to Google Calendar ...");
 
         setContentView(activityLayout);
 
@@ -175,8 +175,10 @@ public class GoogleCalendarActivity extends AppCompatActivity
         } else {
             System.out.println("6");
             if (operation.equals("IMPORT")) {
+                System.out.println("import");
                 new MakeGetRequestTask(mCredential).execute();
             } else if (operation.equals("EXPORT")) {
+                System.out.println("export");
                 for (Schedule s : focusModel.getAllSchedules()) {
                     for (TimeRange tr : s.getTimeRanges()) {
                         try {
