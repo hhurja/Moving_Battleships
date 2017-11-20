@@ -94,6 +94,7 @@ public class GoogleCalendarActivity extends AppCompatActivity
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         mImageView = new ImageView(this);
+        mImageView.setMaxHeight(50);
         mImageView.setImageResource(R.drawable.google_calendar);
         activityLayout.addView(mImageView);
 
