@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class FocusModel extends Thread{
     private AppProcessChecker apc;
     private Profile currProf;
     private HashMap<String, Bitmap> iconMap;
+    private ArrayList<TimeRange> events;
 
     //this is a map that has profiles to the number of instances its been turned on
     HashMap<Profile, Long> profileUsage = new HashMap<Profile, Long>();
@@ -67,6 +69,7 @@ public class FocusModel extends Thread{
 
         profiles_to_schedules = new HashMap<>();
         apps_to_profiles = new HashMap<>();
+        events = new ArrayList<>();
 
         this.start();
     }
@@ -86,6 +89,7 @@ public class FocusModel extends Thread{
 
         profiles_to_schedules = new HashMap<>();
         apps_to_profiles = new HashMap<>();
+        events = new ArrayList<>();
 
         this.start();
     }
@@ -1039,5 +1043,22 @@ public class FocusModel extends Thread{
                 break;
             }
         }
+    }
+
+    public void addEvent(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute, String eventName) {
+        events.add(new TimeRange(days, startHour, startMinute, endHour, endMinute, eventName));
+    }
+
+    public TimeRange getEvent(String eventName) {
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).eventName == eventName) {
+                return events.get(i);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<TimeRange> getEvents() {
+        return events;
     }
 }

@@ -29,6 +29,7 @@ public class TimeRange {
     private boolean friday;
     private boolean saturday;
     private HashMap<Date, Date> dates;
+    public String eventName;
 
     private ArrayList<Profile> profiles;
 
@@ -87,6 +88,7 @@ public class TimeRange {
         dayMap.put(7, saturday);
 
         profiles = new ArrayList<>();
+        eventName = "";
     }
 
     public TimeRange(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute, ArrayList<Profile> profiles) {
@@ -116,6 +118,37 @@ public class TimeRange {
         dayMap.put(7, saturday);
 
         this.profiles = profiles;
+        eventName = "";
+    }
+
+    public TimeRange(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute, String eventName) {
+        this.startHour = startHour;
+        this.startMinute = startMinute;
+        this.endHour = endHour;
+        this.endMinute = endMinute;
+        repeat = false;
+        sunday = false;
+        monday = false;
+        tuesday = false;
+        wednesday = false;
+        thursday = false;
+        friday = false;
+        saturday = false;
+        dates = new HashMap<Date, Date>();
+
+        dayMap = new HashMap<>();
+
+        addDays(days);
+        dayMap.put(1, sunday);
+        dayMap.put(2, monday);
+        dayMap.put(3, tuesday);
+        dayMap.put(4, wednesday);
+        dayMap.put(5, thursday);
+        dayMap.put(6, friday);
+        dayMap.put(7, saturday);
+
+        profiles = new ArrayList<>();
+        this.eventName = eventName;
     }
 
 //    public Time getStartTime() {
@@ -422,6 +455,10 @@ public class TimeRange {
 
     public void setStartHour(int startHour) {
         this.startHour = startHour;
+    }
+
+    public String getEventName() {
+        return eventName;
     }
 
     public int getStartMinute() {
