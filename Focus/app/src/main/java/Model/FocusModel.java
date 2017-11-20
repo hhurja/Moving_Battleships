@@ -908,7 +908,7 @@ public class FocusModel extends Thread{
 //            System.out.println("Data Did not enter db");
 //        }
         dbHelper.writeAllData(this);
-        dbHelper.printAllTables();
+        //dbHelper.printAllTables();
     }
 
     public boolean appInProfile(String profName, String appName){

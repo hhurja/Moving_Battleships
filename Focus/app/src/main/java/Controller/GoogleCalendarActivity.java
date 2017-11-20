@@ -2,7 +2,6 @@ package Controller;
 
 import android.Manifest;
 import android.accounts.AccountManager;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -13,11 +12,12 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,6 +41,7 @@ import com.google.api.services.calendar.model.Events;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -48,26 +49,29 @@ import Model.FocusModel;
 import Model.Profile;
 import Model.Schedule;
 import Model.TimeRange;
+import movingbattleship.org.focus.R;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class GoogleCalendarActivity extends Activity
+public class GoogleCalendarActivity extends AppCompatActivity
         implements EasyPermissions.PermissionCallbacks {
 
     private FocusModel focusModel;
     static GoogleAccountCredential mCredential;
+    private ImageView mImageView;
     private TextView mOutputText;
     private Button mCallApiButton;
+    private Button mCallApiImportButton;
     ProgressDialog mProgress;
-
+    private String operation;
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String BUTTON_TEXT = "Call Google Calendar API";
+    private static final String BUTTON_TEXT = "Sync with Google Calendar";
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+    private static final String[] SCOPES = CalendarScopes.all().toArray(new String[CalendarScopes.all().size()]);
 
     /**
      * Create the main activity.
@@ -89,19 +93,40 @@ public class GoogleCalendarActivity extends Activity
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        mImageView = new ImageView(this);
+        mImageView.setImageResource(R.drawable.google_calendar);
+        activityLayout.addView(mImageView);
+
+        operation = "IMPORT";
         mCallApiButton = new Button(this);
-        mCallApiButton.setText(BUTTON_TEXT);
+        mCallApiButton.setText("Export Focus! to Google Calendar");
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Sync with Google Calendar");
+                System.out.println("export with Google Calendar");
                 mCallApiButton.setEnabled(false);
                 mOutputText.setText("");
+                operation = "EXPORT";
                 getResultsFromApi();
                 mCallApiButton.setEnabled(true);
             }
         });
         activityLayout.addView(mCallApiButton);
+
+        mCallApiImportButton = new Button(this);
+        mCallApiImportButton.setText("Import Google Calendar to Focus!");
+        mCallApiImportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("import with Google Calendar");
+                mCallApiImportButton.setEnabled(false);
+                mOutputText.setText("");
+                operation = "IMPORT";
+                getResultsFromApi();
+                mCallApiImportButton.setEnabled(true);
+            }
+        });
+        activityLayout.addView(mCallApiImportButton);
 
         mOutputText = new TextView(this);
         mOutputText.setLayoutParams(tlp);
@@ -117,9 +142,11 @@ public class GoogleCalendarActivity extends Activity
 
         setContentView(activityLayout);
 
+        ArrayList<String> scopes = new ArrayList(Arrays.asList(SCOPES));
+        scopes.add("https://www.googleapis.com/auth/plus.login");
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
+                getApplicationContext(), scopes)
                 .setBackOff(new ExponentialBackOff());
     }
 
@@ -146,13 +173,17 @@ public class GoogleCalendarActivity extends Activity
             mOutputText.setText("No network connection available.");
         } else {
             System.out.println("6");
-            //new MakeRequestTask(mCredential).execute();
-            for (Schedule s : focusModel.getAllSchedules()) {
-                for (TimeRange tr : s.getTimeRanges()) {
-                    try {
-                        insertToGoogleCalendarAsync(tr, s.getScheduleName(), tr.getProfiles());
-                    } catch (Exception e) {
-                        System.out.println("Exception: " + e);
+            if (operation.equals("IMPORT")) {
+                new MakeGetRequestTask(mCredential).execute();
+            } else if (operation.equals("EXPORT")) {
+                for (Schedule s : focusModel.getAllSchedules()) {
+                    for (TimeRange tr : s.getTimeRanges()) {
+                        try {
+                            System.out.println(s.getScheduleName() + " : " + tr.getProfiles() + " : " + tr.getDates());
+                            insertToGoogleCalendarAsync(tr, s.getScheduleName(), tr.getProfiles());
+                        } catch (Exception e) {
+                            System.out.println("Exception: " + e);
+                        }
                     }
                 }
             }
@@ -160,6 +191,32 @@ public class GoogleCalendarActivity extends Activity
         }
     }
 
+
+    /**
+     * Attempt to call the API, after verifying that all the preconditions are
+     * satisfied. The preconditions are: Google Play Services installed, an
+     * account was selected and the device currently has online access. If any
+     * of the preconditions are not satisfied, the app will prompt the user as
+     * appropriate.
+     */
+    private void getResultsFromApiImport() {
+        if (! isGooglePlayServicesAvailable()) {
+            System.out.println("1");
+            acquireGooglePlayServices();
+            System.out.println("2");
+        } else if (mCredential.getSelectedAccountName() == null) {
+            System.out.println("3");
+            chooseAccount();
+            System.out.println("4");
+        } else if (! isDeviceOnline()) {
+            System.out.println("5");
+            mOutputText.setText("No network connection available.");
+        } else {
+            System.out.println("6");
+            new MakeGetRequestTask(mCredential).execute();
+            System.out.println("7");
+        }
+    }
     /**
      * Attempts to set the account used with the API credentials. If an account
      * name was previously saved it will use that one; otherwise an account
@@ -350,7 +407,7 @@ public class GoogleCalendarActivity extends Activity
     }
 
 
-    static void insertToGoogleCalendar(TimeRange tr, String scheduleName, ArrayList<Profile> p) throws IOException {
+    static void insertToGoogleCalendarStatic(TimeRange tr, String scheduleName, ArrayList<Profile> p) throws IOException {
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         com.google.api.services.calendar.Calendar mService = new com.google.api.services.calendar.Calendar.Builder(
@@ -398,11 +455,11 @@ public class GoogleCalendarActivity extends Activity
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
-    public class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+    public class MakeGetRequestTask extends AsyncTask<Void, Void, List<String>> {
         private com.google.api.services.calendar.Calendar mService = null;
         private Exception mLastError = null;
 
-        MakeRequestTask(GoogleAccountCredential credential) {
+        MakeGetRequestTask(GoogleAccountCredential credential) {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
@@ -452,6 +509,28 @@ public class GoogleCalendarActivity extends Activity
                 }
                 eventStrings.add(
                         String.format("%s (%s)", event.getSummary(), start));
+
+                DateTime end = event.getEnd().getDateTime();
+                if (end == null) {
+                    // All-day events don't have start times, so just use
+                    // the start date.
+                    end = event.getEnd().getDate();
+                }
+
+                //arraylist of days, int starthour, startminute, endhour, endminute
+                Date startDate = new Date(start.getValue());
+                Calendar cal1 = Calendar.getInstance();
+                cal1.setTime(startDate);
+                int day = cal1.get(Calendar.DAY_OF_WEEK);
+                int startHour = cal1.get(Calendar.HOUR_OF_DAY);
+                int startMinute = cal1.get(Calendar.MINUTE);
+                Date endDate = new Date(end.getValue());
+                Calendar cal2 = Calendar.getInstance();
+                cal2.setTime(endDate);
+                int endHour = cal2.get(Calendar.HOUR_OF_DAY);
+                int endMinute = cal2.get(Calendar.MINUTE);
+                System.out.println("Adding event: " + event.getSummary() + " : " + day);
+                focusModel.addEvent(event.getSummary(), day, startHour, startMinute, endHour, endMinute);
             }
             return eventStrings;
         }
@@ -465,12 +544,14 @@ public class GoogleCalendarActivity extends Activity
 
         @Override
         protected void onPostExecute(List<String> output) {
+            System.out.println("Post get request execute");
             mProgress.hide();
             if (output == null || output.size() == 0) {
                 mOutputText.setText("No results returned.");
             } else {
-                output.add(0, "Data retrieved using the Google Calendar API:");
-                mOutputText.setText(TextUtils.join("\n", output));
+                //output.add(0, "Data retrieved using the Google Calendar API:");
+                //mOutputText.setText(TextUtils.join("\n", output));
+                mOutputText.setText("Data retrieved using the Google Calendar API!\n Check your calendar view to see events");
             }
         }
 
@@ -543,13 +624,15 @@ public class GoogleCalendarActivity extends Activity
             mProgress.show();
         }
 
-        protected void onPostExecute(List<String> output) {
+        @Override
+        protected void onPostExecute(Boolean output) {
             mProgress.hide();
-            if (output == null || output.size() == 0) {
-                mOutputText.setText("No results returned.");
+            if (false) {
+                mOutputText.setText("Sync unsuccessful");
+                mProgress.hide();
             } else {
-                output.add(0, "Data retrieved using the Google Calendar API:");
-                mOutputText.setText(TextUtils.join("\n", output));
+                mOutputText.setText("Focus! schedule posted to your Google Calendar!");
+                mProgress.hide();
             }
         }
 
@@ -606,7 +689,7 @@ public class GoogleCalendarActivity extends Activity
                 String calendarId = "primary";
                 //event.send
                 if (mService != null) {
-                    System.out.println("inserting into calendar");
+                    System.out.println("inserting into calendar : " + event);
                     mService.events().insert(calendarId, event).setSendNotifications(true).execute();
                 }
 
