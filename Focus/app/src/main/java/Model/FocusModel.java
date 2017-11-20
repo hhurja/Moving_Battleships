@@ -1045,8 +1045,8 @@ public class FocusModel extends Thread{
         }
     }
 
-    public void addEvent(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute, String eventName) {
-        events.add(new TimeRange(days, startHour, startMinute, endHour, endMinute, eventName));
+    public void addEvent(String eventName, int day, int startHour, int startMinute, int endHour, int endMinute) {
+        events.add(new TimeRange(eventName, day, startHour, startMinute, endHour, endMinute));
     }
 
     public TimeRange getEvent(String eventName) {

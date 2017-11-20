@@ -121,7 +121,7 @@ public class TimeRange {
         eventName = "";
     }
 
-    public TimeRange(ArrayList<String> days, int startHour, int startMinute, int endHour, int endMinute, String eventName) {
+    public TimeRange(String eventName, int day, int startHour, int startMinute, int endHour, int endMinute) {
         this.startHour = startHour;
         this.startMinute = startMinute;
         this.endHour = endHour;
@@ -138,7 +138,7 @@ public class TimeRange {
 
         dayMap = new HashMap<>();
 
-        addDays(days);
+        addDays(day);
         dayMap.put(1, sunday);
         dayMap.put(2, monday);
         dayMap.put(3, tuesday);
@@ -170,6 +170,19 @@ public class TimeRange {
             if(S.toLowerCase().equals("friday")) friday = true;
             if(S.toLowerCase().equals("saturday")) saturday = true;
         }
+        //add to the dates hashmap
+        updateDateHM();
+    }
+
+    public void addDays(int day) {
+        if(day == 1) sunday = true;
+        if(day == 2) monday = true;
+        if(day == 3) tuesday = true;
+        if(day == 4) wednesday = true;
+        if(day == 5) thursday = true;
+        if(day == 6) friday = true;
+        if(day == 7) saturday = true;
+
         //add to the dates hashmap
         updateDateHM();
     }
