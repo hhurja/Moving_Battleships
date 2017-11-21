@@ -31,6 +31,8 @@ import Model.FocusModel;
 import Model.Profile;
 import movingbattleship.org.focus.R;
 
+import static android.support.v7.widget.AppCompatDrawableManager.get;
+
 public class profilesListViewController extends Fragment {
     //this hashmap stores the application and their corresponding icons
     public static HashMap<String, Bitmap> icons;
@@ -82,25 +84,25 @@ public class profilesListViewController extends Fragment {
                         @Override
                         public int compare(String prof1,String prof2)
                         {
-                            int p1Count = 0;
-                            int p2Count = 0;
+                            long p1Time = 0;
+                            long p2Time = 0;
 
                             ArrayList<Profile> profiles = focusModel.getAllProfiles();
                             for (int i = 0; i < profiles.size(); i++) {
                                 if (prof1 == profiles.get(i).getProfileName()) {
-                                    p1Count = profiles.get(i).getActivationCount();
+                                    p1Time = profiles.get(i).getActivationTime();
                                     break;
                                 }
                             }
                             for (int i = 0; i < profiles.size(); i++) {
                                 if (prof2 == profiles.get(i).getProfileName()) {
-                                    p2Count = profiles.get(i).getActivationCount();
+                                    p2Time = profiles.get(i).getActivationTime();
                                     break;
                                 }
                             }
-                            if (p1Count > p2Count) {
+                            if (p1Time > p2Time) {
                                 return -1;
-                            } else if (p1Count < p2Count){
+                            } else if (p1Time < p2Time){
                                 return 1;
                             } else {
                                 return 0;
