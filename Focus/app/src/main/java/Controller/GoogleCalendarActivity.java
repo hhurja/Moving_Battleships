@@ -94,7 +94,7 @@ public class GoogleCalendarActivity extends AppCompatActivity
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         mImageView = new ImageView(this);
-        mImageView.setMaxHeight(200);
+        mImageView.setMaxHeight(500);
         mImageView.setAdjustViewBounds(true);
         mImageView.setImageResource(R.drawable.google_calendar);
         activityLayout.addView(mImageView);
@@ -151,8 +151,6 @@ public class GoogleCalendarActivity extends AppCompatActivity
                 .setBackOff(new ExponentialBackOff());
     }
 
-
-
     /**
      * Attempt to call the API, after verifying that all the preconditions are
      * satisfied. The preconditions are: Google Play Services installed, an
@@ -194,32 +192,6 @@ public class GoogleCalendarActivity extends AppCompatActivity
         }
     }
 
-
-    /**
-     * Attempt to call the API, after verifying that all the preconditions are
-     * satisfied. The preconditions are: Google Play Services installed, an
-     * account was selected and the device currently has online access. If any
-     * of the preconditions are not satisfied, the app will prompt the user as
-     * appropriate.
-     */
-    private void getResultsFromApiImport() {
-        if (! isGooglePlayServicesAvailable()) {
-            System.out.println("1");
-            acquireGooglePlayServices();
-            System.out.println("2");
-        } else if (mCredential.getSelectedAccountName() == null) {
-            System.out.println("3");
-            chooseAccount();
-            System.out.println("4");
-        } else if (! isDeviceOnline()) {
-            System.out.println("5");
-            mOutputText.setText("No network connection available.");
-        } else {
-            System.out.println("6");
-            new MakeGetRequestTask(mCredential).execute();
-            System.out.println("7");
-        }
-    }
     /**
      * Attempts to set the account used with the API credentials. If an account
      * name was previously saved it will use that one; otherwise an account
@@ -454,6 +426,7 @@ public class GoogleCalendarActivity extends AppCompatActivity
             //TODO Event recurringEvent = service.events().insert("primary", event).execute();
         }
     }
+
     /**
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.

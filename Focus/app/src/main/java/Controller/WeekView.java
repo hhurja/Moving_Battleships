@@ -1,5 +1,7 @@
 package Controller;
 
+import android.graphics.Color;
+
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.util.ArrayList;
@@ -91,6 +93,7 @@ public class WeekView extends BaseWeekView {
                     endTime.set(Calendar.MINUTE, t.getEndMinute());
                     //System.out.println("Get End time: " + endTime.getTime());
                     WeekViewEvent event = new WeekViewEvent(1, t.getEventName(), startTime, endTime);
+                    event.setColor(Color.BLUE);
                     System.out.println(event.toString());
                     events.add(event);
                     checkDuplicates.add(t.getEventName());
