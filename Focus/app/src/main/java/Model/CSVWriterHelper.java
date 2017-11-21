@@ -21,10 +21,11 @@ public class CSVWriterHelper {
     private List<String[]> writeApps(){
         List<String[]> data = new ArrayList<String[]>();
         for(App a: fm.getAllApps()){
-            data.add(new String[] {"app", Integer.toString(a.getAppID()), a.getAppName(), Boolean.toString(a.isBlocked()),
+            data.add(new String[] {"app", "meta", Integer.toString(a.getAppID()), a.getAppName(), Boolean.toString(a.isBlocked()),
                     a.getPackageName()});
             ArrayList<String> str = new ArrayList<>();// {"app", Integer.toString(a.getAppID())};
             str.add("app");
+            str.add("blocked");
             str.add(Integer.toString(a.getAppID()));
 
             for(int bpid: a.getBlockedProfileIDs()){
@@ -54,8 +55,13 @@ public class CSVWriterHelper {
             str.add("prof");
             str.add("scheds");
             str.add(Integer.toString(p.getProfileID()));
-            for(Integer sched: fm.getSchedulesFromProfile(p.getProfileID())) {
-                str.add(Integer.toString(sched));
+//            for(Integer sched: fm.getSchedulesFromProfile(p.getProfileID())) {
+//                str.add(Integer.toString(sched));
+//            }
+            for (Schedule s: fm.getAllSchedules()){
+                if(s.getProfileIDs().contains(p.getProfileID())){
+                    str.add(Integer.toString(s.getScheduleID()));
+                }
             }
             data.add(str.toArray(new String[str.size()]));
         }
@@ -72,7 +78,7 @@ public class CSVWriterHelper {
     }
 
     public void writeOut() throws IOException {
-        String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/output.csv";
+        String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/Focus/output.csv";
         System.out.println("******** CSV LOCATION: "+csv);
         CSVWriter writer = new CSVWriter(new FileWriter(csv));
 

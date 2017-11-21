@@ -9,7 +9,11 @@ import android.graphics.Bitmap;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.services.calendar.CalendarScopes;
+import com.opencsv.CSVReader;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -1074,8 +1078,15 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
         return events;
     }
 
-    public HashSet<Integer> getSchedulesFromProfile(Integer profileID) {
-        return profiles_to_schedules.get(profileID);
+    public void importFromCSV() throws IOException {
+        try {
+            CSVReader csv = new CSVReader(new FileReader(android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/output.csv"));
+            for(String s: csv.readNext()){
+                System.out.println("READING ITEM FROM FILE: "+ s);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -33,18 +33,17 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.2'){
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
         exclude module: 'support-annotations'
         exclude module: 'support-v4'
         exclude module: 'support-v13'
         exclude module: 'recyclerview-v7'
         exclude module: 'design'
     }
-
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -53,7 +52,7 @@ dependencies {
     compile 'com.github.kmenager:Android-Week-View:1.3.7'
     // compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     testCompile 'junit:junit:4.12'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.google.android.gms:play-services-auth:11.0.4'
     compile 'pub.devrel:easypermissions:0.3.0'
     compile('com.google.api-client:google-api-client-android:1.23.0') {
@@ -63,4 +62,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
     compile 'com.google.apis:google-api-services-oauth2:v2-rev131-1.23.0'
+    compile files('/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/libs/opencsv-4.1.jar')
+    //    compile 'org.apache.commons.lang3.StringUtils'
+    compile files('/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/libs/common-lang3.jar')
 }
