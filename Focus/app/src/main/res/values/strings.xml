@@ -12,5 +12,5 @@
     <string name="share_facebook">Share</string>
     <string name="google_calendar">Sync Google Calender</string>
     <string name="csvImport">Import From CSV</string>
-    <string name="csvExport">Export From CSV</string>
+    <string name="csvExport">Export To CSV</string>
 </resources>

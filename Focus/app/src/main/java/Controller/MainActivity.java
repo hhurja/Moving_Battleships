@@ -27,8 +27,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Model.AppIconGenerator;
@@ -179,7 +184,48 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.csvImport:
-                //TODO: FOR HUNTER
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Choose CSV to Import");
+                LinearLayout layout = new LinearLayout(MainActivity.getAppContext());
+                layout.setOrientation(LinearLayout.VERTICAL);
+                final ArrayList<RadioButton> csvCheckBoxes = new ArrayList<>();
+                final RadioGroup rg = new RadioGroup(this); //create the RadioGroup
+                rg.setOrientation(RadioGroup.VERTICAL);//or RadioGroup.VERTICAL
+                //android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/output.csv"
+                File dir = getFilesDir();
+                File[] subFiles = dir.listFiles();
+
+                if (subFiles != null)
+                {
+                    for (File file : subFiles)
+                    {
+                        RadioButton cb = new RadioButton(this);
+                        cb.setText(file.getName());
+                        rg.addView(cb);
+                        csvCheckBoxes.add(cb);
+                    }
+                    layout.addView(rg);
+                }
+
+
+                builder.setView(layout);
+                // Set up the buttons
+                builder.setPositiveButton("Import", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<String> profiles = new ArrayList<String>();
+
+                        String fileName = csvCheckBoxes.get(rg.getCheckedRadioButtonId()).getText().toString();
+                        System.out.println(fileName);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
