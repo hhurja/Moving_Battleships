@@ -1074,6 +1074,10 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
         return events;
     }
 
+    public HashSet<Integer> getSchedulesFromProfile(Integer profileID) {
+        return profiles_to_schedules.get(profileID);
+    }
+
 
     /* Google Calender Crap */
 

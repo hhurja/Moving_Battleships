@@ -14,8 +14,8 @@ package Model;
 public class CSVWriterHelper {
     FocusModel fm;
 
-    public CSVWriterHelper(FocusModel fm){
-        this.fm = fm;
+    public CSVWriterHelper(){
+        this.fm = FocusModel.getInstance();
     }
 
     private List<String[]> writeApps(){
@@ -62,6 +62,15 @@ public class CSVWriterHelper {
         return data;
     }
 
+    private List<String[]> writeSchedules() {
+        List<String[]> data = new ArrayList<String[]>();
+        for (Schedule s: fm.getAllSchedules()){
+            data.add(new String[] {"sched", Integer.toString(s.getScheduleID()), s.getScheduleName(),
+                    Boolean.toString(s.invisible), Boolean.toString(s.activated), Integer.toString(s.getColor())});
+        }
+        return data;
+    }
+
     public void writeOut() throws IOException {
         String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/output.csv";
         System.out.println("******** CSV LOCATION: "+csv);
@@ -71,6 +80,7 @@ public class CSVWriterHelper {
 
         writer.writeAll(writeApps());
         writer.writeAll(writeProfiles());
+        writer.writeAll(writeSchedules());
         writer.close();
     }
 
