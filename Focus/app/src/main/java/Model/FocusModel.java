@@ -1119,6 +1119,40 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
                     newS.setActivated(Boolean.parseBoolean(line[4]));
                     newS.setColor(Integer.parseInt(line[5]));
                     schedules.add(newS);
+                }else if(line[0].equals("tr")){
+                    ArrayList<String> days = new ArrayList<>();
+                    if(line[6].toLowerCase().equals("true")) days.add("sunday");
+                    if(line[7].toLowerCase().equals("true")) days.add("monday");
+                    if(line[8].toLowerCase().equals("true")) days.add("tuesday");
+                    if(line[9].toLowerCase().equals("true")) days.add("wednesday");
+                    if(line[10].toLowerCase().equals("true")) days.add("thursday");
+                    if(line[11].toLowerCase().equals("true")) days.add("friday");
+                    if(line[12].toLowerCase().equals("true")) days.add("saturday");
+
+                    TimeRange tr = new TimeRange(days, Integer.parseInt(line[2]), Integer.parseInt(line[3]), Integer.parseInt(line[4]),
+                            Integer.parseInt(line[5]));
+
+                    ArrayList<Profile> p = new ArrayList<>();
+                    for (int i = 13; i < line.length; i++){
+                        Profile currProf = null;
+                        for(Profile pr: profiles){
+                            if (pr.getProfileID() == Integer.parseInt(line[i])){
+                                currProf = pr;
+                                break;
+                            }
+                        }
+                        p.add(currProf);
+                    }
+
+                    Schedule currSched = null;
+                    for (Schedule s: schedules){
+                        if(s.getScheduleID() == Integer.parseInt(line[1])){
+                            currSched = s;
+                            break;
+                        }
+                    }
+
+                    currSched.addTimeRange(tr, p);
                 }
 
 
@@ -1128,6 +1162,12 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
             }
 
         //TODO REFRESH
+            if(plvc != null){
+                plvc.refreshData();
+            }
+            if(slvc != null){
+                slvc.refreshData();
+            }
 
 
 

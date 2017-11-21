@@ -78,6 +78,50 @@ public class CSVWriterHelper {
         return data;
     }
 
+    private List<String[]> writeTimeRanges() {
+        List<String[]> data = new ArrayList<String[]>();
+        for (Schedule s: fm.getAllSchedules()){
+            for(TimeRange tr: s.getTimeRanges()) {
+                ArrayList<String> str = new ArrayList<>();
+                str.add("tr");
+                str.add(Integer.toString(s.getScheduleID()));
+                str.add(Integer.toString(tr.getStartHour()));
+                str.add(Integer.toString(tr.getStartMinute()));
+                str.add(Integer.toString(tr.getEndHour()));
+                str.add(Integer.toString(tr.getEndMinute()));
+
+
+
+
+                ArrayList<Integer> days = tr.getDays();
+                if(tr.getDays().contains(1)) str.add("TRUE");
+                else str.add("FALSE");
+                if(tr.getDays().contains(2)) str.add("TRUE");
+                else str.add("FALSE");
+                if(tr.getDays().contains(3)) str.add("TRUE");
+                else str.add("FALSE");
+                if(tr.getDays().contains(4)) str.add("TRUE");
+                else str.add("FALSE");
+                if(tr.getDays().contains(5)) str.add("TRUE");
+                else str.add("FALSE");
+                if(tr.getDays().contains(6)) str.add("TRUE");
+                else str.add("FALSE");
+                if(tr.getDays().contains(7)) str.add("TRUE");
+                else str.add("FALSE");
+
+
+                for(Profile p: tr.getProfiles()){
+                    str.add(Integer.toString(p.getProfileID()));
+                }
+                data.add(str.toArray(new String[str.size()]));
+//                data.add(str2.toArray(new String[str2.size()]));
+            }
+
+
+        }
+        return data;
+    }
+
     public void writeOut() throws IOException {
         String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/output.csv";
         System.out.println("******** CSV LOCATION: "+csv);
@@ -88,6 +132,7 @@ public class CSVWriterHelper {
         writer.writeAll(writeApps());
         writer.writeAll(writeProfiles());
         writer.writeAll(writeSchedules());
+        writer.writeAll(writeTimeRanges());
         writer.close();
     }
 
