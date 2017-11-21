@@ -69,6 +69,7 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
                 if (isChecked) {
                     //add application to profile
                     focusModel.addAppToProfile(applicationsView.getContext(), str, profile.getProfileName());
+                    focusModel.writeOut();
                 } else {
                     // remove from profile
                     focusModel.removeAppFromProfile(applicationsView.getContext(), str, profile.getProfileName());

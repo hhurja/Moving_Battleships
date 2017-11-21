@@ -13,7 +13,6 @@ import com.opencsv.CSVWriter;
 
 public class CSVWriterHelper {
     FocusModel fm;
-    CSVWriter writer;
 
     public CSVWriterHelper(FocusModel fm){
         this.fm = fm;
@@ -24,11 +23,15 @@ public class CSVWriterHelper {
         for(App a: fm.getAllApps()){
             data.add(new String[] {"app", Integer.toString(a.getAppID()), a.getAppName(), Boolean.toString(a.isBlocked()),
             a.getPackageName()});
-            for(int bpid: a.getBlockedProfileIDs()){
-                data.add(new String[] {"app", Integer.toString(a.getAppID()), Integer.toString(bpid)});
-            }
-        }
+            ArrayList<String> str = new ArrayList<>();// {"app", Integer.toString(a.getAppID())};
+            str.add("app");
+            str.add(Integer.toString(a.getAppID()));
 
+            for(int bpid: a.getBlockedProfileIDs()){
+                str.add(Integer.toString(bpid));
+            }
+            data.add(str.toArray(new String[str.size()]));
+        }
 
         return data;
     }
@@ -36,17 +39,39 @@ public class CSVWriterHelper {
     private List<String[]> writeProfiles(){
         List<String[]> data = new ArrayList<String[]>();
 
+        for(Profile p: fm.getAllProfiles()){
+            ArrayList<String> str = new ArrayList<>();
+            str.add("prof");
+            str.add(Integer.toString(p.getProfileID()));
+            str.add(p.getProfileName());
+            for(App a: p.getApps()) {
+                str.add(a.getAppName());
+            }
+            data.add(str.toArray(new String[str.size()]));
+        }
+        for(Profile p: fm.getAllProfiles()){
+            ArrayList<String> str = new ArrayList<>();
+            str.add("prof");
+            str.add("scheds");
+            str.add(Integer.toString(p.getProfileID()));
+            for(Integer sched: fm.getSchedulesFromProfile(p.getProfileID())) {
+                str.add(Integer.toString(sched));
+            }
+            data.add(str.toArray(new String[str.size()]));
+        }
         return data;
     }
 
     public void writeOut() throws IOException {
-        String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+        String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/output.csv";
+        System.out.println("******** CSV LOCATION: "+csv);
         CSVWriter writer = new CSVWriter(new FileWriter(csv));
 
         ArrayList<String[]> data = new ArrayList<String[]>();
 
         writer.writeAll(writeApps());
         writer.writeAll(writeProfiles());
+        writer.close();
     }
 
 }

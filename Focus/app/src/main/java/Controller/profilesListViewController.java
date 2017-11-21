@@ -66,7 +66,7 @@ public class profilesListViewController extends Fragment {
 //                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
 //            );
             //synchronized(profilesAdapter.this) {
-            System.out.println("updating this");
+//            System.out.println("updating this");
             //updating scroll position
             // save index and top position
             int index = profilesListView.getFirstVisiblePosition();

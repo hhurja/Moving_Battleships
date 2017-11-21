@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -1030,5 +1031,18 @@ public class FocusModel extends Thread{
                 break;
             }
         }
+    }
+
+    public void writeOut() {
+        System.out.println("PRINTING OUT TO CSV FILE");
+        try {
+            new CSVWriterHelper(this).writeOut();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public HashSet<Integer> getSchedulesFromProfile(int prof_id){
+        return profiles_to_schedules.get(prof_id);
     }
 }
