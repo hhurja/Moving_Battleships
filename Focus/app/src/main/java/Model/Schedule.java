@@ -311,6 +311,10 @@ public class Schedule {
         timeRanges.clear();
     }
 
+    public void setColor(int i){
+        color = i;
+    }
+
     public boolean isVisible(){
         return !invisible;
     }

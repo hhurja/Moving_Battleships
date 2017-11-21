@@ -55,12 +55,13 @@ public class CSVWriterHelper {
             str.add("prof");
             str.add("scheds");
             str.add(Integer.toString(p.getProfileID()));
-//            for(Integer sched: fm.getSchedulesFromProfile(p.getProfileID())) {
-//                str.add(Integer.toString(sched));
-//            }
             for (Schedule s: fm.getAllSchedules()){
-                if(s.getProfileIDs().contains(p.getProfileID())){
-                    str.add(Integer.toString(s.getScheduleID()));
+                for(TimeRange tr: s.getTimeRanges()) {
+//                    System.out.println(s.getScheduleName() + " " + s.getProfileIDs().size() + " " + s.getProfiles().size());
+                    if (tr.getProfileIDs().contains(p.getProfileID())) {
+                        System.out.println("FOLLOW_UP " + s.getScheduleID());
+                        str.add(Integer.toString(s.getScheduleID()));
+                    }
                 }
             }
             data.add(str.toArray(new String[str.size()]));
@@ -78,7 +79,7 @@ public class CSVWriterHelper {
     }
 
     public void writeOut() throws IOException {
-        String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/Focus/output.csv";
+        String csv = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/output.csv";
         System.out.println("******** CSV LOCATION: "+csv);
         CSVWriter writer = new CSVWriter(new FileWriter(csv));
 

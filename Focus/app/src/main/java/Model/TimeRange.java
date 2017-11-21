@@ -8,6 +8,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.prefs.PreferencesFactory;
@@ -575,6 +577,14 @@ public class TimeRange {
                 profiles.add(p);
             }
         }
+    }
+
+    public HashSet<Integer> getProfileIDs() {
+        HashSet<Integer> returnSet = new HashSet<Integer>();
+        for(Profile p: profiles){
+            returnSet.add(p.getProfileID());
+        }
+        return returnSet;
     }
 
 //    public void blockProfiles(){

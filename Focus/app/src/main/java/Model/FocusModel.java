@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
+import android.renderscript.ScriptC;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.services.calendar.CalendarScopes;
@@ -923,7 +924,7 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
 //        }else{
 //            System.out.println("Data Did not enter db");
 //        }
-        dbHelper.writeAllData(this);
+//        dbHelper.writeAllData(this);
         //dbHelper.printAllTables();
     }
 
@@ -1081,9 +1082,51 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
     public void importFromCSV() throws IOException {
         try {
             CSVReader csv = new CSVReader(new FileReader(android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/output.csv"));
-            for(String s: csv.readNext()){
-                System.out.println("READING ITEM FROM FILE: "+ s);
+
+            for(String[] line: csv.readAll()){
+                if(line[0].equals("app")){
+                    if(line[1].equals("meta")){
+
+                    }else{
+
+                    }
+                }else if (line[0].equals("prof")){
+                    if(line[1].equals("scheds")){
+                        currProf = null;
+                        for(Profile p: profiles){
+                            if (p.getProfileID().equals(line[2])) currProf = p;
+                        }
+                        for(int i = 3; i < line.length; i++) {
+                            currProf.addScheduleID(Integer.parseInt(line[i]));
+//                            addProfileToSchedule();
+                        }
+                    }else{
+                        Profile p = new Profile(Integer.parseInt(line[1]), line[2]);
+                        for(int i = 3; i < line.length; i++){
+                            for(App a: apps){
+                                if(a.getAppName() == line[i]) p.addApp(a);
+                            }
+                        }
+
+                    }
+                }else if(line[0].equals("sched")){
+                    System.out.println("creating Schedule: "+ line[2]);
+                    Schedule newS = new Schedule(Integer.parseInt(line[1]), line[2], Boolean.parseBoolean(line[3]));
+                    newS.setActivated(Boolean.parseBoolean(line[4]));
+                    newS.setColor(Integer.parseInt(line[5]));
+                    schedules.add(newS);
+                }
+
+
+//                for(String s: line){
+//                    System.out.println("READING ITEM FROM FILE: "+ s);
+//                }
             }
+
+        //TODO REFRESH
+
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
