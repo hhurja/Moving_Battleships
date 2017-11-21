@@ -1,53 +1,26 @@
 package Model;
 
-import android.Manifest;
-import android.accounts.AccountManager;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.EventDateTime;
-import com.google.api.services.calendar.model.EventReminder;
-import com.google.api.services.calendar.model.Events;
+import com.opencsv.CSVReader;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Date;
 
 import Controller.DialogActivity;
-import Controller.GoogleCalendarActivity;
-import Controller.MainActivity;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -57,7 +30,7 @@ import static android.app.Activity.RESULT_OK;
  * FocusModel is the class that contains profiles, schedules, and the main functionality
  */
 
-public class FocusModel extends Thread { //implements EasyPermissions.PermissionCallbacks {
+public class FocusModel extends Thread { // implements EasyPermissions.PermissionCallbacks
     //Main ArrayLists holding all objects
     private ArrayList<Schedule> schedules;
     private ArrayList<Profile> profiles;
@@ -1089,11 +1062,7 @@ public class FocusModel extends Thread { //implements EasyPermissions.Permission
     }
 
     public void addEvent(String eventName, int day, int startHour, int startMinute, int endHour, int endMinute) {
-        TimeRange tr = new TimeRange(eventName, day, startHour, startMinute, endHour, endMinute) ;
-
-        if (!events.contains(tr)) {
-            events.add(tr);
-        }
+        events.add(new TimeRange(eventName, day, startHour, startMinute, endHour, endMinute));
     }
 
     public TimeRange getEvent(String eventName) {
@@ -1109,8 +1078,15 @@ public class FocusModel extends Thread { //implements EasyPermissions.Permission
         return events;
     }
 
-    public HashSet<Integer> getSchedulesFromProfile(Integer profileID) {
-        return profiles_to_schedules.get(profileID);
+    public void importFromCSV() throws IOException {
+        try {
+            CSVReader csv = new CSVReader(new FileReader(android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/output.csv"));
+            for(String s: csv.readNext()){
+                System.out.println("READING ITEM FROM FILE: "+ s);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -1135,7 +1111,7 @@ public class FocusModel extends Thread { //implements EasyPermissions.Permission
             System.out.println("4");
         } else if (! isDeviceOnline()) {
             System.out.println("5");
-            // No network connection available.
+            mOutputText.setText("No network connection available.");
         } else {
             System.out.println("6");
             if (operation.equals("IMPORT")) {
@@ -1143,7 +1119,7 @@ public class FocusModel extends Thread { //implements EasyPermissions.Permission
                 new MakeGetRequestTask(mCredential).execute();
             } else if (operation.equals("EXPORT")) {
                 System.out.println("export");
-                for (Schedule s : getAllSchedules()) {
+                for (Schedule s : focusModel.getAllSchedules()) {
                     for (TimeRange tr : s.getTimeRanges()) {
                         try {
                             System.out.println(s.getScheduleName() + " : " + tr.getProfiles() + " : " + tr.getDates());
@@ -1336,11 +1312,11 @@ public class FocusModel extends Thread { //implements EasyPermissions.Permission
     void showGooglePlayServicesAvailabilityErrorDialog(
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-//        Dialog dialog = apiAvailability.getErrorDialog(
-//                FocusModel.this,
-//                connectionStatusCode,
-//                REQUEST_GOOGLE_PLAY_SERVICES);
-//        dialog.show();
+        Dialog dialog = apiAvailability.getErrorDialog(
+                GoogleCalendarActivity.this,
+                connectionStatusCode,
+                REQUEST_GOOGLE_PLAY_SERVICES);
+        dialog.show();
     }
 
     void insertToGoogleCalendarAsync(TimeRange tr, String sn, ArrayList<Profile> p) throws IOException {
@@ -1521,14 +1497,17 @@ public class FocusModel extends Thread { //implements EasyPermissions.Permission
         protected void onPostExecute(Boolean output) {
             //mProgress.hide();
             if (false) {
-                //Sync unsuccessful
+                mOutputText.setText("Sync unsuccessful");
+                mProgress.hide();
             } else {
-                //Focus! schedule posted to your Google Calendar!
+                mOutputText.setText("Focus! schedule posted to your Google Calendar!");
+                mProgress.hide();
             }
         }
 
         @Override
         protected void onCancelled() {
+            mProgress.hide();
             if (mLastError != null) {
                 if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
                     showGooglePlayServicesAvailabilityErrorDialog(
@@ -1537,12 +1516,13 @@ public class FocusModel extends Thread { //implements EasyPermissions.Permission
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
                     startActivityForResult(
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            FocusModel.REQUEST_AUTHORIZATION);
+                            GoogleCalendarActivity.REQUEST_AUTHORIZATION);
                 } else {
-                    // The following error occurred: mLastError.getMessage());
+                    mOutputText.setText("The following error occurred:\n"
+                            + mLastError.getMessage());
                 }
             } else {
-                // Request cancelled.
+                mOutputText.setText("Request cancelled.");
             }
         }
 
@@ -1585,7 +1565,7 @@ public class FocusModel extends Thread { //implements EasyPermissions.Permission
                 //TODO Event recurringEvent = service.events().insert("primary", event).execute();
             }
         }
-    }
+    } /*
 
    /*************************************************/
 }
