@@ -27,8 +27,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Model.AppIconGenerator;
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     //Variables for sending notifications
     public static int NotificationID = 0;
     public static String CHANNEL_ID = "my_channel_id";
+    private TabLayout tabLayout;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -90,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         UsageStatsManager usm = (UsageStatsManager)getSystemService(Context.USAGE_STATS_SERVICE);
         AppProcessChecker apc = new AppProcessChecker(c, pm, usm, m);
         FocusModel fm = FocusModel.getInstance(apc, hm);
+
         /*
         String name = "ExampleProfile";
         fm.createNewProfile(name);
@@ -118,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -179,11 +186,57 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.csvImport:
-                try {
-                    FocusModel.getInstance().importFromCSV();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Choose CSV to Import");
+                LinearLayout layout = new LinearLayout(MainActivity.getAppContext());
+                layout.setOrientation(LinearLayout.VERTICAL);
+                final ArrayList<RadioButton> csvCheckBoxes = new ArrayList<>();
+                final RadioGroup rg = new RadioGroup(this); //create the RadioGroup
+                rg.setOrientation(RadioGroup.VERTICAL);
+                // android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/output.csv"
+                String s = android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download";
+                File dir = new File(s);
+                System.out.println("Path: " + dir.getAbsolutePath());
+                File[] subFiles = dir.listFiles();
+                if (subFiles != null)
+                {
+                    System.out.println("Files: " + subFiles.toString());
+                    for (File file : subFiles)
+                    {
+                        RadioButton cb = new RadioButton(this);
+                        System.out.println("file: " + file.getName());
+                        cb.setText(file.getName());
+                        rg.addView(cb);
+                        csvCheckBoxes.add(cb);
+                    }
+                    layout.addView(rg);
                 }
+
+                builder.setView(layout);
+                // Set up the buttons
+                builder.setPositiveButton("Import", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<String> profiles = new ArrayList<String>();
+
+                        String fileName = csvCheckBoxes.get(rg.getCheckedRadioButtonId()-1).getText().toString();
+                        System.out.println(fileName);
+
+                        try {
+                            FocusModel.getInstance().importFromCSV();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
