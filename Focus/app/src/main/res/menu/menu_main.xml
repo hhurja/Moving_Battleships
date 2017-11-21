@@ -6,4 +6,8 @@
         android:title="@string/share_facebook"/>
     <item android:id="@+id/google_calendar"
         android:title="@string/google_calendar"/>
+    <item android:id="@+id/csvImport"
+        android:title="@string/csvImport"/>
+    <item android:id="@+id/csvExport"
+        android:title="@string/csvExport"/>
 </menu>

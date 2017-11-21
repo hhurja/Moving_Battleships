@@ -34,11 +34,8 @@ import Model.AppIconGenerator;
 import Model.AppProcessChecker;
 import Model.DatabaseHelper;
 import Model.FocusModel;
-import Model.Schedule;
 import movingbattleship.org.focus.R;
 
-import static android.R.attr.description;
-import static android.R.attr.id;
 import static android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS;
 
 public class MainActivity extends AppCompatActivity {
@@ -170,6 +167,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.google_calendar:
                 Intent intent = new Intent(MainActivity.mContext, GoogleCalendarActivity.class);
                 MainActivity.mContext.startActivity(intent);
+                return true;
+            case R.id.csvExport:
+                //TODO: FOR HUNTER
+                return true;
+            case R.id.csvImport:
+                //TODO: FOR HUNTER
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
