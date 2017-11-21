@@ -209,4 +209,8 @@ public class schedulesListViewController extends Fragment {
 
         builder.show();
     }
+
+    public void refreshData() {
+        ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
+    }
 }
