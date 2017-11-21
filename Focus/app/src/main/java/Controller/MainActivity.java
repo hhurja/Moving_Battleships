@@ -179,11 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.csvImport:
-                try {
-                    FocusModel.getInstance().importFromCSV();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //TODO: FOR HUNTER
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
