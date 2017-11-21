@@ -28,10 +28,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import Model.AppIconGenerator;
 import Model.AppProcessChecker;
+import Model.CSVWriterHelper;
 import Model.DatabaseHelper;
 import Model.FocusModel;
 import movingbattleship.org.focus.R;
@@ -169,7 +171,12 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.mContext.startActivity(intent);
                 return true;
             case R.id.csvExport:
-                //TODO: FOR HUNTER
+                CSVWriterHelper export = new CSVWriterHelper();
+                try {
+                    export.writeOut();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return true;
             case R.id.csvImport:
                 //TODO: FOR HUNTER
