@@ -381,9 +381,11 @@ public class MainActivity extends AppCompatActivity {
 
             if ( getArguments().getInt(ARG_SECTION_NUMBER) == 1 ) {
                 profilesListViewController plvc = new profilesListViewController();
+                FocusModel.getInstance().plvc = plvc;
                 return plvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext(), hm, mContext);
             } else {
                 schedulesListViewController slvc = new schedulesListViewController();
+                FocusModel.getInstance().slvc = slvc;
                 return slvc.onCreateView(inflater, container, savedInstanceState, getActivity(), getContext(), mContext);
             }
             // View rootView = inflater.inflate(R.layout.profiles_list_view_fragment, container, false);

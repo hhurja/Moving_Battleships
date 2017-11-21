@@ -6,7 +6,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
-import android.renderscript.ScriptC;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.services.calendar.CalendarScopes;
@@ -22,6 +21,8 @@ import java.util.HashSet;
 import java.util.Map;
 
 import Controller.DialogActivity;
+import Controller.profilesListViewController;
+import Controller.schedulesListViewController;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -48,6 +49,8 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
     private Profile currProf;
     private HashMap<String, Bitmap> iconMap;
     private ArrayList<TimeRange> events;
+    public profilesListViewController plvc;
+    public schedulesListViewController slvc;
 
     //this is a map that has profiles to the number of instances its been turned on
     HashMap<Profile, Long> profileUsage = new HashMap<Profile, Long>();
@@ -1086,7 +1089,7 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
             for(String[] line: csv.readAll()){
                 if(line[0].equals("app")){
                     if(line[1].equals("meta")){
-                        App a = new App(Integer.parseInt(line[2]), line[3], Boolean.parseBoolean(line[4]), line[5]));
+                        App a = new App(Integer.parseInt(line[2]), line[3], Boolean.parseBoolean(line[4]), line[5]);
                         apps.add(a);
                     }else{
                         

@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -30,8 +31,6 @@ import java.util.HashMap;
 import Model.FocusModel;
 import Model.Profile;
 import movingbattleship.org.focus.R;
-
-import static android.support.v7.widget.AppCompatDrawableManager.get;
 
 public class profilesListViewController extends Fragment {
     //this hashmap stores the application and their corresponding icons
@@ -124,6 +123,10 @@ public class profilesListViewController extends Fragment {
         public void onFinish() {
 
         }
+    }
+
+    public void refreshData() {
+        ((BaseAdapter)profilesListView.getAdapter()).notifyDataSetChanged();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context, HashMap<String, Bitmap> hm, Context c) {
