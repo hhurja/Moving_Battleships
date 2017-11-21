@@ -637,7 +637,14 @@ public class GoogleCalendarActivity extends AppCompatActivity
 
             String summary = "Focus! Schedule: " + scheduleName;
             String location = "Wherever you be at my boi!";
-            String des = p.toString();
+            String des = "Blocked Profiles: ";
+            for (int i = 0; i < p.size(); i++) {
+                des.concat(p.get(i).getProfileName());
+                if ( i < p.size()-1) {
+                    des.concat(", ");
+                }
+            }
+
             for (Date d : tr.getDates().keySet()) {
                 DateTime startDate = new DateTime(d);
                 Event event = new Event()
