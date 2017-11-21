@@ -62,7 +62,9 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
     compile 'com.google.apis:google-api-services-oauth2:v2-rev131-1.23.0'
-    compile files('/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/libs/opencsv-4.1.jar')
-    //    compile 'org.apache.commons.lang3.StringUtils'
-    compile files('/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/libs/common-lang3.jar')
+    compile files('../libs/opencsv-4.1.jar')
+    compile files('../libs/common-lang3.jar')
+//    compile files('/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/libs/opencsv-4.1.jar')
+//    //    compile 'org.apache.commons.lang3.StringUtils'
+//    compile files('/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/libs/common-lang3.jar')
 }
