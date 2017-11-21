@@ -111,7 +111,6 @@ public class Profile {
             return ((Calendar.getInstance().getTimeInMillis()/1000) - (startActivation.getTime()/1000));
         }
         else {
-            System.out.println("ooooer here");
             return activationTime;
         }
     }
