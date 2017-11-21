@@ -1086,9 +1086,10 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
             for(String[] line: csv.readAll()){
                 if(line[0].equals("app")){
                     if(line[1].equals("meta")){
-
+                        App a = new App(Integer.parseInt(line[2]), line[3], Boolean.parseBoolean(line[4]), line[5]));
+                        apps.add(a);
                     }else{
-
+                        
                     }
                 }else if (line[0].equals("prof")){
                     if(line[1].equals("scheds")){
