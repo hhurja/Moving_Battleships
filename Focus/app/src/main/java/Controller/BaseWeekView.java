@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
+    private FocusModel focusModel = FocusModel.getInstance();
     public WeekView mWeekView;
 
 
@@ -211,6 +213,13 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+        for (TimeRange tr : focusModel.getEvents()) {
+            if (tr.getEventName().equals(event.getName())) {
+                showAddProfileDialog(tr);
+                return;
+            }
+        }
+
         Intent intent = new Intent(schedulesListViewController.mContext, EditSchedule.class);
         intent.putExtra("scheduleName", event.getName());
         schedulesListViewController.mContext.startActivity(intent);
@@ -228,6 +237,50 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
 
     public WeekView getWeekView() {
         return mWeekView;
+    }
+
+    public void showAddProfileDialog(TimeRange tr) {
+        // CITED: https://stackoverflow.com/questions/10903754/input-text-dialog-android
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final TimeRange timeRange = tr;
+        builder.setTitle("Choose profiles to block during this Google Calendar event");
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        final ArrayList<CheckBox> profilesCheckBoxes = new ArrayList<>();
+        System.out.println(profilesCheckBoxes);
+        for (Profile p : focusModel.getAllProfiles()) {
+            if ( !tr.getProfiles().contains(p) ) {
+                    CheckBox cb = new CheckBox(this);
+                    cb.setText(p.getProfileName());
+                    profilesCheckBoxes.add(cb);
+                    layout.addView(cb);
+                }
+        }
+        builder.setView(layout);
+        // Set up the buttons
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ArrayList<String> profiles = new ArrayList<String>();
+
+                for (CheckBox cb : profilesCheckBoxes) {
+                    if(cb.isChecked()) {
+                        profiles.add(cb.getText().toString());
+                    }
+                }
+                for (int i = 0; i < profiles.size(); i++) {
+                    timeRange.addProfile(focusModel.getProfile(profiles.get(i)));
+                }
+                // TODO for sprint 3: Check that that profile is now blocked
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 }
 
