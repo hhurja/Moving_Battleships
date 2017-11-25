@@ -3,15 +3,18 @@ package Controller;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,8 +33,7 @@ public class AppChooser extends AppCompatActivity {
     private FocusModel focusModel;
     private ListView mListView;
     private Button fab_done;
-    private TextView searchBox;
-    private Button searchButton;
+    private EditText searchBox;
     List<ApplicationInfo> packages = new ArrayList<>();
     HashMap<String, String> nameToPackage = new HashMap <String, String> ();
 
@@ -60,19 +62,52 @@ public class AppChooser extends AppCompatActivity {
             System.out.println("Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
         } */
 
-        searchBox = (TextView) findViewById(R.id.searchBox);
+        searchBox = (EditText) findViewById(R.id.searchBox);
+        searchBox.setTextColor(Color.GRAY);
         searchBox.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchBox.clearComposingText();
+                System.out.println("just hit search box");
+                if (searchBox.getCurrentTextColor() == Color.GRAY) {
+                    searchBox.setText("");
+                    searchBox.setTextColor(Color.BLACK);
+                }
             }
         });
 
-        searchButton = (Button) findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: add search functionality on backend
+        searchBox.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {}
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                ArrayList<String> namesArrayList = new ArrayList <String> ();
+                for (ApplicationInfo packageInfo : packages) {
+                    //if (!FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName).substring(0,))
+                    String appName = FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName);
+//            System.out.println("app name is " + appName + " from " + packageInfo.packageName);
+                    String checkName = "";
+                    if (appName.length() > 10) {
+                        checkName = appName.substring(0, 11);
+                    }
+                    if (!checkName.equals("com.android") &&
+                            appName.toLowerCase().contains(searchBox.getText().toString().toLowerCase())) {
+                        namesArrayList.add(appName);
+                        nameToPackage.put(appName, packageInfo.packageName);
+                    }
+                }
+                String[] names = new String[namesArrayList.size()];
+                int loc = 0;
+                for (String nameStr : namesArrayList) {
+                    names[loc] = nameStr;
+                    loc ++;
+                }
+                ListAdapter adapter = new InstalledApplicationsListAdapter(mListView.getContext(), names, nameToPackage);
+                mListView.setAdapter(adapter);
             }
         });
 
