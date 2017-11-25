@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +30,8 @@ public class AppChooser extends AppCompatActivity {
     private FocusModel focusModel;
     private ListView mListView;
     private Button fab_done;
+    private TextView searchBox;
+    private Button searchButton;
     List<ApplicationInfo> packages = new ArrayList<>();
     HashMap<String, String> nameToPackage = new HashMap <String, String> ();
 
@@ -56,12 +60,28 @@ public class AppChooser extends AppCompatActivity {
             System.out.println("Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
         } */
 
+        searchBox = (TextView) findViewById(R.id.searchBox);
+        searchBox.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBox.clearComposingText();
+            }
+        });
+
+        searchButton = (Button) findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: add search functionality on backend
+            }
+        });
+
         String[] names = new String[packages.size()];
         int count = 0;
         for (ApplicationInfo packageInfo : packages) {
             //if (!FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName).substring(0,))
             String appName = FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName);
-            System.out.println("app name is " + appName + " from " + packageInfo.packageName);
+//            System.out.println("app name is " + appName + " from " + packageInfo.packageName);
             String checkName = "";
             if (appName.length() > 10) {
                 checkName = appName.substring(0, 11);
