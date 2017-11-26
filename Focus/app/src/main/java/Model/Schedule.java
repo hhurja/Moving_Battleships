@@ -1,48 +1,21 @@
 package Model;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.os.Environment;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.view.View;
-import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
-import java.util.Scanner;
 
-import Controller.DialogActivity;
-import Controller.EditProfileListAdapter;
 import Controller.MainActivity;
-import movingbattleship.org.focus.R;
-
-import static android.content.ContentValues.TAG;
-import static android.media.CamcorderProfile.get;
 
 /**
  * Created by aaronrschrock on 10/6/17.
@@ -118,6 +91,20 @@ public class Schedule {
 //        profileSchedule = new HashMap<>();
         profiles = new ArrayList<>();
         timeRanges = new ArrayList<>();
+    }
+
+    public Schedule(TimeRange tr){
+        this.id = id; //TODO
+        this.name = tr.getEventName();
+        activated = true;
+        repeat = tr.isRepeating();;
+        invisible = false;
+        isInRange = false;
+        Random rnd = new Random();
+        color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        profiles = tr.getProfiles();
+        timeRanges = new ArrayList<>();
+        timeRanges.add(tr);
     }
 
     public Schedule(int id, String scheduleName, boolean invis){

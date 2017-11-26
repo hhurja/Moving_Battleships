@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import Model.FocusModel;
 import Model.Schedule;
+import Model.TimeRange;
 import movingbattleship.org.focus.R;
 
 @TargetApi(23)
@@ -50,6 +51,10 @@ public class schedulesListViewController extends Fragment {
         ArrayList<Schedule> schedules = focusModel.getSchedules();
         if (schedules.isEmpty()) {
             //TODO: show error
+        }
+
+        for (TimeRange tr : focusModel.getEvents()) {
+            schedules.add(new Schedule(tr));
         }
         schedulesListView = (ListView) view.findViewById(R.id.schedulesListView);
         ListAdapter schedulesAdapter = new schedulesListAdapter (context, schedules);
