@@ -48,7 +48,7 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
     private AppProcessChecker apc;
     private Profile currProf;
     private HashMap<String, Bitmap> iconMap;
-    private ArrayList<TimeRange> events;
+    public ArrayList<TimeRange> events;
     public profilesListViewController plvc;
     public schedulesListViewController slvc;
 

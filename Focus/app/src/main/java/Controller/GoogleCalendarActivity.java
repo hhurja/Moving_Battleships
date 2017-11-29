@@ -478,7 +478,7 @@ public class GoogleCalendarActivity extends AppCompatActivity
                     .setSingleEvents(true)
                     .execute();
             List<Event> items = events.getItems();
-
+            focusModel.events = null;
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
                 if (start == null) {
@@ -646,6 +646,7 @@ public class GoogleCalendarActivity extends AppCompatActivity
                 if ( i < p.size()-1) {
                     des.concat(", ");
                 }
+                System.out.println(des);
             }
 
             for (Date d : tr.getDates().keySet()) {
