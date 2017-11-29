@@ -84,7 +84,7 @@ public class AppChooser extends AppCompatActivity {
                         if (appName.length() > 10) {
                             checkName = appName.substring(0, 11);
                         }
-                        if (!checkName.equals("com.android") && !checkName.equals("movingbattl")) {
+                        if (!checkName.equals("com.android") && !checkName.equals("movingbattl") && !appName.equals("Focus!")) {
                             namesArrayList.add(appName);
                             nameToPackage.put(appName, packageInfo.packageName);
                         }
@@ -133,7 +133,7 @@ public class AppChooser extends AppCompatActivity {
                     if (appName.length() > 10) {
                         checkName = appName.substring(0, 11);
                     }
-                    if (!checkName.equals("com.android") && !checkName.equals("movingbattl") &&
+                    if (!checkName.equals("com.android") && !checkName.equals("movingbattl") && !appName.equals("Focus!") &&
                             appName.toLowerCase().contains(searchBox.getText().toString().toLowerCase())) {
                         namesArrayList.add(appName);
                         nameToPackage.put(appName, packageInfo.packageName);
@@ -160,7 +160,7 @@ public class AppChooser extends AppCompatActivity {
             if (appName.length() > 10) {
                 checkName = appName.substring(0, 11);
             }
-            if (!checkName.equals("com.android")) {
+            if (!checkName.equals("com.android") && !checkName.equals("movingbattl") && !appName.equals("Focus!")) {
                 names[count] = appName;
                 nameToPackage.put(appName, packageInfo.packageName);
                 count ++;
