@@ -12,6 +12,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -34,8 +36,10 @@ public class AppChooser extends AppCompatActivity {
     private ListView mListView;
     private Button fab_done;
     private EditText searchBox;
+    private CheckBox selectAll;
     List<ApplicationInfo> packages = new ArrayList<>();
     HashMap<String, String> nameToPackage = new HashMap <String, String> ();
+    private boolean allChecked;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -45,6 +49,8 @@ public class AppChooser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_chooser);
+
+        allChecked = false;
 
         focusModel = FocusModel.getInstance();
 
@@ -61,6 +67,39 @@ public class AppChooser extends AppCompatActivity {
             System.out.println("Source dir : " + packageInfo.sourceDir);
             System.out.println("Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
         } */
+
+        selectAll = (CheckBox) findViewById(R.id.selectAll);
+        selectAll.setChecked(false);
+        selectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                    allChecked = isChecked;
+                    ArrayList<String> namesArrayList = new ArrayList <String> ();
+                    for (ApplicationInfo packageInfo : packages) {
+                        //if (!FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName).substring(0,))
+                        String appName = FocusModel.getAppNameFromPackage(getApplicationContext(), packageInfo.packageName);
+//            System.out.println("app name is " + appName + " from " + packageInfo.packageName);
+                        String checkName = "";
+                        if (appName.length() > 10) {
+                            checkName = appName.substring(0, 11);
+                        }
+                        if (!checkName.equals("com.android") && !checkName.equals("movingbattl")) {
+                            namesArrayList.add(appName);
+                            nameToPackage.put(appName, packageInfo.packageName);
+                        }
+                    }
+                    String[] names = new String[namesArrayList.size()];
+                    int loc = 0;
+                    for (String nameStr : namesArrayList) {
+                        names[loc] = nameStr;
+                        loc ++;
+                    }
+                    ListAdapter adapter = new InstalledApplicationsListAdapter(mListView.getContext(), names, nameToPackage, allChecked);
+                    mListView.setAdapter(adapter);
+                }
+            }
+        );
 
         searchBox = (EditText) findViewById(R.id.searchBox);
         searchBox.setTextColor(Color.GRAY);
@@ -94,7 +133,7 @@ public class AppChooser extends AppCompatActivity {
                     if (appName.length() > 10) {
                         checkName = appName.substring(0, 11);
                     }
-                    if (!checkName.equals("com.android") &&
+                    if (!checkName.equals("com.android") && !checkName.equals("movingbattl") &&
                             appName.toLowerCase().contains(searchBox.getText().toString().toLowerCase())) {
                         namesArrayList.add(appName);
                         nameToPackage.put(appName, packageInfo.packageName);
@@ -106,7 +145,7 @@ public class AppChooser extends AppCompatActivity {
                     names[loc] = nameStr;
                     loc ++;
                 }
-                ListAdapter adapter = new InstalledApplicationsListAdapter(mListView.getContext(), names, nameToPackage);
+                ListAdapter adapter = new InstalledApplicationsListAdapter(mListView.getContext(), names, nameToPackage, allChecked);
                 mListView.setAdapter(adapter);
             }
         });
@@ -131,7 +170,7 @@ public class AppChooser extends AppCompatActivity {
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         //        android.R.layout.simple_list_item_1, names);
 
-        ListAdapter adapter = new InstalledApplicationsListAdapter(mListView.getContext(), names, nameToPackage);
+        ListAdapter adapter = new InstalledApplicationsListAdapter(mListView.getContext(), names, nameToPackage, allChecked);
         mListView.setAdapter(adapter);
 
         Button button = (Button) findViewById(R.id.add_applications);
