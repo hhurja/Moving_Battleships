@@ -436,12 +436,14 @@ public class GoogleCalendarActivity extends AppCompatActivity
         private Exception mLastError = null;
 
         MakeGetRequestTask(GoogleAccountCredential credential) {
+            System.out.println("MakeGetRequestTask constructor start");
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
                     .setApplicationName("Google Calendar API Android Quickstart")
                     .build();
+            System.out.println("MakeGetRequestTask constructor end");
         }
 
         /**
@@ -465,6 +467,7 @@ public class GoogleCalendarActivity extends AppCompatActivity
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
+            System.out.println("getDataFromAPI");
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
             List<String> eventStrings = new ArrayList<String>();
