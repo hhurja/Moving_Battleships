@@ -288,6 +288,15 @@ public class Profile {
         }
     }
 
+    public boolean FindAppInProfile(String appName) {
+        for (App app : getApps()) {
+            if (app.getAppName().equals(appName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addTime(int min, int hour) {
         finishBlocking = Calendar.getInstance();
         int addMinutes = (hour*60) + min;

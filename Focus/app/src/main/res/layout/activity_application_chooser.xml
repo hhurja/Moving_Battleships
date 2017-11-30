@@ -29,6 +29,12 @@
             android:layout_height="0dp"
             android:layout_weight="0.7" />
 
+        <CheckBox
+            android:id="@+id/selectAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select All Applications" />
+
         <Button
             android:id="@+id/add_applications"
             android:layout_width="match_parent"

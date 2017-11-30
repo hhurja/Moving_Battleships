@@ -31,12 +31,16 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
     static ViewGroup parent;
     private HashMap <CheckBox, String> buttonToName = new HashMap <CheckBox, String>();
     private HashMap<String, String> nameToPackage;
+    private CheckBox addToProfileCB;
+    private boolean allChecked;
 
-    public InstalledApplicationsListAdapter(@NonNull Context context, String[] profileNames, HashMap <String, String> nameToPackage) {
+    public InstalledApplicationsListAdapter(@NonNull Context context, String[] profileNames, HashMap <String, String> nameToPackage,
+                                            boolean allChecked) {
         super(context, R.layout.application_chooser_row, profileNames);
         this.nameToPackage = nameToPackage;
         this.focusModel = FocusModel.getInstance();
         this.profile = focusModel.getCurrentProfile();
+        this.allChecked = allChecked;
     }
 
     @NonNull
@@ -58,9 +62,13 @@ public class InstalledApplicationsListAdapter extends ArrayAdapter<String>{
 
         profileNameTextView.setText(name);
 
-        CheckBox cb = (CheckBox) applicationsView.findViewById(R.id.checkBox3);
-        buttonToName.put(cb, name);
-        cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+        addToProfileCB = (CheckBox) applicationsView.findViewById(R.id.checkBox3);
+        buttonToName.put(addToProfileCB, name);
+        if (profile.FindAppInProfile(name) || allChecked) {
+            addToProfileCB.setChecked(true);
+        }
+        addToProfileCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
