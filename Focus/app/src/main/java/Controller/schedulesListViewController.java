@@ -16,15 +16,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Model.FocusModel;
+import Model.Profile;
 import Model.Schedule;
 import Model.TimeRange;
 import movingbattleship.org.focus.R;
@@ -37,6 +40,7 @@ public class schedulesListViewController extends Fragment {
     private ListView schedulesListView;
     FocusModel focusModel = null;
     private View masterView;
+    public HashMap<String, TimeRange> suggestedTimeRanges;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context, Context c) {
 
@@ -45,8 +49,6 @@ public class schedulesListViewController extends Fragment {
 
         View view = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
         masterView = view;
-        TextView emptyMessage = new TextView(view.getContext());
-        emptyMessage.setText("No schedules. Add a schedule to get Focused!");
 
         ArrayList<Schedule> schedules = focusModel.getSchedules();
         if (schedules.isEmpty()) {
@@ -140,6 +142,18 @@ public class schedulesListViewController extends Fragment {
                     }
                 });
 
+        //hashmap of suggested times
+        suggestedTimeRanges = new HashMap();
+        ArrayList<String> weekDays = new ArrayList<>();
+        weekDays.add("monday");
+        weekDays.add("tuesday");
+        weekDays.add("wednesday");
+        weekDays.add("thursday");
+        weekDays.add("friday");
+        suggestedTimeRanges.put("Weekdays Mornings (8-12 AM)", new TimeRange(weekDays, 8, 0, 10, 0));
+        suggestedTimeRanges.put("Weekdays Afternoons (12-4 PM)", new TimeRange(weekDays, 8, 0, 10, 0));
+        suggestedTimeRanges.put("Weekdays Evenings (6-10 PM)", new TimeRange(weekDays, 8, 0, 10, 0));
+        suggestedTimeRanges.put("Weekdays (9AM - 5 PM)", new TimeRange(weekDays, 8, 0, 10, 0));
 
         return view;
     }
@@ -149,6 +163,25 @@ public class schedulesListViewController extends Fragment {
         super.onResume();
         schedulesListView = (ListView) masterView.findViewById(R.id.schedulesListView);
         ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
+
+        if (focusModel.getSchedules().isEmpty()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(masterView.getContext());
+            builder.setTitle("No schedules made. Add a schedule to get Focused!");
+            // Set up the buttons
+            builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        }
     }
 
     @SuppressWarnings("ResourceType")
@@ -164,6 +197,7 @@ public class schedulesListViewController extends Fragment {
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
+
         // Set up the buttons
         builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
             @Override
@@ -173,7 +207,7 @@ public class schedulesListViewController extends Fragment {
                 }
                 else {
                     // Add profile with that name to schedule
-                    getRepeat(schedulesListViewController.myView, input.getText().toString());
+                    suggestTimeRanges(schedulesListViewController.myView, input.getText().toString());
                 }
 
             }
@@ -188,7 +222,62 @@ public class schedulesListViewController extends Fragment {
         builder.show();
     }
 
-    void getRepeat(View v, String n){
+    void suggestTimeRanges(View v, String s) {
+        final String name = s;
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Would you like to add one of the following suggested time ranges?");
+
+        myView = v;
+        LinearLayout layout = new LinearLayout(v.getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final ArrayList<CheckBox> suggestedCheckBoxes = new ArrayList<>();
+
+        //TODO
+        for (String timeString : suggestedTimeRanges.keySet()) {
+            CheckBox cb = new CheckBox(v.getContext());
+            cb.setText(timeString);
+            suggestedCheckBoxes.add(cb);
+            layout.addView(cb);
+        }
+        builder.setView(layout);
+
+        // Set up the buttons
+        builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ArrayList<TimeRange> timeRanges = new ArrayList<>();
+
+                for (CheckBox cb : suggestedCheckBoxes) {
+                    if(cb.isChecked()) {
+                        timeRanges.add(suggestedTimeRanges.get(cb.getText()));
+                    }
+                }
+
+                // Add profile with that name to schedule
+                getRepeat(schedulesListViewController.myView, name, timeRanges);
+            }
+        });
+        // Set up the buttons
+        builder.setNeutralButton("Skip", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                    // Add profile with that name to schedule
+                    getRepeat(schedulesListViewController.myView, name, new ArrayList<TimeRange>());
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    void getRepeat(View v, String n, ArrayList<TimeRange> tr){
         final String name = n;
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Repeat schedule?");
@@ -197,6 +286,7 @@ public class schedulesListViewController extends Fragment {
         mySwitch.setId(R.id.repeatSwitch);
         builder.setView(mySwitch);
 
+        final ArrayList<TimeRange> timeRanges = tr;
         // Set up the buttons
         builder.setPositiveButton("Create!", new DialogInterface.OnClickListener() {
             @Override
@@ -204,6 +294,9 @@ public class schedulesListViewController extends Fragment {
                 // Add profile with that name to schedule
                 focusModel.createNewSchedule(name);
                 focusModel.getSchedule(name).setRepeat(mySwitch.isChecked());
+                for (TimeRange tr : timeRanges) {
+                    focusModel.getSchedule(name).addTimeRange(tr, new ArrayList<Profile>());
+                }
                 schedulesListView = (ListView) masterView.findViewById(R.id.schedulesListView);
                 ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
             }
@@ -221,4 +314,5 @@ public class schedulesListViewController extends Fragment {
     public void refreshData() {
         ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
     }
+
 }

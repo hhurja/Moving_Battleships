@@ -66,8 +66,7 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = CalendarScopes.all().toArray(new String[CalendarScopes.all().size()]);
-
-
+    
     static GoogleAccountCredential mCredential;
 
     /**
