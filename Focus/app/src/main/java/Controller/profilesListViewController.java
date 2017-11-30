@@ -22,11 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Vector;
 
 import Model.FocusModel;
 import Model.Profile;
@@ -257,10 +259,53 @@ public class profilesListViewController extends Fragment {
                                 dialog.cancel();
                             }
                         });
+                        if (!focusModel.suggestedProfiles.empty()) {
+                            builder.setNeutralButton("Suggested Profile", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getSuggestions(profilesListViewController.profilesListView);
+                                }
+                            });
+                        }
 
                         builder.show();
                     }
                 });
         return rootView;
+    }
+
+    void getSuggestions(View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        Vector<String> profile = focusModel.suggestedProfiles.peek();
+        builder.setTitle("Suggested Profile: " + profile.get(0));
+        TextView msg = new TextView(v.getContext());
+        String text = "\tProfile will conatain:";
+        for (int i = 1; i < profile.size(); i++) {
+            text += "\n\t";
+            text += focusModel.getAppNameFromPackage(v.getContext(), profile.get(i));
+        }
+        msg.setText(text);
+        builder.setView(msg);
+
+
+        // Set up the buttons
+        builder.setPositiveButton("Create!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Vector<String> profile = focusModel.suggestedProfiles.pop();
+                focusModel.createNewProfile(profile.get(0));
+                for (int i = 1; i < profile.size(); i++) {
+                    focusModel.addAppToProfile(profilesListViewController.context, profile.get(i), profile.get(0));
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 }

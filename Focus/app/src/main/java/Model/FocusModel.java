@@ -3,6 +3,7 @@ package Model;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
@@ -18,7 +19,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Stack;
+import java.util.Vector;
 
 import Controller.DialogActivity;
 import Controller.profilesListViewController;
@@ -51,6 +55,7 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
     public ArrayList<TimeRange> events;
     public profilesListViewController plvc;
     public schedulesListViewController slvc;
+    public Stack<Vector<String>> suggestedProfiles;
 
     //this is a map that has profiles to the number of instances its been turned on
     HashMap<Profile, Long> profileUsage = new HashMap<Profile, Long>();
@@ -90,6 +95,8 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
         apps_to_profiles = new HashMap<>();
         events = new ArrayList<>();
 
+        createSuggestedProfiles();
+
         this.start();
     }
 
@@ -109,6 +116,8 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
         profiles_to_schedules = new HashMap<>();
         apps_to_profiles = new HashMap<>();
         events = new ArrayList<>();
+
+        createSuggestedProfiles();
 
         this.start();
     }
@@ -1062,6 +1071,40 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
                 break;
             }
         }
+    }
+
+    public void createSuggestedProfiles() {
+        suggestedProfiles = new Stack<>();
+
+        Vector<String> profile2 = new Vector<>();
+        profile2.add("Entertainment");
+        profile2.add("com.google.android.youtube");
+        profile2.add("com.google.android.videos");
+        profile2.add("com.google.android.apps.photos");
+        profile2.add("com.google.android.music");
+
+        Vector<String> profile3 = new Vector<>();
+        profile3.add("Google");
+        profile3.add("com.google.android.youtube");
+        profile3.add("com.google.android.apps.maps");
+        profile3.add("com.google.android.calendar");
+        profile3.add("com.android.chrome");
+
+        Vector<String> profile1 = new Vector<>();
+        profile1.add("Phone Services");
+        profile1.add("com.android.phone");
+        profile1.add("com.google.android.apps.messaging");
+
+        Vector<String> profile4 = new Vector<>();
+        profile4.add("Photo and Video");
+        profile4.add("com.android.camera2");
+        profile4.add("com.google.android.videos");
+        profile4.add("com.google.android.apps.photos");
+
+        suggestedProfiles.add(profile4);
+        suggestedProfiles.add(profile1);
+        suggestedProfiles.add(profile3);
+        suggestedProfiles.add(profile2);
     }
 
     public void addEvent(String eventName, int day, int startHour, int startMinute, int endHour, int endMinute) {
