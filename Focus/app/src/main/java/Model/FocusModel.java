@@ -23,6 +23,7 @@ import java.util.Stack;
 import java.util.Vector;
 
 import Controller.DialogActivity;
+import Controller.MainActivity;
 import Controller.profilesListViewController;
 import Controller.schedulesListViewController;
 
@@ -878,7 +879,7 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
 
     private void updateWithSchedules() {
         for (Schedule s : instance.schedules) {
-            if (s.blockRanges()){
+            if (s.blockRanges()) {
                 System.out.println("BLOCKING FOR SCHEDULE: " + s.getScheduleName());
             }
 //            if (s.isInTimeRange()) {
@@ -888,6 +889,27 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
 //                System.out.println("NOT BLOCKING FOR SCHEDULE: " + s.getScheduleName());
 //                s.unblockProfiles();
 //            }
+        }
+        //this is some update with timeranges shiiiiiieeeettttt
+        // finally done with this damn app. lets goooooooo!
+        for(TimeRange tr: events){
+            String holiday_name = "";
+            //if it is the same day and holiday blocking has not been prompted yet
+            //then ask the user to choose if it should be blocked and block accordingly
+            if (tr.inRange()) {
+
+                for (Profile p : tr.getProfiles()) {
+                    p.blockProfile();
+                    p.addScheduleID(-1);
+                }
+            }
+            else{
+                for(Profile p: tr.getProfiles()){
+                    p.unblockProfile();
+                    p.removeScheduleID(-1);
+                }
+            }
+
         }
     }
 
@@ -1131,7 +1153,7 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
 
     public void importFromCSV() throws IOException {
         try {
-            CSVReader csv = new CSVReader(new FileReader(android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/output.csv"));
+            CSVReader csv = new CSVReader(new FileReader(android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/output.csv"));
 
             for(String[] line: csv.readAll()){
                 if(line[0].equals("app")){
