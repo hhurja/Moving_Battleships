@@ -1140,7 +1140,11 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
                     if(line[1].equals("scheds")){
                         currProf = null;
                         for(Profile p: profiles){
-                            if (p.getProfileID().equals(line[2])) currProf = p;
+//                            System.out.println("Keep failing here: "+Integer.parseInt(line[2])+ " | " + p.getProfileID() );
+                            if (p.getProfileID() == Integer.parseInt(line[2])){
+                                currProf = p;
+                                break;
+                            }
                         }
                         for(int i = 3; i < line.length; i++) {
                             currProf.addScheduleID(Integer.parseInt(line[i]));
@@ -1150,9 +1154,11 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
                         Profile p = new Profile(Integer.parseInt(line[1]), line[2]);
                         for(int i = 3; i < line.length; i++){
                             for(App a: apps){
-                                if(a.getAppName() == line[i]) p.addApp(a);
+                                if(a.getAppName().equals(line[i])) p.addApp(a);
                             }
                         }
+                        profiles.add(p);
+                        System.out.println("CREATING PROFILE ON IMPORT: "+p.getProfileID()+" | "+p.getProfileName());
 
                     }
                 }else if(line[0].equals("sched")){
