@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.prefs.PreferencesFactory;
 import java.util.Date;
 
+import static com.google.common.util.concurrent.Service.State.STARTING;
+
 
 public class TimeRange {
 
@@ -172,8 +174,6 @@ public class TimeRange {
             if(S.toLowerCase().equals("friday")) friday = true;
             if(S.toLowerCase().equals("saturday")) saturday = true;
         }
-        //add to the dates hashmap
-        updateDateHM();
     }
 
     public void addDays(int day) {
@@ -186,7 +186,6 @@ public class TimeRange {
         if(day == 7) saturday = true;
 
         //add to the dates hashmap
-        updateDateHM();
     }
     public void updateDateHM() {
         Date now = Calendar.getInstance().getTime();
@@ -220,7 +219,7 @@ public class TimeRange {
                 startDate.setHours(startHour);
                 startDate.setMinutes(startMinute);
                 startDate.setSeconds(0);
-                endDate.setDate(startDate.getDate() + (7 + 0 - startDate.getDay()) % 7);
+                endDate.setDate(endDate.getDate() + (7 + 0 - endDate.getDay()) % 7);
                 endDate.setHours(endHour);
                 endDate.setMinutes(endMinute);
                 System.out.println("Starting time: " + startDate);
@@ -254,7 +253,7 @@ public class TimeRange {
                 startDate.setHours(startHour);
                 startDate.setMinutes(startMinute);
                 startDate.setSeconds(0);
-                endDate.setDate(startDate.getDate() + (7 + 1 - startDate.getDay()) % 7);
+                endDate.setDate(endDate.getDate() + (7 + 1 - endDate.getDay()) % 7);
                 endDate.setHours(endHour);
                 endDate.setMinutes(endMinute);
                 dates.put(startDate, endDate);
@@ -286,7 +285,7 @@ public class TimeRange {
                 startDate.setHours(startHour);
                 startDate.setMinutes(startMinute);
                 startDate.setSeconds(0);
-                endDate.setDate(startDate.getDate() + (7 + 2 - startDate.getDay()) % 7);
+                endDate.setDate(endDate.getDate() + (7 + 2 - endDate.getDay()) % 7);
                 endDate.setHours(endHour);
                 endDate.setMinutes(endMinute);
                 dates.put(startDate, endDate);
@@ -318,7 +317,7 @@ public class TimeRange {
                 startDate.setHours(startHour);
                 startDate.setMinutes(startMinute);
                 startDate.setSeconds(0);
-                endDate.setDate(startDate.getDate() + (7 + 3 - startDate.getDay()) % 7);
+                endDate.setDate(endDate.getDate() + (7 + 3 - endDate.getDay()) % 7);
                 endDate.setHours(endHour);
                 endDate.setMinutes(endMinute);
                 dates.put(startDate, endDate);
@@ -350,7 +349,7 @@ public class TimeRange {
                 startDate.setHours(startHour);
                 startDate.setMinutes(startMinute);
                 startDate.setSeconds(0);
-                endDate.setDate(startDate.getDate() + (7 + 4 - startDate.getDay()) % 7);
+                endDate.setDate(endDate.getDate() + (7 + 4 - endDate.getDay()) % 7);
                 endDate.setHours(endHour);
                 endDate.setMinutes(endMinute);
                 dates.put(startDate, endDate);
@@ -370,9 +369,6 @@ public class TimeRange {
                 end.set(Calendar.MINUTE, endMinute);
                 end.set(Calendar.SECOND, 0);
                 Date endDate = end.getTime();
-                //add start date and end date to hashmap
-                System.out.println(startDate);
-                System.out.println(endDate);
                 dates.put(startDate, endDate);
             }
             else {
@@ -382,10 +378,12 @@ public class TimeRange {
                 startDate.setHours(startHour);
                 startDate.setMinutes(startMinute);
                 startDate.setSeconds(0);
-                endDate.setDate(startDate.getDate() + (7 + 5 - startDate.getDay()) % 7);
+                endDate.setDate(endDate.getDate() + (7 + 5 - endDate.getDay()) % 7);
                 endDate.setHours(endHour);
                 endDate.setMinutes(endMinute);
                 dates.put(startDate, endDate);
+                System.out.println("STARTING: " + startDate);
+                System.out.println("ENDING: " + endDate);
             }
         }
         if (saturday == true) {
@@ -414,7 +412,7 @@ public class TimeRange {
                 startDate.setHours(startHour);
                 startDate.setMinutes(startMinute);
                 startDate.setSeconds(0);
-                endDate.setDate(startDate.getDate() + (7 + 6 - startDate.getDay()) % 7);
+                endDate.setDate(endDate.getDate() + (7 + 6 - endDate.getDay()) % 7);
                 endDate.setHours(endHour);
                 endDate.setMinutes(endMinute);
                 dates.put(startDate, endDate);
