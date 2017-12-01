@@ -60,7 +60,9 @@ public class schedulesListViewController extends Fragment {
             System.out.println("events size: " + focusModel.getEvents().size());
             if (!tr.getProfiles().isEmpty()) {
                 System.out.println("Event Name here: " + tr.getEventName());
-                schedules.add(new Schedule(tr));
+                if(!schedules.contains(new Schedule(tr))) {
+                    schedules.add(new Schedule(tr));
+                }
             } else { System.out.println("empty"); }
         }
         schedulesListView = (ListView) view.findViewById(R.id.schedulesListView);
