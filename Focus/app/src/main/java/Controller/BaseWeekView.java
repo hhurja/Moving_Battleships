@@ -269,6 +269,7 @@ public abstract class BaseWeekView extends AppCompatActivity implements WeekView
                     }
                 }
                 for (int i = 0; i < profiles.size(); i++) {
+                    System.out.println("add: " + focusModel.getProfile(profiles.get(i)));
                     timeRange.addProfile(focusModel.getProfile(profiles.get(i)));
                 }
                 // TODO for sprint 3: Check that that profile is now blocked

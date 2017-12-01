@@ -56,6 +56,7 @@ public class schedulesListViewController extends Fragment {
         }
 
         for (TimeRange tr : focusModel.getEvents()) {
+            System.out.println("events size: " + focusModel.getEvents().size());
             if (!tr.getProfiles().isEmpty()) {
                 System.out.println("Event Name here: " + tr.getEventName());
                 schedules.add(new Schedule(tr));

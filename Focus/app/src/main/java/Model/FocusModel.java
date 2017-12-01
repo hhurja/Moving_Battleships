@@ -3,7 +3,6 @@ package Model;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.Vector;
@@ -1109,7 +1107,13 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
     }
 
     public void addEvent(String eventName, int day, int startHour, int startMinute, int endHour, int endMinute) {
-        events.add(new TimeRange(eventName, day, startHour, startMinute, endHour, endMinute));
+        if (events != null) {
+            events.add(new TimeRange(eventName, day, startHour, startMinute, endHour, endMinute));
+        } else {
+            events = new ArrayList<>();
+            events.add(new TimeRange(eventName, day, startHour, startMinute, endHour, endMinute));
+        }
+
     }
 
     public TimeRange getEvent(String eventName) {
