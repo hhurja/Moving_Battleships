@@ -32,6 +32,7 @@ public class Schedule {
     Boolean repeat;
     Boolean blocked;
     Boolean invisible;
+    Boolean alreadyPrompted = false;
     Boolean isInRange;
     HashMap<Calendar, String> holidays = new HashMap<Calendar, String> ();
     int color;
@@ -350,6 +351,10 @@ public class Schedule {
                     }
                 }
                 if (today_is_holiday) {
+                    if (alreadyPrompted == false) {
+                        MainActivity.promptHolidayBlocking();
+                        alreadyPrompted = true;
+                    }
                     for(Profile p: tr.getProfiles()){
                         p.unblockProfile();
                         p.removeScheduleID(id);

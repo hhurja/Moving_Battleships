@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
     public static int NotificationID = 0;
     public static String CHANNEL_ID = "my_channel_id";
     private TabLayout tabLayout;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -185,6 +184,11 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 return true;
+
+            case R.id.switch_theme:
+                //change theme
+                return true;
+
             case R.id.csvImport:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Choose CSV to Import");
