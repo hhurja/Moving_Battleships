@@ -11,9 +11,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -77,6 +79,39 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //ask for color preference
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Color Theme");
+        alertDialog.setMessage("Choose a color theme for your Focus! app");
+        alertDialog.setButton(AlertDialog.BUTTON1, "Blue",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+                        tb.setBackgroundColor(Color.BLUE);
+                        AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
+                        abl.setBackgroundColor(Color.BLUE);;
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON2, "Green",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+                        tb.setBackgroundColor(Color.GREEN);
+                        AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
+                        abl.setBackgroundColor(Color.GREEN);;
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON3, "Red",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+                        tb.setBackgroundColor(Color.RED);
+                        AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
+                        abl.setBackgroundColor(Color.RED);;
+                    }
+                });
+        alertDialog.show();
         mContext = this.getApplicationContext();
         // If the user did not turn the notification listener service on we prompt him to do so
         if(!isNotificationServiceEnabled()){
@@ -183,10 +218,6 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return true;
-
-            case R.id.switch_theme:
-                //change theme
                 return true;
 
             case R.id.csvImport:
