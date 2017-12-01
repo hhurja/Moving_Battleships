@@ -74,12 +74,11 @@ public class MainActivity extends AppCompatActivity {
     public static HashMap<String, Bitmap> hm;
 
     private DatabaseHelper mDatabaseHelper;
-    public boolean color_scheme_check = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (color_scheme_check == false) {
+        if (FocusModel.colorSchemeCheck == false) {
             //ask for color preference
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle("Color Theme");
@@ -91,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                             tb.setBackgroundColor(Color.BLUE);
                             AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
                             abl.setBackgroundColor(Color.BLUE);;
+                            FocusModel.color = Color.BLUE;
                         }
                     });
             alertDialog.setButton(AlertDialog.BUTTON2, "Green",
@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                             tb.setBackgroundColor(Color.GREEN);
                             AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
                             abl.setBackgroundColor(Color.GREEN);;
+                            FocusModel.color = Color.GREEN;
+
                         }
                     });
             alertDialog.setButton(AlertDialog.BUTTON3, "Red",
@@ -109,11 +111,17 @@ public class MainActivity extends AppCompatActivity {
                             tb.setBackgroundColor(Color.RED);
                             AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
                             abl.setBackgroundColor(Color.RED);;
+                            FocusModel.color = Color.RED;
                         }
                     });
             alertDialog.show();
-            color_scheme_check = true;
+
         }
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        tb.setBackgroundColor(FocusModel.color);
+        AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
+        abl.setBackgroundColor(FocusModel.color);;
+        FocusModel.colorSchemeCheck = true;
         mContext = this.getApplicationContext();
         // If the user did not turn the notification listener service on we prompt him to do so
         if(!isNotificationServiceEnabled()){
