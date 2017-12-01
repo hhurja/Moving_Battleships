@@ -41,6 +41,7 @@ public class schedulesListViewController extends Fragment {
     FocusModel focusModel = null;
     private View masterView;
     public HashMap<String, TimeRange> suggestedTimeRanges;
+    public ArrayList<Schedule> schedules;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState, Activity activity, Context context, Context c) {
 
@@ -50,7 +51,7 @@ public class schedulesListViewController extends Fragment {
         View view = inflater.inflate(R.layout.schedules_list_view_fragment, container, false);
         masterView = view;
 
-        ArrayList<Schedule> schedules = focusModel.getSchedules();
+        schedules = focusModel.getSchedules();
         if (schedules.isEmpty()) {
             //TODO: show error
         }
@@ -162,6 +163,15 @@ public class schedulesListViewController extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        for (TimeRange tr : focusModel.getEvents()) {
+            System.out.println("events size: " + focusModel.getEvents().size());
+            if (!tr.getProfiles().isEmpty()) {
+                System.out.println("Event Name here: " + tr.getEventName());
+                if(!schedules.contains(new Schedule(tr))) {
+                    schedules.add(new Schedule(tr));
+                }
+            } else { System.out.println("empty"); }
+        }
         schedulesListView = (ListView) masterView.findViewById(R.id.schedulesListView);
         ((BaseAdapter)schedulesListView.getAdapter()).notifyDataSetChanged();
 

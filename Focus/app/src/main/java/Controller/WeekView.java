@@ -1,5 +1,6 @@
 package Controller;
 
+import android.content.Intent;
 import android.graphics.Color;
 
 import com.alamkanak.weekview.WeekViewEvent;
@@ -104,4 +105,9 @@ public class WeekView extends BaseWeekView {
         return events;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, schedulesListViewController.class);
+        this.startActivity(intent);
+    }
 }
