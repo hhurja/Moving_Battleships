@@ -56,7 +56,8 @@ public class FocusModel extends Thread { // implements EasyPermissions.Permissio
     public profilesListViewController plvc;
     public schedulesListViewController slvc;
     public Stack<Vector<String>> suggestedProfiles;
-
+    public static boolean colorSchemeCheck = false;
+    public static int color = 0;
     //this is a map that has profiles to the number of instances its been turned on
     HashMap<Profile, Long> profileUsage = new HashMap<Profile, Long>();
 
