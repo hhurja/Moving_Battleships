@@ -74,44 +74,46 @@ public class MainActivity extends AppCompatActivity {
     public static HashMap<String, Bitmap> hm;
 
     private DatabaseHelper mDatabaseHelper;
-
+    public boolean color_scheme_check = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //ask for color preference
-        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-        alertDialog.setTitle("Color Theme");
-        alertDialog.setMessage("Choose a color theme for your Focus! app");
-        alertDialog.setButton(AlertDialog.BUTTON1, "Blue",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
-                        tb.setBackgroundColor(Color.BLUE);
-                        AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
-                        abl.setBackgroundColor(Color.BLUE);;
-                    }
-                });
-        alertDialog.setButton(AlertDialog.BUTTON2, "Green",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
-                        tb.setBackgroundColor(Color.GREEN);
-                        AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
-                        abl.setBackgroundColor(Color.GREEN);;
-                    }
-                });
-        alertDialog.setButton(AlertDialog.BUTTON3, "Red",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
-                        tb.setBackgroundColor(Color.RED);
-                        AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
-                        abl.setBackgroundColor(Color.RED);;
-                    }
-                });
-        alertDialog.show();
+        if (color_scheme_check == false) {
+            //ask for color preference
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("Color Theme");
+            alertDialog.setMessage("Choose a color theme for your Focus! app");
+            alertDialog.setButton(AlertDialog.BUTTON1, "Blue",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+                            tb.setBackgroundColor(Color.BLUE);
+                            AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
+                            abl.setBackgroundColor(Color.BLUE);;
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON2, "Green",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+                            tb.setBackgroundColor(Color.GREEN);
+                            AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
+                            abl.setBackgroundColor(Color.GREEN);;
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON3, "Red",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+                            tb.setBackgroundColor(Color.RED);
+                            AppBarLayout abl = (AppBarLayout) findViewById(R.id.appbar);
+                            abl.setBackgroundColor(Color.RED);;
+                        }
+                    });
+            alertDialog.show();
+            color_scheme_check = true;
+        }
         mContext = this.getApplicationContext();
         // If the user did not turn the notification listener service on we prompt him to do so
         if(!isNotificationServiceEnabled()){
@@ -204,9 +206,9 @@ public class MainActivity extends AppCompatActivity {
                     //e.toString();
                 }
                 return true;
-                // ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(Uri.parse("https://developers.facebook.com")).build();
+            // ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(Uri.parse("https://developers.facebook.com")).build();
 
-                // startActivity(new Intent(this, About.class));
+            // startActivity(new Intent(this, About.class));
             case R.id.google_calendar:
                 Intent intent = new Intent(MainActivity.mContext, GoogleCalendarActivity.class);
                 MainActivity.mContext.startActivity(intent);
