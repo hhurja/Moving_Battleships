@@ -107,7 +107,7 @@ public class WeekView extends BaseWeekView {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, schedulesListViewController.class);
+        Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
     }
 }
