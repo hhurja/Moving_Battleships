@@ -649,6 +649,7 @@ public class GoogleCalendarActivity extends AppCompatActivity
                 System.out.println(des);
             }
 
+            tr.updateDateHM();
             for (Date d : tr.getDates().keySet()) {
                 DateTime startDate = new DateTime(d);
                 Event event = new Event()
