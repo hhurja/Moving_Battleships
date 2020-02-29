@@ -2,6 +2,8 @@ Welcome to Focus!
 
 Focus! is a productivity application for Android. The main functionality for this application is to block distracting apps and their notifications for a selected amount of time. Applications and their notifications can be blocked for any designated amount of time up to ten hours. Focus! also allows users to define several groups. Each group has its own list of blocked applications, and the user is able to give a custom name to each profile. Additionally, the different groups of applications can be scheduled to be blocked at recurring times.
 
+<img src="Focus/app/src/main/res/Focus_Screenshot.png" width="400px">
+
 Before you start, please ensure you are using Android API 26 and the emulator 
 
 Please start our application and grant the two permissions that Focus! will need in order to run successfully.
