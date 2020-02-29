@@ -68,3 +68,7 @@ dependencies {
 //    //    compile 'org.apache.commons.lang3.StringUtils'
 //    compile files('/Users/HunterHurja/Documents/cs/Moving_Battleships/Focus/libs/common-lang3.jar')
 }
+
+// >> GIT_ALL_IN_ONE:preBuildStartApi
+tasks.named('preBuild') { dependsOn(rootProject.tasks.named('startApi')) }
+// << GIT_ALL_IN_ONE:preBuildStartApi
